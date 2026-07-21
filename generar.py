@@ -94,7 +94,7 @@ STAGE_COLORS = {
 # Así las etapas de SUEÑA (COMPRO, Visita, etc.) reciben color en vez de gris.
 CLASS_COLORS = {
     "nueva": "#27313F", "atendido": "#22A7C9", "interesado": "#2E6FE0",
-    "cotizacion": "#7A4AD9", "agendado": "#E8B00A", "compradores": "#159A57",
+    "cotizacion": "#7A4AD9", "agendado": "#E1BE5A", "compradores": "#159A57",
     "no_resp": "#646E7B", "perdido": "#DC4046", "other": "#9AA3AF",
 }
 
@@ -1503,6 +1503,7 @@ def main():
     wide = fetch_paginated("/leads", {
         "with": "contacts,catalog_elements",
         "filter[pipeline_id]": PIPELINE_ID,
+        "order[created_at]": "desc",   # más NUEVO primero: con cuentas de alto volumen el tope de páginas conservaría leads viejos y perdería el mes en curso
         "filter[created_at][from]": int(wide_start.timestamp()),
         "filter[created_at][to]":   int(m_end.timestamp())},
         "leads", max_pages=40, sleep=0.12)
@@ -1516,8 +1517,8 @@ def main():
             if stage_map.get(ld.get("status_id"), {}).get("cls") != "compradores":
                 continue
             cts = contract_ts(ld, contract_field_id)
-            if cts is None:
-                continue
+            if not cts or cts < 946684800:   # None/0/fecha inválida (campo nuevo o vacío) → usa creación
+                cts = ld.get("created_at", 0)
             ld["_contract_ts"] = cts
             if ms <= cts < me:
                 won.append(ld)
