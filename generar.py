@@ -60,12 +60,15 @@ MESES = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 
 # Identidad por vendedora (color, iniciales, sucursal, metas). Si entra una
 # vendedora nueva no listada aquí, se le asignan valores por defecto seguros.
-# Vendedores del embudo Viscarra. La SUCURSAL ya NO se pone aquí: viene del campo
-# "Sucursal" por-lead. Las METAS son PLACEHOLDER — ajustar con las metas reales.
+# Kommo trae al vendedor Juan Pablo bajo el usuario "Alberto Pareja"; se renombra.
+USER_RENAME = {"Alberto Pareja": "Juan Pablo"}
+
+# Vendedores del embudo SUEÑA. La SUCURSAL viene del campo "Sucursal" por-lead.
+# Metas de MONTO (Bs/mes): metaMin = mínima, metaMonto = objetivo.
 VENDOR_CFG = {
-    "Fernando Peinado Charcas": dict(ini="FP", color="#00B5AD", suc="", metaCierres=40, metaMonto=45000),
-    "Mauricio Merida":          dict(ini="MM", color="#2E6FE0", suc="", metaCierres=40, metaMonto=45000),
-    "Alberto Pareja":           dict(ini="AP", color="#7A5AF0", suc="", metaCierres=40, metaMonto=45000),
+    "Juan Pablo":               dict(ini="JP", color="#7A5AF0", suc="", metaCierres=40, metaMonto=115000, metaMin=70000),
+    "Mauricio Merida":          dict(ini="MM", color="#2E6FE0", suc="", metaCierres=40, metaMonto=130000, metaMin=85000),
+    "Fernando Peinado Charcas": dict(ini="FP", color="#00B5AD", suc="", metaCierres=40, metaMonto=145000, metaMin=100000),
 }
 DEFAULT_COLORS = ["#00B5AD", "#2E6FE0", "#7A5AF0", "#D98300", "#159A57", "#DC4046", "#22A7C9"]
 
@@ -86,6 +89,13 @@ STAGE_COLORS = {
     "Nueva consulta": "#27313F", "Atendido": "#22A7C9", "ATENDIDO": "#22A7C9", "Atendi": "#22A7C9",
     "Interesado": "#2E6FE0", "Cotización enviada": "#7A4AD9",
     "Agendado / Visita": "#D98300", "Compradores": "#159A57", "No Responden": "#646E7B",
+}
+# Color por CLASE de etapa (fallback cuando el nombre no está en STAGE_COLORS).
+# Así las etapas de SUEÑA (COMPRO, Visita, etc.) reciben color en vez de gris.
+CLASS_COLORS = {
+    "nueva": "#27313F", "atendido": "#22A7C9", "interesado": "#2E6FE0",
+    "cotizacion": "#7A4AD9", "agendado": "#E8B00A", "compradores": "#159A57",
+    "no_resp": "#646E7B", "perdido": "#DC4046", "other": "#9AA3AF",
 }
 
 CH_ICON = {
@@ -241,11 +251,12 @@ p_end   = datetime.datetime(pyr, pmo, calendar.monthrange(pyr, pmo)[1], 23, 59, 
 BOLIVIA_OFFSET = -4 * 3600
 # Ventanas por día de semana (0=Lun … 6=Dom). Día ausente = cerrado (domingo).
 # Formato de ventana: (h_ini, m_ini, h_fin, m_fin).
-SCHED_A = {  # Mia Plaza (Mirian + Isabel rotan turnos): Lun–Sáb 9–21 corrido
-    0: [(9, 0, 21, 0)], 1: [(9, 0, 21, 0)], 2: [(9, 0, 21, 0)],
-    3: [(9, 0, 21, 0)], 4: [(9, 0, 21, 0)], 5: [(9, 0, 21, 0)],
+SCHED_JP = {  # Juan Pablo — Av. Carmelo Ortiz: Lun–Vie 10–13 y 14–19:30; Sáb 9–14:30
+    0: [(10, 0, 13, 0), (14, 0, 19, 30)], 1: [(10, 0, 13, 0), (14, 0, 19, 30)],
+    2: [(10, 0, 13, 0), (14, 0, 19, 30)], 3: [(10, 0, 13, 0), (14, 0, 19, 30)],
+    4: [(10, 0, 13, 0), (14, 0, 19, 30)], 5: [(9, 0, 14, 30)],
 }
-SCHED_B = {  # Central / Bs Aires: Lun–Vie 9–13 y 15–19 (pausa mediodía); Sáb 9–16 corrido
+SCHED_MF = {  # Mauricio (Av. Mutualista) y Fernando (Calle Charcas): Lun–Vie 9–13 y 15–19; Sáb 9–16
     0: [(9, 0, 13, 0), (15, 0, 19, 0)], 1: [(9, 0, 13, 0), (15, 0, 19, 0)],
     2: [(9, 0, 13, 0), (15, 0, 19, 0)], 3: [(9, 0, 13, 0), (15, 0, 19, 0)],
     4: [(9, 0, 13, 0), (15, 0, 19, 0)], 5: [(9, 0, 16, 0)],
@@ -253,9 +264,9 @@ SCHED_B = {  # Central / Bs Aires: Lun–Vie 9–13 y 15–19 (pausa mediodía);
 
 def sched_for(name):
     n = (name or "").lower()
-    if "mirian" in n or "isabel" in n:
-        return SCHED_A          # Mia Plaza
-    return SCHED_B              # Carola, Jonathan, Maria (y default)
+    if "juan pablo" in n:
+        return SCHED_JP         # Av. Carmelo Ortiz
+    return SCHED_MF             # Mauricio, Fernando (y default)
 
 def business_minutes(start_ts, end_ts, sched):
     """Minutos de horario laboral entre dos timestamps UTC (hora Bolivia)."""
@@ -619,6 +630,7 @@ def build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, co
             "unidades": d["unidades"],
             "metaCierres": cfg.get("metaCierres", max(8, d["cierres"] + 5)),
             "metaMonto": cfg.get("metaMonto", max(20000, d["value"])),
+            "metaMin": cfg.get("metaMin", 0),
             "v": v_tone,
             "prev": {"leads": prev_leads_sd, "cierres": pv["cierres_sd"],
                      "visitas": pv["agendado_sd"], "ticket": pv_ticket, "value": pv["value_sd"],
@@ -645,7 +657,7 @@ def build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, co
             stage_tot[sn] += c
     total_st = sum(stage_tot.values()) or 1
     stagesGlobal = [{"name": sn, "count": c, "pct": round(c / total_st * 100),
-                     "color": STAGE_COLORS.get(sn, "#9AA3AF")}
+                     "color": STAGE_COLORS.get(sn) or CLASS_COLORS.get(classify_stage(sn), "#9AA3AF")}
                     for sn, c in sorted(stage_tot.items(), key=lambda x: -x[1])]
 
     # ── métricas ──
@@ -923,6 +935,8 @@ def build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, co
         "kommoBase": f"https://{SUBDOMAIN}.kommo.com",
         "workerUrl": WORKER_URL,
         "cur": CURRENCY, "brand": BRAND, "pipelineId": PIPELINE_ID,
+        "stageColors": {info["name"]: (STAGE_COLORS.get(info["name"]) or CLASS_COLORS.get(info["cls"], "#9AA3AF"))
+                        for info in stage_map.values()},
     }
 
 def build_archives():
@@ -1405,6 +1419,7 @@ def main():
     print("  👥 usuarios…")
     users = fetch_paginated("/users", {}, "users", max_pages=10)
     user_map = {u["id"]: u.get("name", "") for u in users}
+    user_map = {uid: USER_RENAME.get((nm or "").strip(), nm) for uid, nm in user_map.items()}
 
     print("  🔎 campo de origen…")
     try:
@@ -1431,7 +1446,7 @@ def main():
         "filter[entity][]": "lead",
         "filter[created_at][from]": int(m_start.timestamp()),
         "filter[created_at][to]":   int(m_end.timestamp()),
-        "limit": 100}, "events", max_pages=400, sleep=0.15)
+        "limit": 100}, "events", max_pages=int(os.environ.get("EVENTS_MAX_PAGES") or "400"), sleep=0.15)
     events = {}
     _ev_tally = {}      # censo: tipo de evento → [humanos, bot] (queda en el DIAG para auditar)
     # Eventos que SÍ son seguimiento real de la vendedora hacia el lead.

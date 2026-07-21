@@ -23,7 +23,7 @@
 :root{
   --bg:#F5F7F8; --card:#FFFFFF; --card2:#FFFFFF; --ink:#0F1620;
   --line:#E7EAEE; --line2:#F0F2F4; --text:#16202C; --muted:#697483; --faint:#9BA4B0;
-  --brand:#00B5AD; --brand-d:#0A7D77; --brand-ink:#04302E; --brand-bg:#E0F4F2;
+  --brand:#E8B00A; --brand-d:#8A6A00; --brand-ink:#3A2C00; --brand-bg:#FCF4D6;
   --green:#159A57; --green-bg:#E7F5ED; --green-ink:#0C5C34;
   --amber:#D98300; --amber-bg:#FBF0DA; --amber-ink:#7A4A00;
   --red:#DC4046; --red-bg:#FBE8E9; --red-ink:#871F23;
@@ -42,7 +42,7 @@
 html[data-theme="dark"]{
   --bg:#0A0E13; --card:#12181F; --card2:#161D26; --ink:#0A0E13;
   --line:#232C37; --line2:rgba(35,44,55,.6); --text:#E6EAEF; --muted:#8B97A4; --faint:#5E6975;
-  --brand:#16C8BF; --brand-d:#16C8BF; --brand-ink:#04302E; --brand-bg:rgba(22,200,191,.1);
+  --brand:#F3C948; --brand-d:#F3C948; --brand-ink:#2A2100; --brand-bg:rgba(243,201,72,.1);
   --green:#2BB56E; --green-bg:rgba(43,181,110,.14); --green-ink:#4FE0A8;
   --amber:#E89A1C; --amber-bg:rgba(232,154,28,.14); --amber-ink:#F0C173;
   --red:#E8585D; --red-bg:rgba(232,88,93,.14); --red-ink:#FF9A9D;
@@ -51,7 +51,7 @@ html[data-theme="dark"]{
   --num-ff:'IBM Plex Mono',monospace; /* @kind font */
   --kpi-num-w:600; /* @kind font */
   --sh:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.35);
-  --glow:0 0 16px rgba(22,200,191,.45); /* @kind shadow */
+  --glow:0 0 16px rgba(243,201,72,.45); /* @kind shadow */
   --eb-ff:'IBM Plex Mono',monospace; /* @kind font */
   --grid:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px); /* @kind other */
   color-scheme:dark;
@@ -70,7 +70,7 @@ html[data-theme="dark"] .eb::before{content:"// "}
 .brand{padding:24px 22px 20px;border-bottom:1px solid var(--rail-line)}
 .brand .h{font-size:1.32rem;font-weight:800;letter-spacing:2px;color:#fff}
 .brand .h em{font-style:normal;color:var(--brand)}
-html[data-theme="dark"] .brand .h em{text-shadow:0 0 14px rgba(22,200,191,.7)}
+html[data-theme="dark"] .brand .h em{text-shadow:0 0 14px rgba(243,201,72,.7)}
 .brand .s{font-size:.58rem;letter-spacing:3px;text-transform:uppercase;color:#69737F;margin-top:5px;font-weight:700}
 html[data-theme="dark"] .brand .s{font-family:var(--mono)}
 .nav{padding:16px 12px;display:flex;flex-direction:column;gap:2px;flex:1;overflow-y:auto}
@@ -78,9 +78,9 @@ html[data-theme="dark"] .brand .s{font-family:var(--mono)}
 html[data-theme="dark"] .nl{font-family:var(--mono)}
 .ni{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:9px;color:var(--rail-tx);font-weight:600;font-size:.83rem;cursor:pointer;border:1px solid transparent;background:none;text-align:left;width:100%;font-family:inherit;transition:.15s}
 .ni:hover{background:rgba(255,255,255,.05);color:#fff}
-.ni.active{background:var(--brand);color:var(--brand-ink);box-shadow:0 4px 14px rgba(0,181,173,.28)}
-html[data-theme="dark"] .ni.active{background:linear-gradient(90deg,rgba(22,200,191,.16),rgba(22,200,191,.04));color:var(--brand);border-color:rgba(22,200,191,.35);box-shadow:inset 0 0 18px rgba(22,200,191,.08)}
-html[data-theme="dark"] .ni.active svg{filter:drop-shadow(0 0 6px rgba(22,200,191,.8))}
+.ni.active{background:var(--brand);color:var(--brand-ink);box-shadow:0 4px 14px rgba(232,176,10,.28)}
+html[data-theme="dark"] .ni.active{background:linear-gradient(90deg,rgba(243,201,72,.16),rgba(243,201,72,.04));color:var(--brand);border-color:rgba(243,201,72,.35);box-shadow:inset 0 0 18px rgba(243,201,72,.08)}
+html[data-theme="dark"] .ni.active svg{filter:drop-shadow(0 0 6px rgba(243,201,72,.8))}
 .ni .bdg{margin-left:auto;font-size:.63rem;font-weight:800;background:rgba(220,64,70,.92);color:#fff;border-radius:99px;padding:1px 7px;font-family:var(--num-ff)}
 .ni.active .bdg{background:rgba(4,48,46,.25);color:var(--brand-ink)}
 html[data-theme="dark"] .ni .bdg{background:rgba(232,88,93,.18);color:#FF9A9D;border:1px solid rgba(232,88,93,.4)}
@@ -104,7 +104,7 @@ html[data-theme="dark"] .crumb{color:var(--brand);font-family:var(--mono)}
 .btn{font-weight:700;font-size:.76rem;border-radius:9px;padding:8px 13px;border:1px solid var(--line);background:var(--card);color:var(--text);display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-family:inherit;transition:.15s}
 .btn:hover{border-color:var(--brand);color:var(--brand-d)}
 .btn.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
-html[data-theme="dark"] .btn.pri{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);box-shadow:0 0 18px rgba(22,200,191,.4)}
+html[data-theme="dark"] .btn.pri{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);box-shadow:0 0 18px rgba(243,201,72,.4)}
 .btn.icon{padding:8px 10px}
 .scroll{flex:1;overflow-y:auto;padding:26px 30px 50px;display:flex;flex-direction:column;gap:26px}
 .view{display:flex;flex-direction:column;gap:26px}
@@ -151,13 +151,13 @@ tr.r-snooze,.alert-card.r-snooze{opacity:.74}
 /* ===== DIAGNOSTIC ===== */
 .diag{background:linear-gradient(118deg,#0F1620,#26303E);color:#E8EDF2;border-radius:var(--r-lg);padding:28px 30px;display:grid;grid-template-columns:1.5fr 1fr;gap:30px;align-items:center;position:relative;overflow:hidden}
 html[data-theme="dark"] .diag{background:linear-gradient(120deg,#0C1218,#10202A);border:1px solid var(--line)}
-.diag::after{content:"";position:absolute;right:-70px;top:-70px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(0,181,173,.20),transparent 70%)}
+.diag::after{content:"";position:absolute;right:-70px;top:-70px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(232,176,10,.20),transparent 70%)}
 html[data-theme="dark"] .diag::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand);box-shadow:0 0 22px var(--brand)}
-.diag .tag{display:inline-flex;align-items:center;gap:7px;font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#16C8BF;background:rgba(0,181,173,.13);border:1px solid rgba(0,181,173,.32);padding:5px 11px;border-radius:99px;margin-bottom:14px}
+.diag .tag{display:inline-flex;align-items:center;gap:7px;font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#F3C948;background:rgba(232,176,10,.13);border:1px solid rgba(232,176,10,.32);padding:5px 11px;border-radius:99px;margin-bottom:14px}
 html[data-theme="dark"] .diag .tag{border-radius:6px;font-family:var(--mono)}
 .diag h2{font-size:1.6rem;font-weight:800;line-height:1.24;letter-spacing:-.4px;color:#fff;text-wrap:balance}
-.diag h2 em{font-style:normal;color:#16C8BF;background:linear-gradient(transparent 62%,rgba(0,181,173,.30) 62%)}
-html[data-theme="dark"] .diag h2 em{background:none;text-shadow:0 0 18px rgba(22,200,191,.6)}
+.diag h2 em{font-style:normal;color:#F3C948;background:linear-gradient(transparent 62%,rgba(232,176,10,.30) 62%)}
+html[data-theme="dark"] .diag h2 em{background:none;text-shadow:0 0 18px rgba(243,201,72,.6)}
 .diag p{font-size:.84rem;color:#9FAAB6;margin-top:12px;line-height:1.55}
 .dstats{display:flex;gap:8px;position:relative;z-index:1}
 .ds{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px}
@@ -230,7 +230,7 @@ html[data-theme="dark"] .avatar.ring{box-shadow:0 0 0 2px var(--card),0 0 0 4px 
 .wn{font-weight:700;line-height:1.15}.ww{font-size:.69rem;color:var(--faint);font-weight:600}
 .mbar{height:7px;background:var(--line2);border-radius:99px;overflow:hidden;width:68px;display:inline-block;vertical-align:middle;margin-right:8px}
 .mbar i{display:block;height:100%;border-radius:99px;background:var(--brand)}
-html[data-theme="dark"] .mbar i{box-shadow:0 0 8px rgba(22,200,191,.6)}
+html[data-theme="dark"] .mbar i{box-shadow:0 0 8px rgba(243,201,72,.6)}
 .tag-new{font-size:.6rem;color:var(--blue);font-weight:800;margin-left:6px;font-family:var(--num-ff)}
 
 /* ===== PILLS ===== */
@@ -243,7 +243,7 @@ html[data-theme="dark"] .pill{border-radius:6px}
 .pill.brand{color:var(--brand-d);background:var(--brand-bg)}.pill.brand .pd{background:var(--brand)}
 
 /* ===== INSIGHT ===== */
-.insight{background:var(--brand-bg);border:1px solid rgba(0,181,173,.28);border-radius:var(--r);padding:18px;display:flex;gap:13px;align-items:flex-start}
+.insight{background:var(--brand-bg);border:1px solid rgba(232,176,10,.28);border-radius:var(--r);padding:18px;display:flex;gap:13px;align-items:flex-start}
 .insight .ic{width:36px;height:36px;border-radius:10px;background:var(--brand);color:#fff;display:grid;place-items:center;flex-shrink:0}
 html[data-theme="dark"] .insight .ic{color:var(--brand-ink);box-shadow:var(--glow)}
 .insight .t{font-size:.94rem;font-weight:800;color:var(--brand-ink)}
@@ -303,7 +303,7 @@ html[data-theme="dark"] .scrollbar{box-shadow:0 0 10px var(--brand)}
 .totop{position:fixed;bottom:22px;right:22px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--brand-d);display:grid;place-items:center;cursor:pointer;box-shadow:var(--sh);z-index:55;opacity:0;transform:translateY(10px);transition:.2s;pointer-events:none}
 .totop.show{opacity:1;transform:none;pointer-events:auto}
 .totop:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
-html[data-theme="dark"] .totop:hover{color:var(--brand-ink);box-shadow:0 0 18px rgba(22,200,191,.5)}
+html[data-theme="dark"] .totop:hover{color:var(--brand-ink);box-shadow:0 0 18px rgba(243,201,72,.5)}
 
 /* ===== presentation mode ===== */
 body.pres .top .chip,body.pres .totop{display:none}
@@ -372,7 +372,7 @@ html[data-theme="dark"] .diag2{background:linear-gradient(120deg,var(--card),#0E
 html[data-theme="dark"] .diag2-eyebrow{border-radius:6px;font-family:var(--mono)}
 .diag2-h{font-size:1.55rem;font-weight:800;line-height:1.25;letter-spacing:-.4px;color:var(--text);text-wrap:balance}
 .diag2-h em{font-style:normal;color:var(--brand-d);background:linear-gradient(transparent 60%,color-mix(in srgb,var(--brand) 28%,transparent) 60%)}
-html[data-theme="dark"] .diag2-h em{background:none;color:var(--brand);text-shadow:0 0 16px rgba(22,200,191,.5)}
+html[data-theme="dark"] .diag2-h em{background:none;color:var(--brand);text-shadow:0 0 16px rgba(243,201,72,.5)}
 .diag2-p{font-size:.84rem;color:var(--muted);margin-top:13px;line-height:1.6;max-width:54ch}
 .diag2-p b{color:var(--text);font-weight:700}
 .diag2-cta{margin-top:16px;font-size:.78rem}
@@ -450,7 +450,7 @@ html[data-theme="dark"] .diag2-skel-line{background-image:linear-gradient(90deg,
 .tcard-spark{display:flex;align-items:flex-end;gap:3px;height:24px;padding:0 17px 12px}
 .tcard-spark i{flex:1;border-radius:2px 2px 0 0;background:var(--line);min-height:2px}
 .tcard-spark i.hi{background:var(--brand)}
-html[data-theme="dark"] .tcard-spark i.hi{box-shadow:0 0 6px rgba(22,200,191,.6)}
+html[data-theme="dark"] .tcard-spark i.hi{box-shadow:0 0 6px rgba(243,201,72,.6)}
 
 /* ===== quadrant matrix ===== */
 .quad{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);height:360px;overflow:hidden;box-shadow:var(--sh);padding:8px}
@@ -570,7 +570,7 @@ html[data-theme="dark"] .hist-menu{box-shadow:0 10px 30px rgba(0,0,0,.5)}
 html[data-theme="dark"] .hist-menu .lbl{font-family:var(--mono)}
 /* subtle texture on the diagnostic banner (drop a real photo behind via --diag-photo) */
 .diag{background-image:linear-gradient(118deg,#0F1620,#26303E),repeating-linear-gradient(135deg,rgba(255,255,255,.02) 0 2px,transparent 2px 9px)}
-html[data-theme="dark"] .diag{background-image:linear-gradient(120deg,#0C1218,#10202A),repeating-linear-gradient(135deg,rgba(22,200,191,.03) 0 2px,transparent 2px 9px)}
+html[data-theme="dark"] .diag{background-image:linear-gradient(120deg,#0C1218,#10202A),repeating-linear-gradient(135deg,rgba(243,201,72,.03) 0 2px,transparent 2px 9px)}
 
 /* ============================================================================
    PRESENTACIÓN (board-ready) — header temporal, MoM, ranking, sucursales, TV
@@ -889,7 +889,7 @@ body{
   background:linear-gradient(180deg, color-mix(in srgb,var(--brand) 86%,#fff 14%), var(--brand));
   transform:translateX(2px);
   box-shadow:
-    0 8px 22px rgba(0,181,173,.38),
+    0 8px 22px rgba(232,176,10,.38),
     inset 0 1px 0 rgba(255,255,255,.5),
     inset 0 -2px 6px rgba(0,90,85,.35);
 }
@@ -958,10 +958,10 @@ html:not([data-theme="dark"]) .ni:hover{background:rgba(2,60,55,.07);color:#0d3a
 html:not([data-theme="dark"]) .ni.active{
   background:linear-gradient(180deg, color-mix(in srgb,var(--brand) 86%,#fff 14%), var(--brand));
   color:#fff;
-  box-shadow:0 8px 22px rgba(0,181,173,.34), inset 0 1px 0 rgba(255,255,255,.55);
+  box-shadow:0 8px 22px rgba(232,176,10,.34), inset 0 1px 0 rgba(255,255,255,.55);
 }
 html:not([data-theme="dark"]) .ni.active .bdg{background:rgba(255,255,255,.30);color:#063a36}
-html:not([data-theme="dark"]) .ni.active::before{background:var(--brand);box-shadow:0 0 10px rgba(0,181,173,.65)}
+html:not([data-theme="dark"]) .ni.active::before{background:var(--brand);box-shadow:0 0 10px rgba(232,176,10,.65)}
 /* brand: light frosted header, real teal logo */
 html:not([data-theme="dark"]) .brand{
   background:linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.22));
@@ -996,10 +996,10 @@ html:not([data-theme="dark"]) .main{
 }
 html[data-theme="dark"] .main{
   background:
-    radial-gradient(1000px 720px at 80% -14%, rgba(22,200,191,.18), transparent 60%),
+    radial-gradient(1000px 720px at 80% -14%, rgba(243,201,72,.18), transparent 60%),
     radial-gradient(900px 820px at 116% 48%, rgba(46,86,176,.20), transparent 60%),
     radial-gradient(840px 740px at 46% 118%, rgba(122,90,240,.12), transparent 62%),
-    radial-gradient(700px 600px at 8% 60%, rgba(22,200,191,.08), transparent 60%),
+    radial-gradient(700px 600px at 8% 60%, rgba(243,201,72,.08), transparent 60%),
     var(--bg);
   background-attachment:fixed;
 }
@@ -1085,7 +1085,7 @@ html[data-theme="dark"] .diag2,html[data-theme="dark"] .rhero{background:var(--g
 /* dark mode: more translucent + luminous edges so it really reads as glass */
 html[data-theme="dark"] .drawer{
   background:
-    radial-gradient(86% 28% at 88% 0%, rgba(22,200,191,.15), transparent 55%),
+    radial-gradient(86% 28% at 88% 0%, rgba(243,201,72,.15), transparent 55%),
     radial-gradient(72% 26% at 8% 100%, rgba(46,86,176,.15), transparent 55%),
     linear-gradient(158deg, rgba(34,47,62,.46), rgba(13,19,27,.40));
   border-left:1px solid rgba(255,255,255,.16);
@@ -1144,7 +1144,7 @@ html:not([data-theme="dark"]) .spot{
 }
 html[data-theme="dark"] .spot{
   background:
-    radial-gradient(1150px 780px at 84% -10%, rgba(22,200,191,.16), transparent 60%),
+    radial-gradient(1150px 780px at 84% -10%, rgba(243,201,72,.16), transparent 60%),
     radial-gradient(980px 860px at 4% 28%, rgba(46,86,176,.18), transparent 60%),
     radial-gradient(920px 820px at 52% 120%, rgba(122,90,240,.12), transparent 62%),
     var(--bg);
@@ -2260,7 +2260,8 @@ function ProfileDrawer({
   const metaPct = metaMonto ? Math.round(cerrado / metaMonto * 100) : 0;
   const proy = v ? window.proy ? window.proy(cerrado, v.pipeline).fin : Math.round(cerrado * (D.daysInMonth || 31) / (D.curDay || 26)) : 0;
   const proyPct = metaMonto ? Math.round(proy / metaMonto * 100) : 0;
-  const metaCol = metaPct >= 100 ? "var(--green)" : metaPct >= 70 ? "var(--amber)" : "var(--red)";
+  const metaMin = v ? v.metaMin || 0 : 0;
+  const metaCol = cerrado >= metaMonto ? "var(--green)" : cerrado >= metaMin ? "var(--amber)" : "var(--red)";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: `scrim${v ? " show" : ""}`,
     onClick: onClose
@@ -2531,14 +2532,7 @@ function ProfileDrawer({
     data: D.stagesByV[v.name].map(([name, val]) => ({
       label: name,
       value: val,
-      color: {
-        "Nueva consulta": "#27313F",
-        "Interesado": "#2E6FE0",
-        "Cotización enviada": "#7A4AD9",
-        "Agendado / Visita": "#D98300",
-        "Compradores": "#159A57",
-        "No Responden": "#646E7B"
-      }[name] || "#9AA3AF"
+      color: (D.stageColors && D.stageColors[name]) || "#9AA3AF"
     }))
   })), /*#__PURE__*/React.createElement("div", {
     className: "dr-sec"
@@ -2666,7 +2660,7 @@ function SucursalDrawer({
     style: {
       width: 46,
       height: 46,
-      "--ac": "#00B5AD",
+      "--ac": "#E8B00A",
       fontSize: 17
     }
   }, /*#__PURE__*/React.createElement(Icon, {
@@ -3118,7 +3112,7 @@ window.KpiDrawer = KpiDrawer;
 
 // Editable sales-goal store — shared by the Metas section AND the vendor ficha,
 // so editing in either place syncs everywhere. Persisted to localStorage.
-const META_KEY = "heaven_metas_monto_v2",
+const META_KEY = "suena_metas_monto_v1",
   META_STEP = 5000;
 function readMetas() {
   const base = {};
@@ -3178,6 +3172,11 @@ function MetaStepper({
 }
 window.useMetas = useMetas;
 window.MetaStepper = MetaStepper;
+// Mínima de venta por vendedor (fija, viene de generar.py). La objetivo es editable (useMetas).
+window.metaMinOf = function (name) {
+  const t = (window.PANEL_DATA.team || []).find(x => x.name === name);
+  return t && t.metaMin ? t.metaMin : 0;
+};
 window.cerradoOf = v => v.value != null ? v.value : v.cierres * v.ticket;
 // Proyección a fin de mes: extrapola el RITMO de ventas de los días corridos
 // (montos/ticket reales) hasta el último día. El pipeline en juego (que se cierra
@@ -3275,7 +3274,8 @@ function MetasSection() {
   }, i) => {
     const pct = meta ? Math.round(cerrado / meta * 100) : 0;
     const proyPct = meta ? Math.round(proy / meta * 100) : 0;
-    const col = pct >= 100 ? "var(--green)" : pct >= 70 ? "var(--amber)" : "var(--red)";
+    const mn = window.metaMinOf ? window.metaMinOf(v.name) : 0;
+    const col = cerrado >= meta ? "var(--green)" : cerrado >= mn ? "var(--amber)" : "var(--red)";
     return /*#__PURE__*/React.createElement("div", {
       className: "meta-row",
       key: i
@@ -3302,7 +3302,7 @@ function MetasSection() {
       v: v
     }), /*#__PURE__*/React.createElement("span", {
       className: "meta-proy"
-    }, "\xB7 proy. ", fmtMoney(proy), " (", proyPct, "%)"))), /*#__PURE__*/React.createElement("div", {
+    }, "\xB7 m\xEDn ", fmtMoney(mn), " \xB7 proy. ", fmtMoney(proy), " (", proyPct, "%)"))), /*#__PURE__*/React.createElement("div", {
       className: "meta-bar"
     }, /*#__PURE__*/React.createElement("i", {
       style: {
@@ -3511,7 +3511,7 @@ function EmptyState({
   }), resetLabel));
 }
 window.EmptyState = EmptyState;
-const F_COLORS = ["#00B5AD", "#22A7C9", "#2E6FE0", "#7A5AF0", "#159A57", "#DC4046"];
+const F_COLORS = ["#E8B00A", "#22A7C9", "#2E6FE0", "#7A5AF0", "#159A57", "#DC4046"];
 function Funnel() {
   const data = D.stagesGlobal || [];
   const maxF = Math.max(1, ...data.map(f => f.count));
@@ -4415,10 +4415,10 @@ function ViewResumen() {
     l: "Pipeline total",
     num: G.pipeline,
     fmt: fmtMoney,
-    ac: "#00B5AD",
+    ac: "#E8B00A",
     ico: "proyeccion",
     tip: "Valor de todos los deals en todas las etapas.",
-    detail: mkDetail("Pipeline total", "proyeccion", "#00B5AD", fmtMoney(G.pipeline), "Valor de todos los deals abiertos de cada vendedora, en todas las etapas.", v => v.pipeline || 0, n => fmtMoney(n)),
+    detail: mkDetail("Pipeline total", "proyeccion", "#E8B00A", fmtMoney(G.pipeline), "Valor de todos los deals abiertos de cada vendedora, en todas las etapas.", v => v.pipeline || 0, n => fmtMoney(n)),
     spark: sparkOf(G.pipeline),
     sub: "todas las etapas"
   }), /*#__PURE__*/React.createElement(Kpi, {
@@ -4479,10 +4479,10 @@ function ViewResumen() {
   }), /*#__PURE__*/React.createElement(Kpi, {
     l: "Unidades vendidas",
     num: G.unidades || 0,
-    ac: "#00B5AD",
+    ac: "#E8B00A",
     ico: "datos",
     tip: "Unidades de producto registradas en los cierres del mes (pesta\xF1a Productos de Kommo). El dinero sale del Presupuesto.",
-    detail: mkDetail("Unidades vendidas", "datos", "#00B5AD", fmtInt(G.unidades || 0), "Suma de las unidades de producto que cada vendedora registr\xF3 en sus cierres del mes (pesta\xF1a Productos del lead en Kommo). El monto cerrado sigue saliendo del campo Presupuesto.", v => v.unidades || 0, fmtInt),
+    detail: mkDetail("Unidades vendidas", "datos", "#E8B00A", fmtInt(G.unidades || 0), "Suma de las unidades de producto que cada vendedora registr\xF3 en sus cierres del mes (pesta\xF1a Productos del lead en Kommo). El monto cerrado sigue saliendo del campo Presupuesto.", v => v.unidades || 0, fmtInt),
     spark: sparkOf(G.unidades || 0),
     sub: /*#__PURE__*/React.createElement("span", null, "en ", /*#__PURE__*/React.createElement("b", {
       className: "num"
@@ -4659,7 +4659,7 @@ function ViewResumen() {
     const prodDetail = p => ({
       title: "🛏️ " + p.name,
       ico: "trophy",
-      color: "#00B5AD",
+      color: "#E8B00A",
       totalTxt: fmtInt(p.qty) + " unidades",
       desc: "Qui\xE9n vendi\xF3 “" + p.name + "” este mes (unidades registradas en sus cierres).",
       rows: (p.byV || []).map(b => {
@@ -6880,7 +6880,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     });
     const list = Object.values(branches).sort((a, b) => b.value - a.value);
     const COL = {
-      "Mia Plaza": "#00B5AD",
+      "Mia Plaza": "#E8B00A",
       "Buenos Aires": "#2E6FE0",
       "Central": "#D98300"
     };
@@ -8161,7 +8161,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       y2: "1"
     }, /*#__PURE__*/React.createElement("stop", {
       offset: "0",
-      stopColor: "#00B5AD"
+      stopColor: "#E8B00A"
     }), /*#__PURE__*/React.createElement("stop", {
       offset: ".55",
       stopColor: "#2E6FE0"
@@ -8250,7 +8250,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     });
     const branchList = Object.values(branches).sort((a, b) => b.cerr - a.cerr);
     const COL = {
-      "Mia Plaza": "#00B5AD",
+      "Mia Plaza": "#E8B00A",
       "Buenos Aires": "#2E6FE0",
       "Central": "#D98300"
     };
@@ -8369,7 +8369,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         l: "Tiempo de resp.",
         v: D.metrics.promPrimera || "\u2014",
         noMom: true,
-        c: "#00B5AD"
+        c: "#E8B00A"
       }];
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
         className: "spot-head"
@@ -9037,7 +9037,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     });
     const branchList = Object.values(branches).sort((a, b) => b.cerr - a.cerr);
     const COL = {
-      "Mia Plaza": "#00B5AD",
+      "Mia Plaza": "#E8B00A",
       "Buenos Aires": "#2E6FE0",
       "Central": "#D98300"
     };
@@ -9181,7 +9181,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       y2: "1"
     }, /*#__PURE__*/React.createElement("stop", {
       offset: "0",
-      stopColor: "#00B5AD"
+      stopColor: "#E8B00A"
     }), /*#__PURE__*/React.createElement("stop", {
       offset: ".55",
       stopColor: "#2E6FE0"
@@ -9262,7 +9262,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       fmt: money,
       cur: curPipe,
       prev: prevPipe,
-      accent: "#00B5AD"
+      accent: "#E8B00A"
     }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(SectionHead, {
       eb: "Ranking",
       h3: "Podio del mes",
