@@ -1,0 +1,61 @@
+name: Generar Panel Viscarra (Kommo -> GitHub Pages)
+
+on:
+  schedule:
+    - cron: '0 14 * * *'    # 10:00 Bolivia (UTC-4)
+    - cron: '0 21 * * *'    # 17:00 Bolivia (UTC-4)
+  workflow_dispatch:         # boton manual en la pestana Actions
+    inputs:
+      month:
+        description: 'Mes a regenerar (1-12, vacio = mes en curso)'
+        required: false
+        default: ''
+      year:
+        description: 'Anio del mes a regenerar (vacio = anio en curso)'
+        required: false
+        default: ''
+  push:
+    branches: [ main ]
+    paths:
+      - 'generar.py'
+      - 'panel_template.html'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: panel-viscarra
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generar panel desde Kommo (Viscarra)
+        env:
+          KOMMO_TOKEN_VISCARRA: ${{ secrets.KOMMO_TOKEN_VISCARRA }}
+          KOMMO_SUBDOMAIN: gerenciamultiespumasviscarra
+          KOMMO_PIPELINE_ID: '10989127'
+          PANEL_CURRENCY: Bs
+          PYTHONUTF8: '1'
+        run: |
+          EXTRA=""
+          if [ -n "${{ github.event.inputs.month }}" ]; then
+            EXTRA="--month ${{ github.event.inputs.month }} --year ${{ github.event.inputs.year || '2026' }}"
+            echo "Regenerando mes pasado: $EXTRA"
+          fi
+          python generar.py $EXTRA
+
+      - name: Commit y push del panel actualizado
+        run: |
+          git config user.name  "viscarra-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add index.html panel.html panel_*.html || true
+          git commit -m "Panel Viscarra $(date -u +'%Y-%m-%d %H:%M') (auto)" || echo "sin cambios"
+          git push || echo "nada que empujar"

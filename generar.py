@@ -1,0 +1,1588 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+generar.py  ·  Heaven Colchones — Panel Comercial
+==================================================
+Jala datos EN VIVO desde Kommo CRM, los mapea al contrato del panel rediseñado
+(window.PANEL_DATA), inyecta el JSON en panel_template.html y publica:
+
+    index.html          ← el panel (lo que sirve GitHub Pages)
+    panel.html          ← copia idéntica
+    panel_YYYY_MM.html  ← archivo histórico del mes
+
+Uso:
+    python generar.py                 # mes en curso
+    python generar.py --month 5 --year 2026
+    python generar.py --bake-ai       # hornea el análisis IA (usa ANTHROPIC_API_KEY)
+
+Requisitos: solo librería estándar de Python 3. El token de Kommo se lee de la
+variable de entorno KOMMO_TOKEN (NUNCA se escribe en el código ni en el HTML).
+"""
+
+import os, sys, json, time, re, argparse, calendar, datetime, shutil
+from collections import defaultdict
+from urllib import request as _rq, parse as _ps, error as _er
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  CONFIGURACIÓN
+# ─────────────────────────────────────────────────────────────────────────────
+SUBDOMAIN = (os.environ.get("KOMMO_SUBDOMAIN", "") or "").strip() or "gerenciamultiespumasviscarra"
+WORKER_URL = (os.environ.get("PANEL_WORKER_URL", "") or "").strip() or ""
+BASE_URL  = f"https://{SUBDOMAIN}.kommo.com/api/v4"
+TOKEN     = (os.environ.get("KOMMO_TOKEN_VISCARRA") or os.environ.get("KOMMO_TOKEN") or "").strip()
+# Fallback local: archivo '.kommo_token' junto al script (gitignored). En CI se usa el secret.
+if not TOKEN:
+    _tf = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".kommo_token")
+    if os.path.exists(_tf):
+        try:    TOKEN = open(_tf, encoding="utf-8").read().strip()
+        except Exception: pass
+
+# ── Cuenta / pipeline objetivo (MultiEspumas Viscarra) ──
+PIPELINE_ID    = int(os.environ.get("KOMMO_PIPELINE_ID") or "10989127")   # "Embudo de ventas"
+CANAL_FIELD_ID = int(os.environ.get("KOMMO_CANAL_FIELD_ID") or "805818")  # campo select "Canal"
+SUC_FIELD_ID   = int(os.environ.get("KOMMO_SUC_FIELD_ID")  or "641860")   # campo select "Sucursal"
+BRAND          = (os.environ.get("PANEL_BRAND") or "MultiEspumas Viscarra").strip()
+CURRENCY       = (os.environ.get("PANEL_CURRENCY") or "Bs").strip()       # la cuenta está en Bs (Boliviano)
+_DIAG     = []   # mensajes de diagnóstico que se incrustan en index.html
+
+HERE          = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_FILE = os.path.join(HERE, "panel_template.html")
+
+ap = argparse.ArgumentParser(add_help=False)
+ap.add_argument("--month", type=int, default=None)
+ap.add_argument("--year",  type=int, default=None)
+ap.add_argument("--bake-ai", action="store_true")
+ap.add_argument("--no-archive", action="store_true")
+ARGS, _ = ap.parse_known_args()
+
+MESES = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+# Identidad por vendedora (color, iniciales, sucursal, metas). Si entra una
+# vendedora nueva no listada aquí, se le asignan valores por defecto seguros.
+# Vendedores del embudo Viscarra. La SUCURSAL ya NO se pone aquí: viene del campo
+# "Sucursal" por-lead. Las METAS son PLACEHOLDER — ajustar con las metas reales.
+VENDOR_CFG = {
+    "Fernando Peinado Charcas": dict(ini="FP", color="#00B5AD", suc="", metaCierres=40, metaMonto=45000),
+    "Mauricio Merida":          dict(ini="MM", color="#2E6FE0", suc="", metaCierres=40, metaMonto=45000),
+    "Alberto Pareja":           dict(ini="AP", color="#7A5AF0", suc="", metaCierres=40, metaMonto=45000),
+}
+DEFAULT_COLORS = ["#00B5AD", "#2E6FE0", "#7A5AF0", "#D98300", "#159A57", "#DC4046", "#22A7C9"]
+
+SUC_COLORS = {"Calle Charcas": "#00B5AD", "Av. Carmelo Ortiz": "#2E6FE0", "Av. Mutualista": "#D98300"}
+
+# Clasificación de etapas del pipeline por palabras clave (case-insensitive).
+STAGE_RULES = [
+    ("compradores", ["compro", "compró", "compra", "comprador", "vendido", "ganado", "won", "pagad", "cerrad"]),
+    ("no_resp",     ["no responde", "no resp", "sin respuesta", "perdido sin", "frio", "frío", "cold"]),
+    ("perdido",     ["perdido", "cancelad", "descartad", "lost"]),
+    ("agendado",    ["agendad", "visita", "cita", "agenda", "showroom"]),
+    ("cotizacion",  ["cotiz", "propuest", "quot", "presupuest"]),
+    ("interesado",  ["interesad", "negocia", "seguimiento", "interest"]),
+    ("atendido",    ["atendi"]),       # consulta ya respondida (aún no calificada)
+    ("nueva",       ["nueva", "nuevo", "consulta", "entrante", "inbound", "primer", "lead"]),
+]
+STAGE_COLORS = {
+    "Nueva consulta": "#27313F", "Atendido": "#22A7C9", "ATENDIDO": "#22A7C9", "Atendi": "#22A7C9",
+    "Interesado": "#2E6FE0", "Cotización enviada": "#7A4AD9",
+    "Agendado / Visita": "#D98300", "Compradores": "#159A57", "No Responden": "#646E7B",
+}
+
+CH_ICON = {
+    "Facebook Ads": "📘", "Instagram": "📷", "TikTok": "🎵", "WhatsApp directo": "📱",
+    "Google Ads": "🔍", "Orgánico/Web": "🌐", "Referido": "🤝", "Walk-in (Tienda)": "🚶",
+    "Cliente antiguo": "🔁", "Carga manual vendedora": "✍", "Automático (bot)": "⚙", "Otro": "📦",
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  KOMMO API (stdlib, con reintento ante 429 y manejo de errores)
+# ─────────────────────────────────────────────────────────────────────────────
+def api_get(path, params=None, _retry=0):
+    url = BASE_URL + path + ("?" + _ps.urlencode(params) if params else "")
+    req = _rq.Request(url, headers={"Authorization": "Bearer " + TOKEN,
+                                    "Content-Type": "application/json"})
+    try:
+        with _rq.urlopen(req, timeout=40) as r:
+            if r.status == 204:
+                return {}
+            return json.loads(r.read().decode("utf-8"))
+    except _er.HTTPError as e:
+        if e.code == 429 and _retry < 4:           # rate limit → espera y reintenta
+            time.sleep(2 ** _retry * 3)
+            return api_get(path, params, _retry + 1)
+        if e.code == 204:
+            return {}
+        try:
+            _body = e.read().decode("utf-8")[:300]
+        except Exception:
+            _body = "(sin cuerpo)"
+        _DIAG.append(f"{path} -> HTTP {e.code}: {_body}")
+        raise
+    except Exception:
+        if _retry < 2:
+            time.sleep(2)
+            return api_get(path, params, _retry + 1)
+        raise
+
+def fetch_paginated(path, base_params, key, max_pages=500, sleep=0.18):
+    out, page = [], 1
+    while page <= max_pages:
+        p = dict(base_params); p["page"] = page; p.setdefault("limit", 250)
+        try:
+            data = api_get(path, p)
+        except Exception as e:
+            print(f"   ⚠ {path} pág {page}: {e}", file=sys.stderr)
+            break
+        batch = (data.get("_embedded", {}) or {}).get(key, [])
+        if not batch:
+            break
+        out.extend(batch)
+        if "next" not in (data.get("_links", {}) or {}):
+            break
+        page += 1
+        time.sleep(sleep)
+    return out
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  HELPERS DE CLASIFICACIÓN
+# ─────────────────────────────────────────────────────────────────────────────
+def classify_stage(name):
+    s = (name or "").lower()
+    for cls, kws in STAGE_RULES:
+        if any(k in s for k in kws):
+            return cls
+    return "other"
+
+def norm_channel(s):
+    s = (s or "").lower()
+    if any(k in s for k in ["facebook", "fb ", "meta", "messenger"]): return "Facebook Ads"
+    if any(k in s for k in ["instagram", "instragram", "ig "]):       return "Instagram"
+    if any(k in s for k in ["tiktok", "tik tok", "tik-tok"]):         return "TikTok"
+    if any(k in s for k in ["whatsapp", "wsp", "wa "]):               return "WhatsApp directo"
+    if any(k in s for k in ["google", "gads", "adword", "sem"]):      return "Google Ads"
+    if any(k in s for k in ["organic", "orgánic", "web", "seo"]):     return "Orgánico/Web"
+    if any(k in s for k in ["referid", "recomend", "boca"]):          return "Referido"
+    if any(k in s for k in ["walk", "tienda", "local", "show", "visita", "calle", "transeu", "transeú"]): return "Walk-in (Tienda)"
+    if any(k in s for k in ["antiguo", "recompra", "cliente ant"]):   return "Cliente antiguo"
+    if any(k in s for k in ["manual", "vendedor"]):                   return "Carga manual vendedora"
+    if any(k in s for k in ["bot", "automát", "auto"]):               return "Automático (bot)"
+    return "Otro"
+
+def contract_ts(lead, contract_field_id):
+    """Timestamp del campo 'Fecha contrato' del lead, o None."""
+    if not contract_field_id:
+        return None
+    for cf in (lead.get("custom_fields_values") or []):
+        if cf.get("field_id") == contract_field_id:
+            vals = cf.get("values") or []
+            if vals:
+                v = vals[0].get("value")
+                try:
+                    return int(v)
+                except (TypeError, ValueError):
+                    try:
+                        return int(float(v))
+                    except (TypeError, ValueError):
+                        return None
+    return None
+
+
+def detect_channel(lead, source_field_id):
+    if source_field_id:
+        for cf in (lead.get("custom_fields_values") or []):
+            if cf.get("field_id") == source_field_id:
+                vals = cf.get("values") or [{}]
+                ch = norm_channel(str(vals[0].get("value", "")))
+                if ch != "Otro":
+                    return ch
+    for t in ((lead.get("_embedded", {}) or {}).get("tags") or []):
+        ch = norm_channel(t.get("name", ""))
+        if ch != "Otro":
+            return ch
+    return "Automático (bot)" if lead.get("created_by") == 0 else "Carga manual vendedora"
+
+def detect_suc(vname, lead):
+    # Viscarra: la sucursal es un campo select POR-LEAD ("Sucursal"), no un tag ni sufijo.
+    for cf in (lead.get("custom_fields_values") or []):
+        if cf.get("field_id") == SUC_FIELD_ID:
+            vals = cf.get("values") or [{}]
+            v = str((vals[0] or {}).get("value", "")).strip()
+            if v:
+                return v
+            break
+    cfg = VENDOR_CFG.get(vname)
+    return (cfg.get("suc") or "Sin sucursal") if cfg else "Sin sucursal"
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  PERIODO
+# ─────────────────────────────────────────────────────────────────────────────
+# Hora de BOLIVIA (UTC-4): el runner de GitHub Actions corre en UTC, así que
+# datetime.now() marcaba 4h adelantado (el "Actualizado 22:10" era 18:10 real).
+now   = datetime.datetime.utcnow() - datetime.timedelta(hours=4)
+YEAR  = ARGS.year  or now.year
+MONTH = ARGS.month or now.month
+DIM   = calendar.monthrange(YEAR, MONTH)[1]
+CURDAY = now.day if (YEAR == now.year and MONTH == now.month) else DIM
+m_start = datetime.datetime(YEAR, MONTH, 1)
+m_end   = datetime.datetime(YEAR, MONTH, DIM, 23, 59, 59)
+pmo = MONTH - 1 or 12
+pyr = YEAR if MONTH > 1 else YEAR - 1
+p_start = datetime.datetime(pyr, pmo, 1)
+# Mes anterior COMPLETO (para comparativo semanal real). La métrica "mismo día"
+# se calcula aparte filtrando por día <= CURDAY (leads_sd).
+p_end   = datetime.datetime(pyr, pmo, calendar.monthrange(pyr, pmo)[1], 23, 59, 59)
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  AGREGACIÓN POR VENDEDORA
+# ─────────────────────────────────────────────────────────────────────────────
+# ── Horario laboral por vendedora (hora Bolivia, UTC-4) ──────────────────────
+# El "tiempo de respuesta" se mide SOLO dentro de la jornada: el reloj se pausa
+# de noche, en la pausa de mediodía (Central/Bs Aires) y los domingos.
+BOLIVIA_OFFSET = -4 * 3600
+# Ventanas por día de semana (0=Lun … 6=Dom). Día ausente = cerrado (domingo).
+# Formato de ventana: (h_ini, m_ini, h_fin, m_fin).
+SCHED_A = {  # Mia Plaza (Mirian + Isabel rotan turnos): Lun–Sáb 9–21 corrido
+    0: [(9, 0, 21, 0)], 1: [(9, 0, 21, 0)], 2: [(9, 0, 21, 0)],
+    3: [(9, 0, 21, 0)], 4: [(9, 0, 21, 0)], 5: [(9, 0, 21, 0)],
+}
+SCHED_B = {  # Central / Bs Aires: Lun–Vie 9–13 y 15–19 (pausa mediodía); Sáb 9–16 corrido
+    0: [(9, 0, 13, 0), (15, 0, 19, 0)], 1: [(9, 0, 13, 0), (15, 0, 19, 0)],
+    2: [(9, 0, 13, 0), (15, 0, 19, 0)], 3: [(9, 0, 13, 0), (15, 0, 19, 0)],
+    4: [(9, 0, 13, 0), (15, 0, 19, 0)], 5: [(9, 0, 16, 0)],
+}
+
+def sched_for(name):
+    n = (name or "").lower()
+    if "mirian" in n or "isabel" in n:
+        return SCHED_A          # Mia Plaza
+    return SCHED_B              # Carola, Jonathan, Maria (y default)
+
+def business_minutes(start_ts, end_ts, sched):
+    """Minutos de horario laboral entre dos timestamps UTC (hora Bolivia)."""
+    try:
+        s = int(start_ts) + BOLIVIA_OFFSET
+        e = int(end_ts) + BOLIVIA_OFFSET
+    except Exception:
+        return 0.0
+    if e <= s:
+        return 0.0
+    DAY = 86400
+    total = 0
+    cur = s
+    guard = 0
+    while cur < e and guard < 400:
+        guard += 1
+        day0 = (cur // DAY) * DAY                 # medianoche Bolivia de ese día
+        wd = ((day0 // DAY) + 3) % 7              # epoch = jueves → +3 ⇒ 0=Lun
+        nxt = day0 + DAY
+        seg_end = min(e, nxt)
+        for (h1, m1, h2, m2) in sched.get(wd, []):
+            a = max(cur, day0 + h1 * 3600 + m1 * 60)
+            b = min(seg_end, day0 + h2 * 3600 + m2 * 60)
+            if b > a:
+                total += (b - a)
+        cur = nxt
+    return total / 60.0
+
+def off_hours(ts, sched):
+    """True si la acción ocurrió FUERA de la jornada: antes de abrir, después de
+    cerrar, o domingo. La pausa de mediodía NO cuenta como fuera de horario
+    (se usa el 'sobre' del día: de la apertura al cierre)."""
+    try:
+        b = int(ts) + BOLIVIA_OFFSET
+    except Exception:
+        return False
+    DAY = 86400
+    day0 = (b // DAY) * DAY
+    wd = ((day0 // DAY) + 3) % 7
+    wins = sched.get(wd)
+    if not wins:
+        return True                              # día cerrado (domingo)
+    start = day0 + min(h1 * 3600 + m1 * 60 for (h1, m1, h2, m2) in wins)
+    end = day0 + max(h2 * 3600 + m2 * 60 for (h1, m1, h2, m2) in wins)
+    return not (start <= b < end)                # fuera del sobre [apertura, cierre]
+
+# Ventana fija de referencia (SOLO hora del día, pareja para todos): sirve para
+# ver "a qué hora entran los leads". En horario = 09:00–20:00; fuera = 20:01–08:59.
+# No distingue día de la semana (es una lectura simple de hora, no de jornada).
+FIXED_OPEN = 9 * 3600        # 09:00
+FIXED_CLOSE = 20 * 3600      # 20:00
+
+def fixed_off(ts):
+    """True si el lead entró FUERA de la ventana fija 09:00–20:00 (por hora del día)."""
+    try:
+        b = int(ts) + BOLIVIA_OFFSET
+    except Exception:
+        return False
+    sec = b % 86400                              # segundos desde medianoche (Bolivia)
+    return not (FIXED_OPEN <= sec < FIXED_CLOSE)
+
+def _median(vals):
+    if not vals:
+        return 0
+    s = sorted(vals)
+    n = len(s)
+    mid = n // 2
+    return s[mid] if (n % 2) else (s[mid - 1] + s[mid]) / 2.0
+
+def lead_units(ld):
+    """Unidades de producto del lead (pestaña Productos de Kommo = catalog_elements).
+    Cada elemento trae metadata.quantity; si falta, cuenta como 1 unidad."""
+    total = 0
+    for ce in ((ld.get("_embedded", {}) or {}).get("catalog_elements") or []):
+        q = (ce.get("metadata") or {}).get("quantity")
+        try:
+            total += int(float(q))
+        except (TypeError, ValueError):
+            total += 1
+    return total
+
+def build_products(won, user_map):
+    """Lista de productos vendidos del mes: por cada elemento del catálogo, unidades
+    totales y desglose por vendedora. Población = cierres del mes (won, incluye los
+    de leads de meses anteriores). Los nombres se resuelven con una consulta extra
+    a /catalogs/{id}/elements (el embed del lead solo trae id + cantidad)."""
+    agg = {}                                   # element_id -> {qty, byV, cat}
+    cat_ids = set()
+    con = 0; sin = 0                           # cierres con/sin productos registrados
+    for ld in (won or []):
+        ces = (ld.get("_embedded", {}) or {}).get("catalog_elements") or []
+        if ces:
+            con += 1
+        else:
+            sin += 1
+        raw = user_map.get(ld.get("responsible_user_id")) or ""
+        nm = raw.split(" - ", 1)[0].strip() if raw else ""
+        for ce in ces:
+            eid = ce.get("id")
+            md = ce.get("metadata") or {}
+            if md.get("catalog_id"):
+                cat_ids.add(md.get("catalog_id"))
+            try:
+                q = int(float(md.get("quantity")))
+            except (TypeError, ValueError):
+                q = 1
+            a = agg.setdefault(eid, {"qty": 0, "byV": defaultdict(int)})
+            a["qty"] += q
+            if nm:
+                a["byV"][nm] += q
+    names = {}
+    for cid in cat_ids:
+        for el in fetch_paginated(f"/catalogs/{cid}/elements", {}, "elements", max_pages=20):
+            names[el.get("id")] = el.get("name", "")
+    items = sorted(
+        [{"name": names.get(eid) or f"Producto #{eid}", "qty": a["qty"],
+          "byV": sorted([{"name": k, "qty": v} for k, v in a["byV"].items()],
+                        key=lambda r: -r["qty"])}
+         for eid, a in agg.items()],
+        key=lambda r: -r["qty"])
+    return {"total": sum(i["qty"] for i in items), "conProducto": con,
+            "sinProducto": sin, "items": items}
+
+def blank_vendor():
+    return dict(leads=0, cierres=0, value=0, pipeline=0, noResp=0, agendado=0, interesado=0, unidades=0, atendido=0,
+                cotizacion=0, nueva=0, calif=0, manual=0, bot=0, u24=0, nunca=0,
+                tarde=0, backlog=0, fuera=0, entra_dentro=0, entra_fuera=0, fix_dentro=0, fix_fuera=0, resp_minutes=[], stage=defaultdict(int),
+                leads_sd=0, cierres_sd=0, value_sd=0, agendado_sd=0,
+                wl=[0,0,0,0,0], wc=[0,0,0,0,0], wm=[0,0,0,0,0], wu=[0,0,0,0,0],
+                wrl=[[],[],[],[],[]])
+
+def aggregate(leads, stage_map, user_map, events, source_field_id, now_ts, won_leads=None):
+    vd = defaultdict(blank_vendor)
+    suc_of = {}
+    backlog_rows = []
+    _pipe_seen = set()   # ids ya sumados al pipeline (evita doble conteo con won)
+    for ld in leads:
+        rid = ld.get("responsible_user_id")
+        raw_name = user_map.get(rid)
+        if not raw_name:
+            continue
+        # Los usuarios de Kommo vienen como "Nombre Apellido - Sucursal".
+        # Separamos: el nombre limpio es la clave; el sufijo es la sucursal.
+        if " - " in raw_name:
+            name, _suc_suffix = [p.strip() for p in raw_name.split(" - ", 1)]
+        else:
+            name, _suc_suffix = raw_name.strip(), None
+        d = vd[name]
+        d["leads"] += 1
+        # semana del mes (0..4) por fecha de creación + conteo "mismo día"
+        _cre = ld.get("created_at", 0)
+        try:
+            _day = datetime.datetime.fromtimestamp(_cre).day
+        except Exception:
+            _day = 1
+        _wk = min(4, (_day - 1) // 7)
+        d["wl"][_wk] += 1
+        # lead que INGRESA dentro vs fuera del horario laboral (según el responsable)
+        if _cre:
+            if off_hours(_cre, sched_for(name)):
+                d["entra_fuera"] += 1
+            else:
+                d["entra_dentro"] += 1
+            # ventana fija (solo hora del día, pareja para todos)
+            if fixed_off(_cre):
+                d["fix_fuera"] += 1
+            else:
+                d["fix_dentro"] += 1
+        if _day <= CURDAY:
+            d["leads_sd"] += 1
+        if name not in suc_of:
+            suc_of[name] = _suc_suffix or detect_suc(name, ld)
+        st = stage_map.get(ld.get("status_id"), {"name": "—", "cls": "other"})
+        d["stage"][st["name"]] += 1
+        cls = st["cls"]
+        # PIPELINE = monto de leads con precio en cualquier etapa (menos perdidos)
+        _pr = ld.get("price") or 0
+        if _pr > 0 and cls != "perdido":
+            d["pipeline"] += _pr; _pipe_seen.add(ld.get("id"))
+        # Cierres/montos (cerrado) se cuentan por FECHA CONTRATO (bloque won), no aquí.
+        if cls == "no_resp":
+            d["noResp"] += 1
+        elif cls == "agendado":
+            d["agendado"] += 1; d["calif"] += 1
+            if _day <= CURDAY: d["agendado_sd"] += 1
+        elif cls == "cotizacion":
+            d["cotizacion"] += 1; d["calif"] += 1
+        elif cls == "interesado":
+            d["interesado"] += 1; d["calif"] += 1
+        elif cls == "atendido":
+            d["atendido"] += 1                 # respondida, pero NO cuenta como calificado
+        elif cls == "nueva":
+            d["nueva"] += 1
+        if ld.get("created_by") == 0: d["bot"] += 1
+        else:                          d["manual"] += 1
+        # velocidad de respuesta vía eventos humanos
+        ev = events.get(ld.get("id"))
+        created = ld.get("created_at", 0)
+        # "Sin seguimiento" = lead abierto que la vendedora no ha tocado/respondido +72h.
+        # Excluye comprador y perdido (cerrados) y "No Responden" (el cliente no contesta,
+        # no es falta de seguimiento de la vendedora).
+        is_open = cls not in ("compradores", "perdido", "no_resp")
+        stale_days = 0; never = False
+        first_seg = ev.get("first") if ev else None
+        # acción que ocurre en el mismo minuto de creación = automática (no es respuesta real)
+        if first_seg and (first_seg - created) < 60:
+            first_seg = None
+        if first_seg:
+            mins = max(0, (first_seg - created) / 60)                    # reloj de pared (disciplina <24h)
+            biz = business_minutes(created, first_seg, sched_for(name))  # reloj laboral (tiempo de respuesta)
+            d["resp_minutes"].append(biz)                               # la respuesta se mide en horario hábil
+            if mins <= 1440: d["u24"] += 1; d["wu"][_wk] += 1            # "<24h" sigue siendo reloj de pared
+            else:            d["tarde"] += 1
+            # mediana semanal del tiempo de respuesta (horario hábil), indexada por la
+            # semana en que ENTRÓ el lead (más intuitivo que la semana de la acción)
+            d["wrl"][_wk].append(biz)
+            # reconocimiento: atendió el lead FUERA de su horario (madrugada, noche,
+            # o domingo). No la penaliza — suma como dedicación extra.
+            if off_hours(first_seg, sched_for(name)):
+                d["fuera"] += 1
+        else:
+            never = not (ev and ev.get("last"))   # nunca tocado = ningún evento humano
+            if never:
+                d["nunca"] += 1
+        # backlog / "sin seguimiento" usa el ÚLTIMO toque humano (cualquiera), o la creación
+        last_touch = (ev.get("last") if ev else None) or created
+        stale_days = (now_ts - last_touch) / 86400
+        if stale_days > 3 and is_open:
+            d["backlog"] += 1
+        # fila de backlog real (lead estancado y abierto)
+        if is_open and (stale_days > 3 or never):
+            ld_name = (ld.get("name") or "").strip() or f"Lead #{ld.get('id')}"
+            backlog_rows.append({"c": ld_name, "id": ld.get("id"), "e": st["name"], "r": name,
+                                 "d": int(round(stale_days)), "nh": never, "ct": created})
+
+    # ── VENTAS por FECHA CONTRATO (campo manual = lo que filtra Kommo) ──
+    for ld in (won_leads or []):
+        raw = user_map.get(ld.get("responsible_user_id"))
+        if not raw:
+            continue
+        nm = raw.split(" - ", 1)[0].strip() if " - " in raw else raw.strip()
+        dd = vd[nm]; price = ld.get("price") or 0
+        dd["cierres"] += 1; dd["value"] += price
+        dd["unidades"] += lead_units(ld)          # el dinero sigue saliendo del Presupuesto (price)
+        if ld.get("id") not in _pipe_seen and price > 0:
+            dd["pipeline"] += price; _pipe_seen.add(ld.get("id"))
+        _ct = ld.get("_contract_ts") or 0
+        try:
+            _cd = datetime.datetime.fromtimestamp(_ct).day
+        except Exception:
+            _cd = 1
+        _wk = min(4, (_cd - 1) // 7)
+        dd["wc"][_wk] += 1; dd["wm"][_wk] += price
+        if _cd <= CURDAY:
+            dd["cierres_sd"] += 1; dd["value_sd"] += price
+        if nm not in suc_of:
+            suc_of[nm] = (raw.split(" - ", 1)[1].strip() if " - " in raw
+                          else detect_suc(nm, ld))
+    return vd, suc_of, backlog_rows
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  CONSTRUCCIÓN DE window.PANEL_DATA
+# ─────────────────────────────────────────────────────────────────────────────
+def build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, contact_phone=None, won=None, won_prev=None, pipe_by_name=None):
+    now_ts = time.time()
+    vcur, suc_of, backlog_rows = aggregate(cur, stage_map, user_map, events, source_field_id, now_ts, won_leads=won)
+    vprev, _, _  = aggregate(prev, stage_map, user_map, {}, source_field_id, now_ts, won_leads=won_prev)
+
+    names = list(vcur.keys())
+    # ordena: por cierres desc, así el color/índice es estable
+    names.sort(key=lambda n: (-vcur[n]["cierres"], -vcur[n]["leads"]))
+
+    # ── calidad de datos REAL (recorre los leads del mes una vez) ──
+    _abiertos_sin_valor = 0
+    _sin_suc = 0
+    _contact_leads = defaultdict(int)   # contact_id -> # de leads (para duplicados)
+    for ld in cur:
+        st = stage_map.get(ld.get("status_id"), {"cls": "other"})
+        _is_open = st["cls"] not in ("compradores", "perdido")
+        if _is_open and not (ld.get("price") or 0):
+            _abiertos_sin_valor += 1
+        # sin sucursal: el campo select "Sucursal" del lead está vacío
+        _has_suc = False
+        for cf in (ld.get("custom_fields_values") or []):
+            if cf.get("field_id") == SUC_FIELD_ID:
+                vals = cf.get("values") or [{}]
+                if str((vals[0] or {}).get("value", "")).strip():
+                    _has_suc = True
+                break
+        if not _has_suc:
+            _sin_suc += 1
+        for c in ((ld.get("_embedded", {}) or {}).get("contacts") or []):
+            if c.get("id"): _contact_leads[c["id"]] += 1
+    _dup_contactos = sum(1 for c, n in _contact_leads.items() if n >= 2)
+    _dup_fichas    = sum(n for c, n in _contact_leads.items() if n >= 2)
+
+    # ── duplicados por TELÉFONO (mismo cliente en 2+ fichas) ──
+    contact_phone = contact_phone or {}
+    phone_groups = defaultdict(list)   # phone -> [(lead_id, vendor, stage)]
+    for ld in cur:
+        rn = user_map.get(ld.get("responsible_user_id"), "")
+        vend = rn.split(" - ")[0].strip() if rn else "—"
+        stg = stage_map.get(ld.get("status_id"), {"name": "—"})["name"]
+        for c in ((ld.get("_embedded", {}) or {}).get("contacts") or []):
+            ph = contact_phone.get(c.get("id"))
+            if ph:
+                phone_groups[ph].append((ld.get("id"), vend, stg))
+                break
+    dup_rows = []
+    for ph, items in phone_groups.items():
+        if len(items) >= 2:
+            vends = sorted(set(i[1] for i in items))
+            stgs  = sorted(set(i[2] for i in items))
+            dup_rows.append({"phone": ph, "fichas": len(items),
+                             "vendedoras": " · ".join(vends), "etapas": " · ".join(stgs),
+                             "leadIds": [i[0] for i in items],
+                             "estado": "Fusionar" if "Compradores" in stgs else "Revisar"})
+    dup_rows.sort(key=lambda r: -r["fichas"])
+    if contact_phone:   # solo si pudimos leer teléfonos, sustituye el conteo por el real
+        _dup_contactos = len(dup_rows)
+        _dup_fichas    = sum(r["fichas"] for r in dup_rows)
+
+    team = []
+    for i, name in enumerate(names):
+        d = vcur[name]; pv = vprev.get(name, blank_vendor())
+        cfg = VENDOR_CFG.get(name, {})
+        u24pct = round(d["u24"] / d["leads"] * 100) if d["leads"] else 0
+        v_tone = "green" if u24pct >= 70 else "amber" if u24pct >= 40 else "red"
+        conv = round(d["cierres"] / d["leads"] * 100, 1) if d["leads"] else 0
+        ticket = round(d["value"] / d["cierres"]) if d["cierres"] else 0
+        avg_resp = _median(d["resp_minutes"])
+        prom = (f"{avg_resp/60:.1f} h" if avg_resp >= 60 else f"{avg_resp:.0f} min") if avg_resp else "—"
+        resp_n = len(d["resp_minutes"])
+        resp_pct = round(resp_n / d["leads"] * 100) if d["leads"] else 0
+        califpct = round(d["calif"] / d["leads"] * 100) if d["leads"] else 0
+        norpct   = round(d["noResp"] / d["leads"] * 100) if d["leads"] else 0
+        pv_ticket = round(pv["value_sd"] / pv["cierres_sd"]) if pv["cierres_sd"] else 0
+        prev_leads_sd = pv["leads_sd"]   # leads del mes anterior al mismo día -> MoM justo
+        # semanal real (5 semanas: 1-7, 8-14, 15-21, 22-28, 29-31)
+        u24w = [ (round(d["wu"][k] / d["wl"][k] * 100) if d["wl"][k] else None) for k in range(5) ]
+        # promedio de minutos de 1ª acción humana por semana (None si no hubo acciones esa semana)
+        prw = [ (round(_median(d["wrl"][k])) if d["wrl"][k] else None) for k in range(5) ]
+        weekly      = {"c": d["wc"], "m": d["wm"], "u24": u24w, "prw": prw}
+        weekly_prev = {"c": pv["wc"], "m": pv["wm"]}
+        team.append({
+            "ini": cfg.get("ini") or "".join([p[0] for p in name.split()[:2]]).upper(),
+            "name": name,
+            "suc": suc_of.get(name, "Sin sucursal"),
+            "color": cfg.get("color") or DEFAULT_COLORS[i % len(DEFAULT_COLORS)],
+            "photo": "",
+            "leads": d["leads"], "prevLeads": prev_leads_sd, "cierres": d["cierres"],
+            "conv": conv, "ticket": ticket, "value": d["value"],
+            "pipeline": (int(round(pipe_by_name.get(name, 0))) if pipe_by_name is not None else d["pipeline"]),
+            "calif": d["calif"], "califPct": califpct,
+            "noResp": d["noResp"], "noRespPct": norpct,
+            "agendado": d["agendado"], "interesado": d["interesado"], "u24": u24pct, "promTxt": prom,
+            "promMin": int(round(avg_resp)) if avg_resp else None,
+            "fueraHorario": d["fuera"],
+            "respPct": resp_pct, "respN": resp_n,
+            "tarde": d["tarde"], "nunca": d["nunca"], "backlog": d["backlog"],
+            "unidades": d["unidades"],
+            "metaCierres": cfg.get("metaCierres", max(8, d["cierres"] + 5)),
+            "metaMonto": cfg.get("metaMonto", max(20000, d["value"])),
+            "v": v_tone,
+            "prev": {"leads": prev_leads_sd, "cierres": pv["cierres_sd"],
+                     "visitas": pv["agendado_sd"], "ticket": pv_ticket, "value": pv["value_sd"],
+                     "leadsFull": pv["leads"], "cierresFull": pv["cierres"], "valueFull": pv["value"]},
+            "origen": {"manual": d["manual"], "bot": d["bot"]},
+            "weekly": weekly, "weeklyPrev": weekly_prev,
+        })
+        if prev_leads_sd == 0 and d["leads"] > 0:
+            team[-1]["nuevo"] = True
+
+    # ── globales ──
+    G_leads   = sum(t["leads"] for t in team)
+    G_prev    = sum(t["prevLeads"] for t in team)
+    G_cierres = sum(t["cierres"] for t in team)
+    G_value   = sum(t["value"] for t in team)
+    G_pipeline = sum(t["pipeline"] for t in team)
+    G_ticket  = round(G_value / G_cierres) if G_cierres else 0
+    G_unidades = sum(t["unidades"] for t in team)
+
+    # ── etapas globales ──
+    stage_tot = defaultdict(int)
+    for n in names:
+        for sn, c in vcur[n]["stage"].items():
+            stage_tot[sn] += c
+    total_st = sum(stage_tot.values()) or 1
+    stagesGlobal = [{"name": sn, "count": c, "pct": round(c / total_st * 100),
+                     "color": STAGE_COLORS.get(sn, "#9AA3AF")}
+                    for sn, c in sorted(stage_tot.items(), key=lambda x: -x[1])]
+
+    # ── métricas ──
+    noResp = sum(t["noResp"] for t in team)
+    backlog = sum(t["backlog"] for t in team)
+    nunca = sum(t["nunca"] for t in team)
+    agendado_tot = sum(t["agendado"] for t in team)
+    interes_tot = sum(vcur[n]["interesado"] for n in names)
+    _all_resp = [m for n in names for m in vcur[n]["resp_minutes"]]
+    _avg_g = _median(_all_resp)
+    # tiempo de respuesta global por semana de entrada (mediana de todo lo agrupado),
+    # para el sparkline real de la ficha del Resumen. Semanas sin datos se rellenan
+    # con la mediana global para que la línea quede continua (sin huecos).
+    _fill = int(round(_avg_g)) if _avg_g else 0
+    _resp_weekly = []
+    for _k in range(5):
+        _wk = [m for n in names for m in vcur[n]["wrl"][_k]]
+        _resp_weekly.append(int(round(_median(_wk))) if _wk else _fill)
+    metrics = {
+        "promPrimera": (f"{_avg_g/60:.1f} h" if _avg_g >= 60 else f"{_avg_g:.0f} min") if _avg_g else "—",
+        "promPrimeraMin": int(round(_avg_g)) if _avg_g else 0,
+        "respWeekly": _resp_weekly,
+        "respPct": round(len(_all_resp) / G_leads * 100) if G_leads else 0,
+        "noResp": noResp, "noRespPct": round(noResp / G_leads * 100) if G_leads else 0,
+        "backlog": backlog, "backlogPct": round(backlog / G_leads * 100) if G_leads else 0,
+        "criticos7d": 0,   # se calcula real más abajo desde backlog_rows
+        "nuncaTocados": nunca,
+        "sinSucursalFichas": _sin_suc,
+        "sinSucursalPct": round(_sin_suc / G_leads * 100) if G_leads else 0,
+        "abiertosSinValor": _abiertos_sin_valor,
+        "abiertosSinValorPct": round(_abiertos_sin_valor / G_leads * 100) if G_leads else 0,
+        "duplicadosTel": _dup_contactos, "duplicadosFichas": _dup_fichas,
+        "interesado": interes_tot, "agendado": agendado_tot,
+    }
+
+    # ── origen / canales ──
+    man = sum(t["origen"]["manual"] for t in team)
+    bot = sum(t["origen"]["bot"] for t in team)
+    tot_o = man + bot or 1
+    origin = {"manual": man, "manualPct": round(man / tot_o * 100),
+              "auto": bot, "autoPct": round(bot / tot_o * 100)}
+
+    # canales agregados a partir de detect_channel sobre los leads del mes.
+    # CONVERSIÓN HONESTA POR COHORTE: los "cierres" de un canal cuentan SOLO los
+    # leads que ENTRARON este mes Y cerraron este mes (misma población que los
+    # "leads"), así la tasa nunca supera el 100%. Los cierres de este mes cuyo lead
+    # entró en meses anteriores van a una fila aparte de reconciliación, para que
+    # el total de cierres siga cuadrando con el cerrado del mes (caja).
+    def _vname_of(ld):
+        raw = user_map.get(ld.get("responsible_user_id")) or ""
+        return raw.split(" - ", 1)[0].strip() if raw else ""
+    cur_ids = {ld.get("id") for ld in cur}
+    ch_agg = defaultdict(lambda: dict(leads=0, cierres=0, value=0))
+    # desglose canal × vendedora (quién aporta cada canal)
+    ch_by_v = defaultdict(lambda: defaultdict(lambda: dict(leads=0, cierres=0)))
+    carry = dict(cierres=0, value=0)                       # cierres de meses anteriores
+    carry_by_v = defaultdict(lambda: dict(leads=0, cierres=0))
+    carry_by_ch = defaultdict(int)                         # … desglosado también por canal
+    man_close = 0; bot_close = 0                           # cierres de cohorte por tipo de carga
+    for ld in cur:
+        ch = detect_channel(ld, source_field_id)
+        ch_agg[ch]["leads"] += 1
+        nm = _vname_of(ld)
+        if nm:
+            ch_by_v[ch][nm]["leads"] += 1
+    for ld in (won or []):
+        nm = _vname_of(ld)
+        val = ld.get("price") or 0
+        ch = detect_channel(ld, source_field_id)
+        if ld.get("id") in cur_ids:                        # mismo mes: cuenta al canal
+            ca = ch_agg[ch]
+            ca["cierres"] += 1; ca["value"] += val
+            if nm:
+                ch_by_v[ch][nm]["cierres"] += 1
+            if ld.get("created_by") == 0:                  # tasa de cierre por tipo de carga
+                bot_close += 1
+            else:
+                man_close += 1
+        else:                                              # entró antes: fila de reconciliación
+            carry["cierres"] += 1; carry["value"] += val
+            carry_by_ch[ch] += 1
+            if nm:
+                carry_by_v[nm]["cierres"] += 1
+    channels = []
+    for ch, a in sorted(ch_agg.items(), key=lambda x: -x[1]["leads"]):
+        conv = round(a["cierres"] / a["leads"] * 100) if a["leads"] else 0
+        cls = "green" if (a["leads"] >= 5 and conv >= 10) else "red" if a["leads"] >= 5 else "muted"
+        byV = sorted(
+            [{"name": nm, "leads": x["leads"], "cierres": x["cierres"]}
+             for nm, x in ch_by_v[ch].items()],
+            key=lambda r: -r["leads"])
+        channels.append({
+            "ic": CH_ICON.get(ch, "📦"), "name": ch, "leads": a["leads"],
+            "pct": round(a["leads"] / (G_leads or 1) * 100), "cierres": a["cierres"],
+            "conv": conv, "ticket": round(a["value"] / a["cierres"]) if a["cierres"] else 0,
+            "pipeline": a["value"], "cls": cls, "byV": byV,
+        })
+    if carry["cierres"]:
+        carry_byV = sorted(
+            [{"name": nm, "leads": 0, "cierres": x["cierres"]}
+             for nm, x in carry_by_v.items()],
+            key=lambda r: -r["cierres"])
+        carry_byCh = sorted(
+            [{"name": ch, "ic": CH_ICON.get(ch, "📦"), "cierres": n}
+             for ch, n in carry_by_ch.items()],
+            key=lambda r: -r["cierres"])
+        channels.append({
+            "ic": "↩", "name": "Cerrados de meses anteriores", "leads": 0,
+            "pct": 0, "cierres": carry["cierres"], "conv": 0,
+            "ticket": round(carry["value"] / carry["cierres"]) if carry["cierres"] else 0,
+            "pipeline": carry["value"], "cls": "carry", "carry": True,
+            "byV": carry_byV, "byCh": carry_byCh,
+        })
+
+    # ── tasa de cierre por tipo de carga (de los leads del mes, cuántos cerraron) ──
+    origin["manualClosed"] = man_close
+    origin["autoClosed"] = bot_close
+    origin["manualCloseRate"] = round(man_close / man * 100) if man else 0
+    origin["autoCloseRate"] = round(bot_close / bot * 100) if bot else 0
+
+    # ── embudos ──
+    def stage_sum(cls_list):
+        return sum(c for n in names for sn, c in vcur[n]["stage"].items()
+                   if classify_stage(sn) in cls_list)
+    _cot = sum(vcur[n]['cotizacion'] for n in names)
+    metrics["cotizaciones"] = _cot
+    # consolidado: leads que INGRESAN dentro vs fuera del horario laboral
+    metrics["leadsEnHorario"] = sum(vcur[n]["entra_dentro"] for n in names)
+    metrics["leadsFueraHorario"] = sum(vcur[n]["entra_fuera"] for n in names)
+    # desglose del horario real por sucursal (para tabla por sucursal + global)
+    _suc_h = {}
+    for n in names:
+        s = suc_of.get(n, "Sin sucursal")
+        bb = _suc_h.setdefault(s, {"dentro": 0, "fuera": 0, "resp": []})
+        bb["dentro"] += vcur[n]["entra_dentro"]
+        bb["fuera"] += vcur[n]["entra_fuera"]
+        bb["resp"].extend(vcur[n]["resp_minutes"])        # mediana consolidada por sucursal
+
+    def _resp_txt(mins):
+        if not mins:
+            return "—", None
+        m = _median(mins)
+        if not m:
+            return "—", None
+        return (f"{m/60:.1f} h" if m >= 60 else f"{m:.0f} min"), int(round(m))
+
+    _suc_list = []
+    for s, v in _suc_h.items():
+        _txt, _min = _resp_txt(v["resp"])
+        _suc_list.append({"suc": s, "dentro": v["dentro"], "fuera": v["fuera"],
+                          "respTxt": _txt, "respMin": _min})
+    metrics["leadsHorarioPorSuc"] = sorted(_suc_list, key=lambda r: -(r["dentro"] + r["fuera"]))
+    # ventana fija 09:00–20:00 (solo hora del día)
+    metrics["leadsEnHorarioFijo"] = sum(vcur[n]["fix_dentro"] for n in names)
+    metrics["leadsFueraHorarioFijo"] = sum(vcur[n]["fix_fuera"] for n in names)
+    # Embudo ACUMULATIVO: cada nivel contiene al siguiente y TODOS salen de la
+    # misma población (la distribución por etapa actual), por lo que nunca puede
+    # superar el 100%. Antes se sumaban conteos que se solapaban y se mezclaban
+    # con los cierres por fecha de contrato, y eso producía barras de 173% / 106%.
+    _f_inter = stage_tot.get("Interesado", 0)
+    _f_cotz = stage_tot.get("Cotización enviada", 0)
+    _f_agen = stage_tot.get("Agendado / Visita", 0)
+    _f_comp = stage_tot.get("Compradores", 0)
+    _calif = _f_inter + _f_cotz + _f_agen + _f_comp      # llegaron al menos a "Interesado"
+    _avanz = _f_cotz + _f_agen + _f_comp                  # llegaron al menos a "Cotización/Visita"
+    funnel2 = [
+        {"n": "Leads del mes",          "v": G_leads,  "c": "#27313F"},
+        {"n": "Calificados",            "v": _calif,   "c": "#2E6FE0"},
+        {"n": "En cotización o visita", "v": _avanz,   "c": "#00B5AD"},
+        {"n": "Compradores",            "v": _f_comp,  "c": "#159A57"},
+    ]
+    funnel = [
+        {"name": "Leads del mes",          "count": G_leads},
+        {"name": "Calificados",            "count": _calif},
+        {"name": "En cotización o visita", "count": _avanz},
+        {"name": "Compradores",            "count": _f_comp},
+    ]
+
+    # ── stagesByV ──
+    stagesByV = {n: [[sn, c] for sn, c in sorted(vcur[n]["stage"].items(), key=lambda x: -x[1])]
+                 for n in names}
+
+    # ── backlog real (top 40 más estancados) ──
+    backlog_rows.sort(key=lambda r: r["d"], reverse=True)
+    metrics["criticos7d"] = sum(1 for r in backlog_rows if r["d"] >= 7)
+    bk_rows = backlog_rows[:300]   # todas las fichas sin seguimiento (tope de seguridad 300)
+
+    # ── alertas accionables, generadas de los datos reales ──
+    alerts = []
+    convs = [(t, t["conv"]) for t in team if t["cierres"] >= 0 and t["leads"] >= 20 and not t.get("nuevo")]
+    if convs:
+        worst = min(convs, key=lambda x: x[1])[0]
+        if worst["conv"] < 4 and worst["leads"] >= 20:
+            alerts.append({"sev":"red","who":worst["name"],
+                "t":f"Conversión {worst['conv']}% — la más baja del equipo",
+                "d":f"{worst['cierres']} cierres sobre {worst['leads']} leads, bajo el umbral de 4%.",
+                "act":"Coaching + auditar cotizaciones."})
+    nr = sorted(team, key=lambda t: t["noRespPct"], reverse=True)
+    if nr and nr[0]["noRespPct"] >= 40:
+        top_nr = [t for t in team if t["noRespPct"] >= 40]
+        names_nr = " / ".join(t["name"].split()[0] for t in top_nr[:3])
+        tot_nr = sum(t["noResp"] for t in top_nr)
+        alerts.append({"sev":"red","who":names_nr,
+            "t":f"Vendedoras con alto % en “No responden”",
+            "d":f"{names_nr} concentran {tot_nr:,} leads sin respuesta del cliente.".replace(",","."),
+            "act":"Segunda cadencia de contacto por WhatsApp."})
+    # umbral de backlog (sin seguimiento) por vendedora
+    UMBRAL_BK = 25
+    bk_top = sorted(team, key=lambda t: t["backlog"], reverse=True)
+    if bk_top and bk_top[0]["backlog"] >= UMBRAL_BK:
+        offenders = [t for t in team if t["backlog"] >= UMBRAL_BK]
+        nm_bk = " / ".join(t["name"].split()[0] for t in offenders[:3])
+        tot_bk = sum(t["backlog"] for t in offenders)
+        alerts.append({"sev":"red","who":nm_bk,
+            "t":f"Backlog de seguimiento sobre el umbral ({UMBRAL_BK}+)",
+            "d":f"{nm_bk} acumulan {tot_bk} fichas abiertas sin seguimiento +72h.",
+            "act":"Acción masiva: crear tarea a todo el backlog de la vendedora."})
+    # (Sin alerta por "abiertos sin valor": en Heaven solo se carga monto al reservar o pagar,
+    #  así que la mayoría de leads abiertos sin monto es lo normal y esperado, no un problema.)
+    momp = round((G_leads-G_prev)/G_prev*100) if G_prev else 0
+    if momp < -5:
+        alerts.append({"sev":"amber","who":"Gerencia",
+            "t":f"Leads ↓{abs(momp)}% vs mismo periodo de {MESES[pmo]} ({G_leads:,} vs {G_prev:,})".replace(",","."),
+            "d":f"Comparado al día {CURDAY} de ambos meses. Caída de captación respecto al periodo equivalente.","act":"Revisar inversión en canales."})
+    if nunca >= 20:
+        worst_nh = max(team, key=lambda t: t["nunca"])
+        alerts.append({"sev":"amber","who":worst_nh["name"],
+            "t":f"{nunca} leads nunca tocados",
+            "d":f"{worst_nh['name']} tiene {worst_nh['nunca']} sin primera acción registrada.",
+            "act":"Repartir backlog en la reunión diaria."})
+    # canal manual vs bot
+    man_ch = next((c for c in channels if "manual" in c["name"].lower()), None)
+    bot_ch = next((c for c in channels if "bot" in c["name"].lower()), None)
+    if man_ch and bot_ch and bot_ch["conv"] >= 0 and man_ch["conv"] > 0:
+        ratio = round(man_ch["conv"]/bot_ch["conv"]) if bot_ch["conv"] else man_ch["conv"]
+        alerts.append({"sev":"green","who":"Equipo",
+            "t":f"La carga manual convierte {ratio}× más que el bot" if bot_ch["conv"] else "La carga manual es la que convierte",
+            "d":f"Manual {man_ch['conv']}% vs bot {bot_ch['conv']}%. Priorizar captación manual de calidad.",
+            "act":"Documentar el playbook de la mejor vendedora."})
+    if not alerts:
+        alerts.append({"sev":"green","who":"Equipo","t":"Sin alertas críticas este mes",
+            "d":"Los indicadores están dentro de rango.","act":"Mantener el ritmo de seguimiento."})
+
+    # ── nav (con badges en vivo) ──
+    nav = [
+        {"id": "resumen", "label": "Resumen"},
+        {"id": "equipo", "label": "Equipo", "badge": str(len(team))},
+        {"id": "seguimiento", "label": "Seguimiento", "badge": str(backlog)},
+        {"id": "alertas", "label": "Alertas", "badge": str(len(alerts))},
+        {"id": "presentacion", "label": "Presentación"},
+        {"id": "analisis", "label": "Análisis IA"},
+        {"id": "conversion", "label": "Conversión"},
+        {"id": "sucursales", "label": "Sucursales"},
+        {"id": "proyeccion", "label": "Proyección"},
+        {"id": "evolucion", "label": "Evolución"},
+        {"id": "datos", "label": "Datos"},
+    ]
+
+    # ── archivos (historial) ──
+    archives = build_archives()
+
+    return {
+        "month": MESES[MONTH], "year": YEAR, "prevMonth": MESES[pmo],
+        "curDay": CURDAY, "daysInMonth": DIM,
+        "updated": now.strftime("%d/%m %H:%M"),
+        "archives": archives,
+        "global": {"leads": G_leads, "prevLeads": G_prev, "cierres": G_cierres,
+                   "pipeline": G_pipeline, "cerrado": G_value, "ticket": G_ticket,
+                   "unidades": G_unidades},
+        "funnel2": funnel2, "stagesGlobal": stagesGlobal, "origin": origin,
+        "channels": channels, "metrics": metrics,
+        "leadsMomPct": round((G_leads - G_prev) / G_prev * 100) if G_prev else 0,
+        "team": team, "funnel": funnel, "nav": nav, "stagesByV": stagesByV,
+        "backlogRows": bk_rows, "alerts": alerts, "dupRows": dup_rows[:50],
+        "kommoBase": f"https://{SUBDOMAIN}.kommo.com",
+        "workerUrl": WORKER_URL,
+        "cur": CURRENCY, "brand": BRAND, "pipelineId": PIPELINE_ID,
+    }
+
+def build_archives():
+    """Una entrada por mes (sin duplicados). El mes en curso apunta a "#" (index.html en vivo);
+    los meses pasados a su panel_YYYY_MM.html. Orden: más reciente primero."""
+    months = {}  # (año, mes) -> archivo
+    for f in os.listdir(HERE):
+        if f.startswith("panel_") and f.endswith(".html"):
+            stem = f[len("panel_"):-len(".html")]          # "2026_06"
+            parts = stem.split("_")
+            if len(parts) == 2 and parts[0].isdigit() and parts[1].isdigit():
+                months[(int(parts[0]), int(parts[1]))] = f
+    months[(YEAR, MONTH)] = "#"                            # mes actual = en vivo (sobrescribe su archivo)
+    out = []
+    for (y, m) in sorted(months, key=lambda k: (k[0], k[1]), reverse=True)[:12]:
+        out.append({"label": f"{MESES[m]} {y}", "url": months[(y, m)]})
+    return out
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  IA (hornea el diagnóstico + los 4 agentes con la API gratuita de Google Gemini)
+# ─────────────────────────────────────────────────────────────────────────────
+AI_ERRORS = {}  # último error por analista, para diagnóstico (se hornea en ai_debug)
+
+def _ai_call(key, prompt, attempts=3, tag=""):
+    """Llama a Gemini 2.5 Flash y devuelve un dict JSON (o None).
+    Manejo correcto del tier gratis: ante HTTP 429 espera lo que pide la API
+    (retryDelay, o ~35s) en vez de ametrallar; ante 400 cambia de config; y
+    registra el último error en AI_ERRORS[tag] para poder diagnosticarlo."""
+    url = ("https://generativelanguage.googleapis.com/v1beta/models/"
+           "gemini-2.5-flash:generateContent?key=" + key)
+    def _post(gen_cfg):
+        payload = {"contents": [{"parts": [{"text": prompt}]}]}
+        if gen_cfg:
+            payload["generationConfig"] = gen_cfg
+        body = json.dumps(payload).encode()
+        req = _rq.Request(url, data=body, headers={"content-type": "application/json"})
+        with _rq.urlopen(req, timeout=120) as r:
+            return json.loads(r.read().decode())
+    base = {"temperature": 0.5, "maxOutputTokens": 12000, "responseMimeType": "application/json"}
+    cfgs = [dict(base, thinkingConfig={"thinkingBudget": 0}),  # 1º: sin "pensamiento", JSON puro
+            base]                                              # 2º: igual pero sin tocar thinking
+    last = ""
+    waits_429 = 0
+    for attempt in range(attempts):
+        ci = 0
+        while ci < len(cfgs):
+            try:
+                data = _post(cfgs[ci])
+            except _er.HTTPError as e:
+                body = ""
+                try:
+                    body = e.read().decode()
+                except Exception:
+                    pass
+                qid = "; ".join(re.findall(r'"quota(?:Id|Metric)"\s*:\s*"([^"]+)"', body))
+                last = f"HTTP {e.code}" + (f" [{qid}]" if qid else "") + f": {body[:200]}"
+                if e.code == 429 and waits_429 < 4:
+                    waits_429 += 1
+                    m = re.search(r'"retryDelay"\s*:\s*"(\d+)', body)
+                    wait = (int(m.group(1)) + 3) if m else 35
+                    print(f"      ({tag}) 429 rate-limit: espero {min(wait,70)}s…")
+                    time.sleep(min(wait, 70))
+                    continue                       # reintenta el MISMO config, sin ráfaga
+                if e.code == 400:
+                    ci += 1                        # config rechazada → siguiente tier
+                    continue
+                time.sleep(5)                      # 5xx u otros: pequeña pausa y siguiente
+                ci += 1
+                continue
+            except Exception as ex:
+                last = str(ex)
+                ci += 1
+                continue
+            cand = (data.get("candidates") or [{}])[0]
+            parts = ((cand.get("content") or {}).get("parts")) or [{}]
+            txt = "".join(p.get("text", "") for p in parts)
+            txt = txt.replace("```json", "").replace("```", "").strip()
+            s, e2 = txt.find("{"), txt.rfind("}")
+            if s >= 0 and e2 > s:
+                try:
+                    return json.loads(txt[s:e2 + 1])
+                except Exception as ex:
+                    last = "json.loads: " + str(ex)
+            else:
+                last = "finishReason=" + str(cand.get("finishReason")) + " sin texto"
+            ci += 1
+        if attempt < attempts - 1:
+            time.sleep(6 + 6 * attempt)            # backoff entre rondas: 6s, 12s
+    if tag:
+        AI_ERRORS[tag] = last[:420]
+    print(f"      ({tag}) Gemini sin respuesta tras {attempts} rondas: {last[:120]}")
+    return None
+
+
+def _prev_bake():
+    """Lee ai_diagnostico / ai_agentes del index.html ya publicado (corrida anterior),
+    para reutilizarlos como red de seguridad si Gemini falla en esta corrida."""
+    try:
+        p = os.path.join(HERE, "index.html")
+        if not os.path.exists(p):
+            return {}
+        html = open(p, encoding="utf-8").read()
+        m = re.search(r"window\.PANEL_DATA\s*=\s*(\{.*?\});", html, re.S)
+        if not m:
+            return {}
+        old = json.loads(m.group(1))
+        return {"ai_diagnostico": old.get("ai_diagnostico"), "ai_agentes": old.get("ai_agentes") or {}}
+    except Exception as ex:
+        print(f"      (sin bake previo disponible: {ex})")
+        return {}
+
+
+def build_history(pd):
+    """Serie histórica mensual (global + por vendedora) para la pestaña Evolución.
+    Lee los paneles archivados (panel_YYYY_MM.html), sintetiza el mes anterior desde
+    los campos prev* si no hay archivo, y agrega el mes en curso desde pd."""
+    MES = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+    def _cv(c, l): return round(c / l * 100, 1) if l else 0
+    def _pt(y, m, G, team):
+        cerr = G.get("cerrado", G.get("value", 0) or 0)
+        cier = G.get("cierres", 0)
+        return {"y": y, "m": m, "label": f"{MES[m]} {str(y)[2:]}",
+                "leads": G.get("leads", 0), "cierres": cier,
+                "conv": _cv(cier, G.get("leads", 0)),
+                "cerrado": cerr,
+                "ticket": G.get("ticket") or (round(cerr / cier) if cier else 0),
+                "team": {t.get("name", ""): {
+                    "leads": t.get("leads", 0), "cierres": t.get("cierres", 0),
+                    "conv": _cv(t.get("cierres", 0), t.get("leads", 0)),
+                    "value": t.get("value", 0), "ticket": t.get("ticket", 0)}
+                    for t in (team or []) if t.get("name")}}
+    def _from_dash(d):
+        """Adapta el formato viejo (window.DASH, p.ej. el panel de mayo) al moderno.
+        'cerrado' sale de la etapa Compradores (es el 'Cerrado en el mes' de ese panel)."""
+        G0 = d.get("global") or {}
+        cerr = 0
+        for s in (d.get("stages") or []):
+            if "comprador" in str(s.get("name", "")).lower():
+                cerr = s.get("value", 0) or 0
+        G = {"leads": G0.get("leads", 0), "cierres": G0.get("cierres", 0),
+             "cerrado": cerr or G0.get("pipeline", 0), "ticket": G0.get("ticket", 0)}
+        team = [{"name": (t.get("name", "").split(" - ")[0]).strip(),
+                 "leads": t.get("leads", 0), "cierres": t.get("cierres", 0),
+                 "value": t.get("value", 0), "ticket": t.get("ticket", 0)}
+                for t in (d.get("team") or [])]
+        return G, team
+    pts = {}
+    import glob as _gl
+    for p in sorted(_gl.glob(os.path.join(HERE, "panel_2???_??.html"))):
+        mm = re.search(r"panel_(\d{4})_(\d{2})\.html$", p)
+        if not mm:
+            continue
+        y, m = int(mm.group(1)), int(mm.group(2))
+        if (y, m) == (YEAR, MONTH):
+            continue  # el mes en curso sale de pd, no del archivo
+        try:
+            html = open(p, encoding="utf-8").read()
+            j = re.search(r"window\.PANEL_DATA\s*=\s*(\{.*?\});", html, re.S)
+            if j:
+                old = json.loads(j.group(1))
+                pts[(y, m)] = _pt(y, m, old.get("global") or {}, old.get("team") or [])
+                continue
+            j = re.search(r"window\.DASH\s*=\s*(\{.*?\});", html, re.S)
+            if j:
+                G0, t0 = _from_dash(json.loads(j.group(1)))
+                pts[(y, m)] = _pt(y, m, G0, t0)
+                print(f"      (historia: {os.path.basename(p)} leído en formato viejo DASH)")
+        except Exception as ex:
+            print(f"      (historia: no pude leer {os.path.basename(p)}: {ex})")
+    # Mes anterior: el ARCHIVO del panel de ese mes manda (es el panel que corrió ese mes,
+    # con todas sus ventas). El fetch en vivo solo rellena si no hay archivo — sabiendo que
+    # puede subcontar cierres (no ve ventas de leads creados en meses previos).
+    py, pm = (YEAR, MONTH - 1) if MONTH > 1 else (YEAR - 1, 12)
+    team = pd.get("team") or []
+    if (py, pm) not in pts and any((t.get("prev") or {}).get("leadsFull") or (t.get("prev") or {}).get("leads") for t in team):
+        Gp = {"leads": sum((t.get("prev") or {}).get("leadsFull", 0) for t in team),
+              "cierres": sum((t.get("prev") or {}).get("cierresFull", 0) for t in team),
+              "cerrado": sum((t.get("prev") or {}).get("valueFull", 0) for t in team)}
+        tp = [{"name": t["name"], "leads": (t.get("prev") or {}).get("leadsFull", 0),
+               "cierres": (t.get("prev") or {}).get("cierresFull", 0),
+               "value": (t.get("prev") or {}).get("valueFull", 0)} for t in team]
+        if Gp["leads"]:
+            pts[(py, pm)] = _pt(py, pm, Gp, tp)
+        elif (py, pm) not in pts:
+            # compatibilidad: si aún no hay *Full (corrida vieja), usa el corte al mismo día
+            Gs = {"leads": pd["global"].get("prevLeads", 0),
+                  "cierres": sum((t.get("prev") or {}).get("cierres", 0) for t in team),
+                  "cerrado": sum((t.get("prev") or {}).get("value", 0) for t in team)}
+            pts[(py, pm)] = _pt(py, pm, Gs, [])
+    cur = _pt(YEAR, MONTH, pd["global"], team)
+    cur["now"] = True                       # mes en curso (parcial)
+    cur["cutDay"] = pd.get("curDay", 0)
+    # corte del mes anterior al MISMO día, para que las flechas del mes en curso comparen parejo
+    cur["prevSd"] = {"leads": pd["global"].get("prevLeads", 0),
+                     "cierres": sum((t.get("prev") or {}).get("cierres", 0) for t in team),
+                     "cerrado": sum((t.get("prev") or {}).get("value", 0) for t in team)}
+    cur["prevSd"]["conv"] = _cv(cur["prevSd"]["cierres"], cur["prevSd"]["leads"])
+    pts[(YEAR, MONTH)] = cur
+    pd["history"] = [pts[k] for k in sorted(pts)]
+    print(f"   ✓ historia: {len(pd['history'])} mes(es) → {[h['label'] for h in pd['history']]}")
+    return pd
+
+
+def build_wsp(pd):
+    """Genera pd["wsp"]: resumen corto listo para copiar y pegar en el grupo de WhatsApp.
+    Usa formato de WhatsApp (*negrita*, _cursiva_) y datos reales del mes."""
+    try:
+        G, M, team = pd["global"], pd["metrics"], pd["team"]
+        def bs(v): return f"{int(round(v)):,}".replace(",", ".")
+        conv = round(G["cierres"] / G["leads"] * 100, 1) if G["leads"] else 0
+        hoy = datetime.date.today().strftime("%d/%m")
+        rank = sorted(team, key=lambda t: (t["cierres"], t["value"]), reverse=True)
+        medals = ["🥇", "🥈", "🥉"] + ["•"] * 10
+        rank_lines = "\n".join(
+            f"{medals[i]} {t['name'].split()[0]} ({t['suc']}): {t['cierres']} cierres · Bs {bs(t['value'])}"
+            for i, t in enumerate(rank))
+        peores_bk = sorted(team, key=lambda t: t["backlog"], reverse=True)[:2]
+        bk_txt = " y ".join(f"{t['name'].split()[0]} ({t['backlog']})" for t in peores_bk if t["backlog"] > 0)
+        crit = M.get("criticos7d", 0)
+        meta_tot = sum(t.get("metaCierres", 0) for t in team)
+        gap = max(0, meta_tot - G["cierres"])
+        prev_line = ""
+        h = pd.get("history") or []
+        if len(h) >= 2:
+            pm = h[-2]
+            prev_line = (f"_Mes anterior ({pm['label']}): {pm['cierres']} cierres · "
+                         f"Bs {bs(pm.get('cerrado', 0))} cerrado_\n")
+        focos = [f"• {M['backlog']} fichas sin seguimiento +72h" + (f" — peores: {bk_txt}" if bk_txt else "")]
+        if crit:
+            focos.append(f"• {crit} fichas llevan *+7 días* sin tocar → rescatarlas HOY")
+        if M.get("noResp"):
+            focos.append(f"• {M['noResp']} en \"no responden\" — reactivar con oferta/recordatorio")
+        pd["wsp"] = (
+            f"*📊 Heaven Colchones — resumen {hoy}*\n\n"
+            f"*Mes de {pd['month']}:* {G['leads']} leads · {G['cierres']} cierres ({conv}%) · "
+            f"Bs {bs(G['cerrado'])} cerrado · pipeline Bs {bs(G['pipeline'])}\n"
+            + prev_line +
+            f"\n*🏆 Ranking de cierres*\n{rank_lines}\n\n"
+            f"*⚠️ Focos de la semana*\n" + "\n".join(focos) + "\n\n"
+            f"*🎯 Meta del mes:* {meta_tot} cierres — faltan {gap}. ¡Vamos equipo! 💪")
+        print("   ✓ resumen WhatsApp generado")
+    except Exception as ex:
+        print(f"   ⚠ no se pudo generar el resumen WhatsApp: {ex}")
+    return pd
+
+
+def bake_ai(pd):
+    key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not key:
+        print("   · sin GEMINI_API_KEY → el panel mostrará la lectura base de IA")
+        return pd
+    G, M, team = pd["global"], pd["metrics"], pd["team"]
+    ch = pd.get("channels", []) or []
+    def _conv(c, l): return round(c / l * 100, 1) if l else 0
+    mom = round((G["leads"] - G["prevLeads"]) / G["prevLeads"] * 100) if G.get("prevLeads") else 0
+
+    # Línea por vendedora (versión rica, idéntica a la Sala de expertos del frontend)
+    team_lines = "\n".join(
+        f"{t['name']} (sucursal {t['suc']}): {t['leads']} leads (mes previo {t['prevLeads']}), "
+        f"{t['cierres']} cierres, {_conv(t['cierres'], t['leads'])}% conv "
+        f"[mes previo: {(t.get('prev') or {}).get('cierres', 0)} cierres, "
+        f"{_conv((t.get('prev') or {}).get('cierres', 0), t['prevLeads'])}% conv, "
+        f"cerrado Bs {(t.get('prev') or {}).get('value', 0)}], "
+        f"{t['noResp']} no-responden ({t['noRespPct']}%), {t['backlog']} backlog, "
+        f"{t['nunca']} nunca-tocados, 1ª acción humana prom {t.get('promTxt', '—')} "
+        f"({t.get('respPct', 0)}% de sus leads ya atendidos), ticket Bs {t['ticket']}"
+        for t in team)
+
+    # Roll-up por sucursal
+    roll = {}
+    for t in team:
+        b = roll.setdefault(t["suc"], {"leads": 0, "prev": 0, "cierres": 0, "value": 0, "n": 0})
+        b["leads"] += t["leads"]; b["prev"] += t["prevLeads"]; b["cierres"] += t["cierres"]
+        b["value"] += t["value"]; b["n"] += 1
+    branch_lines = "\n".join(
+        f"{s}: {b['n']} vendedora(s), {b['leads']} leads (mes previo {b['prev']}, "
+        f"{round((b['leads'] - b['prev']) / (b['prev'] or 1) * 100)}%), {b['cierres']} cierres, "
+        f"{_conv(b['cierres'], b['leads'])}% conv, cerrado Bs {b['value']}"
+        for s, b in roll.items())
+
+    ch_semi = "; ".join(f"{c['name']} {c['leads']} leads / {c['conv']}% conv / {c['cierres']} cierres" for c in ch)
+    ch_dot = " · ".join(f"{c['name']} {c['leads']}/{c['conv']}%/{c['cierres']}" for c in ch)
+
+    ctx = (
+        f"Heaven Colchones (Bolivia), mes {pd['month']} {pd['year']}. Moneda Bs.\n"
+        f"Global: {G['leads']} leads (mes previo {G['prevLeads']}, {mom}% MoM), {G['cierres']} cierres, "
+        f"conversión {_conv(G['cierres'], G['leads'])}% (= {G['cierres']}/{G['leads']}), ticket Bs {G['ticket']}.\n"
+        f"MES ANTERIOR ({pd.get('prevMonth', 'mes previo')}) CORTADO AL MISMO DÍA del mes (comparación pareja, NO es el total del mes): {G['prevLeads']} leads, "
+        f"{sum((t.get('prev') or {}).get('cierres', 0) for t in team)} cierres, "
+        f"{_conv(sum((t.get('prev') or {}).get('cierres', 0) for t in team), G['prevLeads'])}% conv, "
+        f"cerrado Bs {sum((t.get('prev') or {}).get('value', 0) for t in team)}.\n"
+        "COMPARA SIEMPRE contra el mes anterior: di explícitamente quién mejoró y quién retrocedió, "
+        "citando ambas cifras (antes → ahora), tanto a nivel global como por vendedora.\n"
+        f"DINERO (Bs): CERRADO {G['cerrado']} = producto YA entregado y facturado. "
+        f"PIPELINE {G['pipeline']} = cerrado + reservado; el reservado (pipeline − cerrado = {G['pipeline'] - G['cerrado']}) "
+        "son ventas con anticipo/pago parcial, prácticamente aseguradas. El pipeline NO son oportunidades inciertas ni dinero 'en riesgo'.\n"
+        "MODELO DE NEGOCIO (respétalo siempre): venden colchones; solo se carga un monto cuando el cliente RESERVA o deja un pago parcial. "
+        "Por eso la mayoría de los leads abiertos NO tienen monto, y eso es NORMAL y esperado — NO es un problema de datos ni de higiene. "
+        "NO lo señales como defecto ni recomiendes 'cargar valor al cotizar'.\n"
+        f"\"No responden\" {M['noResp']} ({M['noRespPct']}%). Sin seguimiento +72h: {M['backlog']} ({M['backlogPct']}%). Nunca tocados: {M['nuncaTocados']}.\n"
+        "IMPORTANTE: cada lead SÍ está identificado por sucursal — se atribuye a la sucursal de su vendedora. "
+        "Las 3 sucursales son Mia Plaza, Buenos Aires y Central.\n"
+        f"Canales: {ch_semi}.\n"
+        f"Roll-up por sucursal (con comparativo vs mes anterior):\n{branch_lines}\n"
+        f"Equipo (con leads del mes vs mes anterior):\n{team_lines}")
+
+    # Forma JSON de cada analista (compacta para que la respuesta NO se trunque)
+    shape_agent = ('{"resumen":"2-3 frases","hallazgos":[{"t":"hallazgo con números","sev":"alto|medio|bajo"}],'
+                   '"recomendaciones":[{"accion":"qué hacer","impacto":"resultado esperado"}]}')
+    rule_a = (" Responde SOLO ese JSON válido, sin texto extra. Máx 3 hallazgos y 2 recomendaciones. "
+              "Español de Bolivia, directo, con nombres propios y cifras. No repitas los totales globales: "
+              "aporta el ángulo que solo tu especialidad vería.")
+    negocio = ("Contexto de negocio: vende colchones; el PIPELINE en Bs = CERRADO (entregado y facturado) + RESERVADO "
+               "(anticipos/pagos parciales), ingreso casi asegurado. Solo se carga un monto cuando el cliente reserva o "
+               "paga, por eso la mayoría de los leads abiertos NO tiene monto y eso es NORMAL (no es problema de datos; "
+               "no lo señales como defecto).")
+
+    top = sorted(team, key=lambda t: t["cierres"], reverse=True)[0] if team else None
+    worst_l = sorted([t for t in team if t["cierres"] > 0], key=lambda t: t["conv"])
+    worst = worst_l[0] if worst_l else None
+    g_conv = _conv(G["cierres"], G["leads"])
+
+    # Un prompt CORTO por analista -> respuestas pequeñas, sin truncado; si una falla, se reintenta sola
+    P = {}
+    P["diagnostico"] = (
+        "Eres analista comercial senior de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "DATOS DEL MES:\n" + ctx + "\n"
+        f"Top en cierres: {top['name'] if top else '—'}. Más débil en conversión: {worst['name'] if worst else '—'}.\n"
+        "Entrega un diagnóstico de portada. Responde SOLO JSON válido, sin texto extra, forma EXACTA:\n"
+        '{"titular":"frase contundente máx 11 palabras","diagnostico":"2-3 frases con el insight central y números",'
+        '"palancas":["acción 1","acción 2","acción 3"],"riesgo":"el mayor riesgo en 1 frase"}')
+    P["crm"] = (
+        "Eres el ANALISTA DE CRM (Kommo) de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "Tu ÚNICO tema es la HIGIENE del embudo: velocidad de primera respuesta (% <24h por vendedora), backlog +72h, "
+        "leads nunca-tocados y \"no responden\" (rapidez de seguimiento). Di QUIÉN tiene el peor hábito de seguimiento y "
+        "qué fichas rescatar primero. NO opines de ventas, ticket ni dinero.\n"
+        f"Global de seguimiento: backlog +72h {M['backlog']} ({M['backlogPct']}%), nunca tocados {M['nuncaTocados']}, "
+        f"\"no responden\" {M['noResp']} ({M['noRespPct']}%).\nEquipo:\n" + team_lines + "\n"
+        "Forma EXACTA: " + shape_agent + rule_a)
+    P["ventas"] = (
+        "Eres el ANALISTA DE VENTAS de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "Tu ÚNICO tema es el RESULTADO comercial: conversión por vendedora (compradores/leads), ticket promedio, "
+        "pipeline en Bs y dónde está el dinero. Compara por EFICIENCIA (no por volumen) y di quién deja dinero sobre la "
+        "mesa. NO hables de disciplina de CRM ni de canales.\n"
+        f"Global: {G['cierres']} cierres, {g_conv}% conv, cerrado Bs {G['cerrado']}, pipeline Bs {G['pipeline']} "
+        f"(reservado Bs {G['pipeline'] - G['cerrado']}), ticket Bs {G['ticket']}.\nEquipo:\n" + team_lines + "\n"
+        "Forma EXACTA: " + shape_agent + rule_a)
+    P["comportamiento"] = (
+        "Eres el ANALISTA DE COMPORTAMIENTO y CANALES de Heaven Colchones (Bolivia). " + negocio + "\n"
+        f"Tu ÚNICO tema: por qué entran y por qué se enfrían los leads. El {M['noRespPct']}% termina en \"no responden\". "
+        "NO hables de metas individuales ni de la disciplina de cada vendedora. Explica el PATRÓN: qué canal y qué etapa "
+        f"pierde clientes, y cómo reactivar los {M['noResp']} que no responden.\n"
+        f"Canales (leads/conv%/cierres): {ch_dot}.\n"
+        "Forma EXACTA: " + shape_agent + rule_a)
+    P["sintesis"] = (
+        "Eres el DIRECTOR COMERCIAL de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "Combina operación de CRM, ventas y comportamiento en UN plan priorizado de 3 decisiones para la reunión de "
+        "gerencia, ordenadas por impacto en Bs, cada una con responsable y meta concreta.\n"
+        "DATOS DEL MES:\n" + ctx + "\n"
+        "Responde SOLO JSON válido, sin texto extra, forma EXACTA:\n"
+        '{"resumen":"3 frases con el veredicto del mes","hallazgos":[{"t":"prioridad con número","sev":"alto|medio|bajo"}],'
+        '"recomendaciones":[{"accion":"iniciativa con responsable","impacto":"meta concreta en Bs o cierres"}]}'
+        " Máx 3 hallazgos y 3 recomendaciones. Español de Bolivia, directo, con nombres y números.")
+
+    def _ok(name, r):
+        if not isinstance(r, dict):
+            return False
+        return bool(r.get("titular")) if name == "diagnostico" else bool(r.get("resumen"))
+
+    # Llamadas chicas y espaciadas (los 10 RPM del tier gratis dan de sobra)
+    order = ["diagnostico", "crm", "ventas", "comportamiento", "sintesis"]
+    res = {}
+    for name in order:
+        time.sleep(1.5)
+        r = _ai_call(key, P[name], tag=name)
+        if _ok(name, r):
+            res[name] = r
+            print(f"   ✓ IA '{name}' OK")
+        else:
+            print(f"   · IA '{name}' vacío (se reintentará)")
+
+    # Relleno de huecos: reintenta SOLO lo que faltó, tras una pausa (abre nueva ventana de RPM)
+    missing = [n for n in order if n not in res]
+    if missing:
+        print(f"   ↻ reintentando: {missing}")
+        time.sleep(8)
+        for name in missing:
+            time.sleep(2.5)
+            r = _ai_call(key, P[name], tag=name)
+            if _ok(name, r):
+                res[name] = r
+                print(f"   ✓ IA '{name}' OK (reintento)")
+            else:
+                print(f"   ⚠ IA '{name}' sin contenido tras reintento")
+
+    # Red de seguridad: lo que falló incluso tras el reintento conserva el
+    # análisis de la corrida anterior (mejor un análisis de hace horas que una tarjeta vacía)
+    fallidos = [n for n in order if n not in res]
+    if fallidos:
+        prev = _prev_bake()
+        for n in fallidos:
+            old = prev.get("ai_diagnostico") if n == "diagnostico" else (prev.get("ai_agentes") or {}).get(n)
+            if _ok(n, old):
+                res[n] = old
+                print(f"   ↺ '{n}' reutiliza el análisis de la corrida anterior")
+
+    # Hornea cada pieza por separado (un fallo pierde UNA tarjeta, no todas)
+    if _ok("diagnostico", res.get("diagnostico")):
+        pd["ai_diagnostico"] = res["diagnostico"]
+    agentes_out = {a: res[a] for a in ("crm", "ventas", "comportamiento", "sintesis") if _ok(a, res.get(a))}
+    if agentes_out:
+        pd["ai_agentes"] = agentes_out
+    if fallidos:
+        pd["ai_debug"] = {n: (("(rescatado con el análisis anterior) " if n in res else "")
+                              + AI_ERRORS.get(n, "sin detalle")) for n in fallidos}
+    print(f"   → IA horneada: diagnóstico={'sí' if 'ai_diagnostico' in pd else 'no'} · agentes={list(agentes_out)}")
+    return pd
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  RENDER + ESCRITURA
+# ─────────────────────────────────────────────────────────────────────────────
+def write_outputs(pd):
+    if not os.path.exists(TEMPLATE_FILE):
+        sys.exit(f"✗ Falta {TEMPLATE_FILE}. Sube panel_template.html al repo.")
+    tpl = open(TEMPLATE_FILE, encoding="utf-8").read()
+    data_block = "window.PANEL_DATA = " + json.dumps(pd, ensure_ascii=False) + ";"
+    html = tpl.replace("__PANEL_DATA__", data_block)
+    diag_comment = "<!-- DIAG_KOMMO\n" + "\n".join(_DIAG) + "\n-->\n"
+    html = diag_comment + html
+
+    # archiva el mes en curso ANTES de sobrescribir, si ya existía con datos previos
+    arch_name = f"panel_{YEAR}_{MONTH:02d}.html"
+    # Si se está regenerando un MES PASADO (--month/--year), solo se reescribe su
+    # archivo histórico: el index.html en vivo es del mes en curso y no debe pisarse.
+    if (YEAR, MONTH) != (now.year, now.month):
+        outs = (arch_name,)
+    else:
+        outs = ("index.html", "panel.html", arch_name)
+    for out in outs:
+        with open(os.path.join(HERE, out), "w", encoding="utf-8") as f:
+            f.write(html)
+    print(f"   ✓ {' + '.join(outs)}")
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  MAIN
+# ─────────────────────────────────────────────────────────────────────────────
+def kommo_selftest():
+    """Prueba directa de credenciales: /account dice si el token sirve."""
+    _DIAG.append(f"subdominio={SUBDOMAIN} · token_len={len(TOKEN)} · token_prefix={TOKEN[:6] if TOKEN else '(vacio)'}")
+    try:
+        acc = api_get("/account")
+        _DIAG.append(f"/account OK -> id={acc.get('id')} name={acc.get('name')}")
+    except Exception as e:
+        _DIAG.append(f"/account FALLO -> {type(e).__name__}: {e}")
+    try:
+        t = api_get("/leads", {"limit": 1})
+        n = len((t.get('_embedded',{}) or {}).get('leads',[]))
+        _DIAG.append(f"/leads?limit=1 OK -> devolvio {n} lead(s)")
+    except Exception as e:
+        _DIAG.append(f"/leads FALLO -> {type(e).__name__}: {e}")
+
+def main():
+    if not TOKEN:
+        sys.exit("✗ Falta KOMMO_TOKEN (variable de entorno / secret de GitHub).")
+    print(f"🏗  {BRAND} · {MESES[MONTH]} {YEAR}")
+    kommo_selftest()
+    for d in _DIAG: print("   ·", d)
+
+    print("  📡 pipelines…")
+    pls = fetch_paginated("/leads/pipelines", {}, "pipelines", max_pages=10)
+    stage_map = {}
+    for pl in pls:
+        if pl.get("id") != PIPELINE_ID:     # SOLO el embudo objetivo (Viscarra)
+            continue
+        for st in (pl.get("_embedded", {}) or {}).get("statuses", []):
+            stage_map[st["id"]] = {"name": st.get("name", "—"),
+                                   "cls": classify_stage(st.get("name", "")),
+                                   "main": True}
+
+    print("  👥 usuarios…")
+    users = fetch_paginated("/users", {}, "users", max_pages=10)
+    user_map = {u["id"]: u.get("name", "") for u in users}
+
+    print("  🔎 campo de origen…")
+    try:
+        cfs = fetch_paginated("/leads/custom_fields", {}, "custom_fields", max_pages=10)
+        # Forzamos el campo "Canal" (id conocido); evita que utm_source/utm_content lo pisen.
+        source_field_id = CANAL_FIELD_ID if any(c.get("id") == CANAL_FIELD_ID for c in cfs) else next(
+            (c["id"] for c in cfs
+             if "canal" in ((c.get("code") or "") + (c.get("name") or "")).lower()
+             and c.get("type") != "tracking_data"), None)
+        contract_field_id = next((c["id"] for c in cfs
+            if "contrato" in ((c.get("code") or "") + (c.get("name") or "")).lower()
+            and c.get("type") in ("date", "date_time")), None)
+        # buscar también campos de fecha por si el nombre no incluye "contrato"
+        _date_fields = [f"{c.get('name','?')}#{c.get('id')}[{c.get('type','?')}]"
+                        for c in cfs if c.get("type") in ("date", "date_time", "birthday")]
+        _DIAG.append("campos_fecha=" + (" | ".join(_date_fields) if _date_fields else "ninguno"))
+        _DIAG.append(f"contract_field_id={contract_field_id}")
+    except Exception as _e:
+        source_field_id = None; contract_field_id = None
+        _DIAG.append(f"campos_error={_e}")
+
+    print("  ⚡ eventos del mes…")
+    raw_ev = fetch_paginated("/events", {
+        "filter[entity][]": "lead",
+        "filter[created_at][from]": int(m_start.timestamp()),
+        "filter[created_at][to]":   int(m_end.timestamp()),
+        "limit": 100}, "events", max_pages=400, sleep=0.15)
+    events = {}
+    _ev_tally = {}      # censo: tipo de evento → [humanos, bot] (queda en el DIAG para auditar)
+    # Eventos que SÍ son seguimiento real de la vendedora hacia el lead.
+    # Se excluye 'lead_added' (creación del lead, da 0 min falso), 'entity_linked'
+    # (vinculaciones automáticas) y cambios de campos de sistema.
+    SEGUIMIENTO = {
+        "lead_status_changed",        # movió de etapa
+        "common_note_added",          # dejó una nota
+        "entity_tag_added",           # marcó etiqueta/favorito (la acción que instruyes al abrir)
+        "task_added", "task_completed", "task_result_added",
+        "incoming_chat_message", "outgoing_chat_message",
+        "entity_direct_message",      # mensaje directo desde la ficha
+    }
+    for e in raw_ev:
+        _t = e.get("type", "?")
+        _isbot = (e.get("created_by", 0) == 0)
+        _k = _ev_tally.setdefault(_t, [0, 0])
+        _k[1 if _isbot else 0] += 1
+        lid, ts = e.get("entity_id"), e.get("created_at", 0)
+        if not lid or _isbot:
+            continue
+        slot = events.setdefault(lid, {})
+        # 'last' (para backlog/sin-seguimiento) cuenta CUALQUIER toque humano…
+        slot["last"] = max(slot.get("last", ts), ts)
+        # …pero 'first' (velocidad de 1ª acción) SOLO cuenta seguimiento real.
+        if _t in SEGUIMIENTO:
+            slot["first"] = min(slot.get("first", ts), ts)
+    _top = sorted(_ev_tally.items(), key=lambda x: -(x[1][0] + x[1][1]))[:12]
+    _DIAG.append("ev_types=" + ", ".join(f"{t}:h{h}/b{b}" for t, (h, b) in _top))
+    _conf = sum(1 for v in events.values() if v.get("first"))
+    print(f"     → {len(events)} leads tocados; {_conf} con 1ª acción de seguimiento real")
+
+
+    print("  📋 leads del mes…")
+    cur = fetch_paginated("/leads", {
+        "with": "contacts,catalog_elements",
+        "filter[pipeline_id]": PIPELINE_ID,
+        "filter[created_at][from]": int(m_start.timestamp()),
+        "filter[created_at][to]":   int(m_end.timestamp())}, "leads")
+    print(f"     → {len(cur)} leads")
+
+    print(f"  📋 leads {MESES[pmo]}…")
+    prev = fetch_paginated("/leads", {
+        "with": "contacts,catalog_elements",
+        "filter[pipeline_id]": PIPELINE_ID,
+        "filter[created_at][from]": int(p_start.timestamp()),
+        "filter[created_at][to]":   int(p_end.timestamp())}, "leads")
+    print(f"     → {len(prev)} leads")
+
+    # ── VENTANA AMPLIA (~300 días): base para pipeline total y ventas por contrato ──
+    print("  📊 pipeline + ventas (ventana amplia)…")
+    wide_start = m_start - datetime.timedelta(days=300)
+    wide = fetch_paginated("/leads", {
+        "with": "contacts,catalog_elements",
+        "filter[pipeline_id]": PIPELINE_ID,
+        "filter[created_at][from]": int(wide_start.timestamp()),
+        "filter[created_at][to]":   int(m_end.timestamp())},
+        "leads", max_pages=40, sleep=0.12)
+    ms, me = int(m_start.timestamp()), int(m_end.timestamp())
+    ps, pe = int(p_start.timestamp()), int(p_end.timestamp())
+
+    # CERRADO por FECHA CONTRATO: compradores cuyo campo cae en el mes
+    won = []; won_prev = []
+    if contract_field_id:
+        for ld in wide:
+            if stage_map.get(ld.get("status_id"), {}).get("cls") != "compradores":
+                continue
+            cts = contract_ts(ld, contract_field_id)
+            if cts is None:
+                continue
+            ld["_contract_ts"] = cts
+            if ms <= cts < me:
+                won.append(ld)
+            elif ps <= cts < pe:
+                won_prev.append(ld)
+    else:
+        print("  ⚠ no encontré campo 'Fecha contrato'; uso estado actual", file=sys.stderr)
+        for ld in cur:
+            if stage_map.get(ld.get("status_id"), {}).get("cls") == "compradores":
+                ld["_contract_ts"] = ld.get("created_at", 0); won.append(ld)
+        for ld in prev:
+            if stage_map.get(ld.get("status_id"), {}).get("cls") == "compradores":
+                ld["_contract_ts"] = ld.get("created_at", 0); won_prev.append(ld)
+
+    # PIPELINE TOTAL del vendedor = leads DEL MES con monto por cerrar (abiertos)
+    # + lo cerrado del mes (comprador + fecha contrato). Ej: 30.000 por cerrar +
+    # 20.000 ya en comprador = pipeline 50.000, cerrado 20.000.
+    pipe_by_name = defaultdict(float)
+    def _nm_of(uid):
+        raw = user_map.get(uid)
+        if not raw:
+            return None
+        return raw.split(" - ", 1)[0].strip() if " - " in raw else raw.strip()
+    # componente ABIERTO: leads creados ESTE MES, abiertos, con monto
+    for ld in cur:
+        cls = stage_map.get(ld.get("status_id"), {}).get("cls")
+        pr = ld.get("price") or 0
+        if pr > 0 and cls not in ("perdido", "compradores"):
+            nm = _nm_of(ld.get("responsible_user_id"))
+            if nm:
+                pipe_by_name[nm] += pr
+    for ld in won:
+        pr = ld.get("price") or 0
+        nm = _nm_of(ld.get("responsible_user_id"))
+        if nm and pr > 0:
+            pipe_by_name[nm] += pr
+    print(f"     → {len(won)} ventas mes · pipeline total Bs {int(sum(pipe_by_name.values()))}")
+
+    # teléfonos de los contactos del mes (para detectar duplicados reales)
+    print("  ☎️  contactos del mes…")
+    contact_phone = {}
+    try:
+        raw_contacts = fetch_paginated("/contacts", {
+            "filter[created_at][from]": int(m_start.timestamp()),
+            "filter[created_at][to]":   int(m_end.timestamp())}, "contacts")
+        for c in raw_contacts:
+            cid = c.get("id"); phone = None
+            for fld in (c.get("custom_fields_values") or []):
+                if fld.get("field_code") == "PHONE":
+                    vals = fld.get("values") or []
+                    if vals: phone = str(vals[0].get("value") or "").strip()
+                    break
+            if cid and phone:
+                contact_phone[cid] = phone
+        print(f"     → {len(contact_phone)} con teléfono")
+    except Exception as e:
+        print(f"     ⚠ no se pudieron leer contactos ({e}); duplicados quedará vacío")
+
+    print("  🧮 construyendo PANEL_DATA…")
+    pd = build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, contact_phone=contact_phone, won=won, won_prev=won_prev, pipe_by_name=pipe_by_name)
+    print("  🛒 productos vendidos…")
+    try:
+        pd["productos"] = build_products(won, user_map)
+        print(f"     → {pd['productos']['total']} unidades · {len(pd['productos']['items'])} productos")
+    except Exception as ex:
+        pd["productos"] = {"total": 0, "conProducto": 0, "sinProducto": 0, "items": []}
+        print(f"   ⚠ no se pudo armar productos: {ex}", file=sys.stderr)
+    print("  📈 armando historia mensual…")
+    pd = build_history(pd)
+    print("  📲 armando resumen WhatsApp…")
+    pd = build_wsp(pd)
+    if ARGS.bake_ai:
+        print("  🤖 horneando IA…")
+        pd = bake_ai(pd)
+
+    print("  💾 escribiendo…")
+    write_outputs(pd)
+    print(f"✅ Listo · {pd['global']['leads']} leads · {pd['global']['cierres']} cierres · "
+          f"conv {round(pd['global']['cierres']/pd['global']['leads']*100,1) if pd['global']['leads'] else 0}%")
+
+if __name__ == "__main__":
+    main()
+
+# rebuild: releer nombre final de etapa Atendido (2026-07-02d)

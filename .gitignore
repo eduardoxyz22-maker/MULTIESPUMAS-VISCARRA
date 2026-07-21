@@ -1,0 +1,13 @@
+# Secretos / tokens — NUNCA subir a GitHub
+.kommo_token
+*.token
+.env
+
+# Salidas de introspección (pueden traer nombres del equipo)
+viscarra_introspect.json
+
+# Basura del sistema
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
