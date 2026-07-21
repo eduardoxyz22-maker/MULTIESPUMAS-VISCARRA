@@ -43,6 +43,7 @@ jobs:
           KOMMO_SUBDOMAIN: gerenciamultiespumasviscarra
           KOMMO_PIPELINE_ID: '10989127'
           PANEL_CURRENCY: Bs
+          PANEL_WORKER_URL: ${{ secrets.PANEL_WORKER_URL }}
           PYTHONUTF8: '1'
         run: |
           EXTRA=""
