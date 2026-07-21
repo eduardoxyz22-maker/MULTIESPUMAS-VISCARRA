@@ -41,7 +41,7 @@ if not TOKEN:
 PIPELINE_ID    = int(os.environ.get("KOMMO_PIPELINE_ID") or "10989127")   # "Embudo de ventas"
 CANAL_FIELD_ID = int(os.environ.get("KOMMO_CANAL_FIELD_ID") or "805818")  # campo select "Canal"
 SUC_FIELD_ID   = int(os.environ.get("KOMMO_SUC_FIELD_ID")  or "641860")   # campo select "Sucursal"
-BRAND          = (os.environ.get("PANEL_BRAND") or "MultiEspumas Viscarra").strip()
+BRAND          = (os.environ.get("PANEL_BRAND") or "MULTIESPUMAS - SUEÑA").strip()
 CURRENCY       = (os.environ.get("PANEL_CURRENCY") or "Bs").strip()       # la cuenta está en Bs (Boliviano)
 _DIAG     = []   # mensajes de diagnóstico que se incrustan en index.html
 
