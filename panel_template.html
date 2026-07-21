@@ -824,11 +824,11 @@ html[data-theme="dark"] .spot-kicker{font-family:var(--mono)}
 body{
   background-color:var(--bg);
   background-image:
-    radial-gradient(70% 50% at 26% 4%, #25c2b6, transparent 66%),
-    radial-gradient(76% 54% at 92% 32%, #1f8088, transparent 66%),
-    radial-gradient(80% 56% at 12% 92%, #176a72, transparent 68%),
-    radial-gradient(58% 44% at 95% 96%, #2ccdbe, transparent 66%),
-    linear-gradient(165deg,#0f2a30,#0d2228);
+    radial-gradient(70% 50% at 26% 4%, #c99a12, transparent 66%),
+    radial-gradient(76% 54% at 92% 32%, #8a6810, transparent 66%),
+    radial-gradient(80% 56% at 12% 92%, #6e540d, transparent 68%),
+    radial-gradient(58% 44% at 95% 96%, #d0a81e, transparent 66%),
+    linear-gradient(165deg,#2a2410,#221c0d);
   background-repeat:no-repeat;
   background-size:262px 100%;
   background-position:left top;
@@ -844,8 +844,8 @@ body{
   margin:16px;
   border-radius:28px;
   background:
-    radial-gradient(80% 30% at 50% 0%, rgba(38,200,185,.18), transparent 60%),
-    radial-gradient(80% 32% at 50% 100%, rgba(20,130,135,.20), transparent 60%),
+    radial-gradient(80% 30% at 50% 0%, rgba(232,176,10,.18), transparent 60%),
+    radial-gradient(80% 32% at 50% 100%, rgba(140,105,10,.20), transparent 60%),
     linear-gradient(158deg, rgba(14,30,34,.42), rgba(8,20,24,.68));
   -webkit-backdrop-filter:blur(26px) saturate(150%);
   backdrop-filter:blur(26px) saturate(150%);
@@ -864,7 +864,7 @@ body{
   background:
     linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 18%),
     radial-gradient(72% 24% at 30% -3%, rgba(255,255,255,.22), transparent 60%),
-    radial-gradient(60% 40% at 108% 8%, rgba(150,235,225,.16), transparent 55%);
+    radial-gradient(60% 40% at 108% 8%, rgba(240,222,150,.16), transparent 55%);
   mix-blend-mode:screen;
 }
 /* frosted micro-grain */
@@ -909,10 +909,10 @@ body{
 /* dark theme keeps the same form, deeper mesh */
 html[data-theme="dark"] body{
   background-image:
-    radial-gradient(70% 50% at 26% 4%, #138b83, transparent 66%),
-    radial-gradient(76% 54% at 92% 32%, #145e66, transparent 66%),
-    radial-gradient(80% 56% at 12% 92%, #0f4f56, transparent 68%),
-    linear-gradient(165deg,#0a1e22,#081619);
+    radial-gradient(70% 50% at 26% 4%, #8a6810, transparent 66%),
+    radial-gradient(76% 54% at 92% 32%, #5e4a10, transparent 66%),
+    radial-gradient(80% 56% at 12% 92%, #4f3f0d, transparent 68%),
+    linear-gradient(165deg,#1e180a,#161005);
 }
 html[data-theme="dark"] .rail{
   background:linear-gradient(158deg, rgba(12,20,30,.55), rgba(5,9,15,.78));
@@ -925,24 +925,24 @@ html[data-theme="dark"] .rail{
 html:not([data-theme="dark"]) body{
   background-color:var(--bg);
   background-image:
-    radial-gradient(70% 50% at 26% 4%, #a6ece4, transparent 66%),
-    radial-gradient(76% 54% at 92% 32%, #cdeeea, transparent 66%),
-    radial-gradient(80% 56% at 12% 92%, #b6e6ea, transparent 68%),
-    radial-gradient(58% 44% at 95% 96%, #8fe3d7, transparent 66%),
-    linear-gradient(165deg,#e4f5f2,#d4ece9);
+    radial-gradient(70% 50% at 26% 4%, #f4e6b0, transparent 66%),
+    radial-gradient(76% 54% at 92% 32%, #f7eecb, transparent 66%),
+    radial-gradient(80% 56% at 12% 92%, #efe4b2, transparent 68%),
+    radial-gradient(58% 44% at 95% 96%, #ecd894, transparent 66%),
+    linear-gradient(165deg,#f8f1db,#f1e7c6);
 }
 html:not([data-theme="dark"]) .rail{
   background:
     radial-gradient(80% 30% at 50% 0%, rgba(255,255,255,.74), transparent 60%),
-    radial-gradient(80% 32% at 50% 100%, rgba(38,200,185,.10), transparent 60%),
+    radial-gradient(80% 32% at 50% 100%, rgba(232,176,10,.10), transparent 60%),
     linear-gradient(158deg, rgba(255,255,255,.84), rgba(255,255,255,.62));
   border:1px solid rgba(255,255,255,.78);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.95),
     inset 0 0 0 1px rgba(255,255,255,.45),
-    inset 0 -22px 44px rgba(150,200,198,.15),
-    0 26px 58px rgba(40,95,92,.20);
-  color:#2c4a47;
+    inset 0 -22px 44px rgba(215,195,135,.15),
+    0 26px 58px rgba(120,95,25,.20);
+  color:#4a3d1e;
 }
 html:not([data-theme="dark"]) .rail::before{
   background:
@@ -952,15 +952,15 @@ html:not([data-theme="dark"]) .rail::before{
 }
 html:not([data-theme="dark"]) .rail::after{opacity:.26}
 /* nav text → dark teal-slate */
-html:not([data-theme="dark"]) .nl{color:#5e8682}
-html:not([data-theme="dark"]) .ni{color:#27514c}
-html:not([data-theme="dark"]) .ni:hover{background:rgba(2,60,55,.07);color:#0d3a36}
+html:not([data-theme="dark"]) .nl{color:#8a7a4a}
+html:not([data-theme="dark"]) .ni{color:#4a3d1e}
+html:not([data-theme="dark"]) .ni:hover{background:rgba(70,55,12,.07);color:#3a2e0e}
 html:not([data-theme="dark"]) .ni.active{
   background:linear-gradient(180deg, color-mix(in srgb,var(--brand) 86%,#fff 14%), var(--brand));
   color:#fff;
   box-shadow:0 8px 22px rgba(232,176,10,.34), inset 0 1px 0 rgba(255,255,255,.55);
 }
-html:not([data-theme="dark"]) .ni.active .bdg{background:rgba(255,255,255,.30);color:#063a36}
+html:not([data-theme="dark"]) .ni.active .bdg{background:rgba(255,255,255,.30);color:#3a2e0e}
 html:not([data-theme="dark"]) .ni.active::before{background:var(--brand);box-shadow:0 0 10px rgba(232,176,10,.65)}
 /* brand: light frosted header, real teal logo */
 html:not([data-theme="dark"]) .brand{
@@ -968,12 +968,12 @@ html:not([data-theme="dark"]) .brand{
   box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
 }
 html:not([data-theme="dark"]) .brand img.logo-img{filter:none;opacity:.97}
-html:not([data-theme="dark"]) .brand .h{color:#0f302d;text-shadow:none}
-html:not([data-theme="dark"]) .brand .s{color:#5e8682}
+html:not([data-theme="dark"]) .brand .h{color:#33280c;text-shadow:none}
+html:not([data-theme="dark"]) .brand .s{color:#8a7a4a}
 /* foot */
 html:not([data-theme="dark"]) .foot{
   background:linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,.16));
-  color:#5e8682;
+  color:#8a7a4a;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
 }
 
@@ -987,10 +987,10 @@ html:not([data-theme="dark"]) .foot{
 /* soft ambient aurora behind the content (fixed, calm) */
 html:not([data-theme="dark"]) .main{
   background:
-    radial-gradient(1000px 720px at 80% -14%, rgba(38,200,185,.22), transparent 60%),
+    radial-gradient(1000px 720px at 80% -14%, rgba(232,176,10,.22), transparent 60%),
     radial-gradient(900px 820px at 116% 48%, rgba(86,138,228,.16), transparent 60%),
     radial-gradient(840px 740px at 46% 118%, rgba(122,90,240,.10), transparent 62%),
-    radial-gradient(700px 600px at 8% 60%, rgba(38,200,185,.10), transparent 60%),
+    radial-gradient(700px 600px at 8% 60%, rgba(232,176,10,.10), transparent 60%),
     var(--bg);
   background-attachment:fixed;
 }
@@ -1011,7 +1011,7 @@ html:not([data-theme="dark"]){
   --glass-panel:linear-gradient(180deg, rgba(255,255,255,.80), rgba(255,255,255,.64));
   --glass-brd:rgba(255,255,255,.78);
   --glass-hi:inset 0 1px 0 rgba(255,255,255,.92);
-  --glass-sh:0 12px 32px rgba(40,90,88,.13);
+  --glass-sh:0 12px 32px rgba(120,100,40,.13);
 }
 html[data-theme="dark"]{
   --glass:linear-gradient(180deg, rgba(32,42,55,.50), rgba(16,22,30,.40));
@@ -1078,7 +1078,7 @@ html[data-theme="dark"] .diag2,html[data-theme="dark"] .rhero{background:var(--g
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
   background:
     linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0) 14%),
-    radial-gradient(58% 26% at 88% -2%, rgba(120,225,220,.16), transparent 60%);
+    radial-gradient(58% 26% at 88% -2%, rgba(235,215,140,.16), transparent 60%);
   mix-blend-mode:screen;
 }
 .drawer-head,.drawer-body{position:relative;z-index:1}
@@ -1137,7 +1137,7 @@ html[data-theme="dark"] .drawer-head{
 /* TV stage gets an ambient aurora so its glass cards have something to refract */
 html:not([data-theme="dark"]) .spot{
   background:
-    radial-gradient(1150px 780px at 84% -10%, rgba(38,200,185,.20), transparent 60%),
+    radial-gradient(1150px 780px at 84% -10%, rgba(232,176,10,.20), transparent 60%),
     radial-gradient(980px 860px at 4% 28%, rgba(86,138,228,.13), transparent 60%),
     radial-gradient(920px 820px at 52% 120%, rgba(122,90,240,.10), transparent 62%),
     var(--bg);
@@ -2179,7 +2179,7 @@ function Heatmap({
   }, /*#__PURE__*/React.createElement(Avatar, {
     v: r,
     size: 24
-  }), r.name.split(" ")[0]), r.vals.map((v, j) => /*#__PURE__*/React.createElement("div", {
+  }), window.shortOf(r.name)), r.vals.map((v, j) => /*#__PURE__*/React.createElement("div", {
     className: "cell",
     key: j,
     style: {
@@ -2673,7 +2673,7 @@ function SucursalDrawer({
     style: {
       marginTop: 3
     }
-  }, vends.map(v => v.name.split(" ")[0]).join(" · ")))), /*#__PURE__*/React.createElement("button", {
+  }, vends.map(v => window.shortOf(v.name)).join(" · ")))), /*#__PURE__*/React.createElement("button", {
     className: "drawer-close",
     onClick: onClose,
     "aria-label": "Cerrar"
@@ -2949,7 +2949,7 @@ function KpiDrawer({
       overflow: "hidden",
       textOverflow: "ellipsis"
     }
-  }, r.label || r.name.split(" ")[0]), r.suc && /*#__PURE__*/React.createElement("div", {
+  }, r.label || window.shortOf(r.name)), r.suc && /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: ".64rem",
       color: "var(--faint)",
@@ -3176,6 +3176,12 @@ window.MetaStepper = MetaStepper;
 window.metaMinOf = function (name) {
   const t = (window.PANEL_DATA.team || []).find(x => x.name === name);
   return t && t.metaMin ? t.metaMin : 0;
+};
+// Nombre corto para chips/heatmaps. Respeta nombres compuestos (ej. "Juan Pablo").
+window.shortOf = function (name) {
+  const t = (window.PANEL_DATA.team || []).find(x => x.name === name);
+  if (t && t.short) return t.short;
+  return (name || "").split(" ")[0];
 };
 window.cerradoOf = v => v.value != null ? v.value : v.cierres * v.ticket;
 // Proyección a fin de mes: extrapola el RITMO de ventas de los días corridos
@@ -3478,7 +3484,7 @@ function QuadrantMatrix({
     crown: v.name === window.TOP_CLOSER
   }), /*#__PURE__*/React.createElement("span", {
     className: "qnm"
-  }, v.name.split(" ")[0]))));
+  }, window.shortOf(v.name)))));
 }
 window.QuadrantMatrix = QuadrantMatrix;
 
@@ -3654,7 +3660,7 @@ function diagFallback() {
   return {
     titular: "No falta gente que entre. Falta seguir y cerrar la que ya entró.",
     diagnostico: `Con ${nf(G.leads)} leads, la conversión global es ${conv}% y hay ${nf(m.noResp)} leads en “No responden” (${m.noRespPct}%). El cuello de botella no es captación — es disciplina de seguimiento y conversión en el embudo medio.`,
-    palancas: ["Llamar primero al top de cotizaciones por valor", topV ? `Replicar el método de ${topV.name.split(" ")[0]} en el equipo` : "Replicar el método del top del equipo", `Reactivar los ${nf(m.backlog)} leads sin seguimiento +72h`],
+    palancas: ["Llamar primero al top de cotizaciones por valor", topV ? `Replicar el método de ${window.shortOf(topV.name)} en el equipo` : "Replicar el método del top del equipo", `Reactivar los ${nf(m.backlog)} leads sin seguimiento +72h`],
     riesgo: `${nf(m.noResp)} leads en “No responden” se enfrían cada día sin una segunda cadencia de contacto.`
   };
 }
@@ -3681,7 +3687,7 @@ function DiagnosticoMes() {
     const top = [...D.team].sort((a, b) => b.cierres - a.cierres)[0];
     const worst = [...D.team].filter(v => v.cierres > 0).sort((a, b) => a.conv - b.conv)[0];
     const teamLines = D.team.map(v => `${v.name} (${v.suc}): ${v.leads} leads, ${v.cierres} cierres, ${v.conv}% conv, ${v.noResp} no-responden, ${v.backlog} backlog, ${v.u24}% actualiza <24h`).join("\n");
-    return `Eres analista comercial senior de Heaven Colchones (Bolivia). Analiza el mes ${D.month} ${D.year} y responde SOLO con JSON válido, sin texto extra, forma exacta:
+    return `Eres analista comercial senior de MULTIESPUMAS - SUEÑA (Bolivia). Analiza el mes ${D.month} ${D.year} y responde SOLO con JSON válido, sin texto extra, forma exacta:
 {"titular":"frase contundente de máx 11 palabras","diagnostico":"2-3 frases con el insight central y números","palancas":["acción 1","acción 2","acción 3"],"riesgo":"el mayor riesgo en 1 frase"}
 Datos (moneda Bs): Leads ${G.leads} (mes anterior ${G.prevLeads}, ${Math.round((G.leads - G.prevLeads) / G.prevLeads * 100)}%). Cierres ${G.cierres}, conversión ${(G.cierres / G.leads * 100).toFixed(1)}%. Pipeline Bs ${G.pipeline}, ticket Bs ${G.ticket}. "No responden" ${D.metrics.noResp} (${D.metrics.noRespPct}%). Sin seguimiento +72h: ${D.metrics.backlog} (${D.metrics.backlogPct}%).
 Equipo:
@@ -4617,7 +4623,7 @@ function ViewResumen() {
     sw: 2.2
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "t"
-  }, topV.name.split(" ")[0], " concentra el ", Math.round(topV.cierres / G.cierres * 100), "% de los cierres"), /*#__PURE__*/React.createElement("div", {
+  }, window.shortOf(topV.name), " concentra el ", Math.round(topV.cierres / G.cierres * 100), "% de los cierres"), /*#__PURE__*/React.createElement("div", {
     className: "d"
   }, "Con ", /*#__PURE__*/React.createElement("b", null, topV.cierres, " de ", G.cierres, " cierres"), ", replicar su m\xE9todo de seguimiento al equipo es la palanca #1. El canal manual rinde ", /*#__PURE__*/React.createElement("b", null, chRatio, "\xD7 m\xE1s"), " que el autom\xE1tico."))), /*#__PURE__*/React.createElement("div", {
     className: "insight amber"
@@ -4746,7 +4752,7 @@ function ViewResumen() {
       style: {
         fontSize: ".8rem"
       }
-    }, v.name.split(" ")[0])), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    }, window.shortOf(v.name))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
         display: "grid",
         gridTemplateColumns: "52px 1fr 78px",
@@ -5519,7 +5525,7 @@ window.Panel = Panel;
     });
     const branchLines = Object.entries(branchRoll).map(([s, b]) => `${s}: ${b.n} vendedora(s), ${b.leads} leads (mes previo ${b.prev}, ${Math.round((b.leads - b.prev) / (b.prev || 1) * 100)}%), ${b.cierres} cierres, ${(b.cierres / b.leads * 100).toFixed(1)}% conv, pipeline Bs ${b.value}`).join("\n");
     const M = D.metrics;
-    const ctx = `Heaven Colchones (Bolivia), mes ${D.month} ${D.year}. Moneda Bs.
+    const ctx = `MULTIESPUMAS - SUEÑA (Bolivia), mes ${D.month} ${D.year}. Moneda Bs.
 Global: ${G.leads} leads (mes previo ${G.prevLeads}, ${Math.round((G.leads - G.prevLeads) / G.prevLeads * 100)}% MoM), ${G.cierres} cierres, conversión ${(G.cierres / G.leads * 100).toFixed(1)}% (= ${G.cierres}/${G.leads}), pipeline Bs ${G.pipeline}, ticket Bs ${G.ticket}.
 "No responden" ${M.noResp} (${M.noRespPct}%). Sin seguimiento +72h: ${M.backlog} (${M.backlogPct}%). Nunca tocados: ${M.nuncaTocados}. Abiertos sin valor: ${M.abiertosSinValor} (${M.abiertosSinValorPct}%).
 IMPORTANTE: cada lead SÍ está identificado por sucursal — se atribuye a la sucursal de su vendedora. Las 3 sucursales son Mia Plaza, Buenos Aires y Central.
@@ -5902,7 +5908,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         style: {
           fontSize: ".82rem"
         }
-      }, v.name.split(" ")[0])), /*#__PURE__*/React.createElement("div", {
+      }, window.shortOf(v.name))), /*#__PURE__*/React.createElement("div", {
         className: "meter",
         style: {
           height: 13
@@ -5956,7 +5962,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     }, "Todas las vendedoras"), [...new Set(T.map(v => v.name))].map(n => /*#__PURE__*/React.createElement("option", {
       key: n,
       value: n
-    }, n.split(" ")[0]))), /*#__PURE__*/React.createElement("select", {
+    }, window.shortOf(n)))), /*#__PURE__*/React.createElement("select", {
       value: stage,
       onChange: e => setStage(e.target.value)
     }, /*#__PURE__*/React.createElement("option", {
@@ -6664,7 +6670,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         borderRadius: 3,
         background: v.color
       }
-    }), v.name.split(" ")[0])))), /*#__PURE__*/React.createElement("div", {
+    }), window.shortOf(v.name))))), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         gap: 16,
@@ -6709,7 +6715,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
           prev = valOf(d, wi, true);
         return /*#__PURE__*/React.createElement("div", {
           key: di,
-          title: `${d.v.name.split(" ")[0]} · ${D.month}: ${fmtCell(cur)} / ${D.prevMonth}: ${fmtCell(prev)}`,
+          title: `${window.shortOf(d.v.name)} · ${D.month}: ${fmtCell(cur)} / ${D.prevMonth}: ${fmtCell(prev)}`,
           style: {
             display: "flex",
             alignItems: "flex-end",
@@ -7952,7 +7958,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       crown: v.name === STAGE_TOP
     }), /*#__PURE__*/React.createElement("div", {
       className: "vhead-nm"
-    }, v.name.split(" ")[0], v.nuevo && /*#__PURE__*/React.createElement("span", {
+    }, window.shortOf(v.name), v.nuevo && /*#__PURE__*/React.createElement("span", {
       className: "tag-new"
     }, "NUEVO"), /*#__PURE__*/React.createElement("span", null, v.suc))))), /*#__PURE__*/React.createElement("th", {
       className: "vhead totcol"
@@ -8532,7 +8538,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         crown: idx === 0
       }), /*#__PURE__*/React.createElement("div", {
         className: "spot-pod-name"
-      }, v.name.split(" ")[0]), /*#__PURE__*/React.createElement("div", {
+      }, window.shortOf(v.name)), /*#__PURE__*/React.createElement("div", {
         className: "spot-pod-suc"
       }, v.suc), /*#__PURE__*/React.createElement("div", {
         className: "spot-pod-metric num"
@@ -8695,7 +8701,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         crown: v.name === STAGE_TOP
       }), /*#__PURE__*/React.createElement("div", {
         className: "vhead-nm"
-      }, v.name.split(" ")[0], v.nuevo && /*#__PURE__*/React.createElement("span", {
+      }, window.shortOf(v.name), v.nuevo && /*#__PURE__*/React.createElement("span", {
         className: "tag-new"
       }, "NUEVO"), /*#__PURE__*/React.createElement("span", null, v.suc))))), /*#__PURE__*/React.createElement("th", {
         className: "vhead totcol"
@@ -8787,7 +8793,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
           fontSize: "1.1rem",
           fontWeight: 700
         }
-      }, v.name.split(" ")[0])), /*#__PURE__*/React.createElement("div", {
+      }, window.shortOf(v.name))), /*#__PURE__*/React.createElement("div", {
         className: "origen-bar",
         style: {
           height: 24
@@ -9298,7 +9304,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         crown: idx === 0
       }), /*#__PURE__*/React.createElement("div", {
         className: "pod-name"
-      }, v.name.split(" ")[0]), /*#__PURE__*/React.createElement("div", {
+      }, window.shortOf(v.name)), /*#__PURE__*/React.createElement("div", {
         className: "pod-suc"
       }, v.suc), /*#__PURE__*/React.createElement("div", {
         className: "pod-metric num"
@@ -9354,7 +9360,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         style: {
           fontSize: ".82rem"
         }
-      }, v.name.split(" ")[0])), /*#__PURE__*/React.createElement("div", {
+      }, window.shortOf(v.name))), /*#__PURE__*/React.createElement("div", {
         className: "origen-bar"
       }, /*#__PURE__*/React.createElement("i", {
         className: "man",
@@ -9422,7 +9428,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       crown: v.name === STAGE_TOP
     }), /*#__PURE__*/React.createElement("div", {
       className: "vhead-nm"
-    }, v.name.split(" ")[0], /*#__PURE__*/React.createElement("span", null, v.suc))))))), /*#__PURE__*/React.createElement("tbody", null, metricRows.map((row, ri) => /*#__PURE__*/React.createElement("tr", {
+    }, window.shortOf(v.name), /*#__PURE__*/React.createElement("span", null, v.suc))))))), /*#__PURE__*/React.createElement("tbody", null, metricRows.map((row, ri) => /*#__PURE__*/React.createElement("tr", {
       key: ri
     }, /*#__PURE__*/React.createElement("td", {
       className: "rowhead"

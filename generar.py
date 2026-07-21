@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-generar.py  ·  Heaven Colchones — Panel Comercial
+generar.py  ·  MULTIESPUMAS - SUEÑA — Panel Comercial
 ==================================================
 Jala datos EN VIVO desde Kommo CRM, los mapea al contrato del panel rediseñado
 (window.PANEL_DATA), inyecta el JSON en panel_template.html y publica:
@@ -66,9 +66,9 @@ USER_RENAME = {"Alberto Pareja": "Juan Pablo"}
 # Vendedores del embudo SUEÑA. La SUCURSAL viene del campo "Sucursal" por-lead.
 # Metas de MONTO (Bs/mes): metaMin = mínima, metaMonto = objetivo.
 VENDOR_CFG = {
-    "Juan Pablo":               dict(ini="JP", color="#7A5AF0", suc="", metaCierres=40, metaMonto=115000, metaMin=70000),
-    "Mauricio Merida":          dict(ini="MM", color="#2E6FE0", suc="", metaCierres=40, metaMonto=130000, metaMin=85000),
-    "Fernando Peinado Charcas": dict(ini="FP", color="#00B5AD", suc="", metaCierres=40, metaMonto=145000, metaMin=100000),
+    "Juan Pablo":               dict(ini="JP", color="#7A5AF0", suc="", metaCierres=40, metaMonto=115000, metaMin=70000,  short="Juan Pablo"),
+    "Mauricio Merida":          dict(ini="MM", color="#2E6FE0", suc="", metaCierres=40, metaMonto=130000, metaMin=85000,  short="Mauricio"),
+    "Fernando Peinado Charcas": dict(ini="FP", color="#E85D8A", suc="", metaCierres=40, metaMonto=145000, metaMin=100000, short="Fernando"),
 }
 DEFAULT_COLORS = ["#00B5AD", "#2E6FE0", "#7A5AF0", "#D98300", "#159A57", "#DC4046", "#22A7C9"]
 
@@ -631,6 +631,7 @@ def build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, co
             "metaCierres": cfg.get("metaCierres", max(8, d["cierres"] + 5)),
             "metaMonto": cfg.get("metaMonto", max(20000, d["value"])),
             "metaMin": cfg.get("metaMin", 0),
+            "short": cfg.get("short") or name.split(" ")[0],
             "v": v_tone,
             "prev": {"leads": prev_leads_sd, "cierres": pv["cierres_sd"],
                      "visitas": pv["agendado_sd"], "ticket": pv_ticket, "value": pv["value_sd"],
@@ -1151,10 +1152,10 @@ def build_wsp(pd):
         rank = sorted(team, key=lambda t: (t["cierres"], t["value"]), reverse=True)
         medals = ["🥇", "🥈", "🥉"] + ["•"] * 10
         rank_lines = "\n".join(
-            f"{medals[i]} {t['name'].split()[0]} ({t['suc']}): {t['cierres']} cierres · Bs {bs(t['value'])}"
+            f"{medals[i]} {t.get('short') or t['name'].split()[0]} ({t['suc']}): {t['cierres']} cierres · Bs {bs(t['value'])}"
             for i, t in enumerate(rank))
         peores_bk = sorted(team, key=lambda t: t["backlog"], reverse=True)[:2]
-        bk_txt = " y ".join(f"{t['name'].split()[0]} ({t['backlog']})" for t in peores_bk if t["backlog"] > 0)
+        bk_txt = " y ".join(f"{t.get('short') or t['name'].split()[0]} ({t['backlog']})" for t in peores_bk if t["backlog"] > 0)
         crit = M.get("criticos7d", 0)
         meta_tot = sum(t.get("metaCierres", 0) for t in team)
         gap = max(0, meta_tot - G["cierres"])
@@ -1170,7 +1171,7 @@ def build_wsp(pd):
         if M.get("noResp"):
             focos.append(f"• {M['noResp']} en \"no responden\" — reactivar con oferta/recordatorio")
         pd["wsp"] = (
-            f"*📊 Heaven Colchones — resumen {hoy}*\n\n"
+            f"*📊 MULTIESPUMAS - SUEÑA — resumen {hoy}*\n\n"
             f"*Mes de {pd['month']}:* {G['leads']} leads · {G['cierres']} cierres ({conv}%) · "
             f"Bs {bs(G['cerrado'])} cerrado · pipeline Bs {bs(G['pipeline'])}\n"
             + prev_line +
@@ -1221,7 +1222,7 @@ def bake_ai(pd):
     ch_dot = " · ".join(f"{c['name']} {c['leads']}/{c['conv']}%/{c['cierres']}" for c in ch)
 
     ctx = (
-        f"Heaven Colchones (Bolivia), mes {pd['month']} {pd['year']}. Moneda Bs.\n"
+        f"MULTIESPUMAS - SUEÑA (Bolivia), mes {pd['month']} {pd['year']}. Moneda Bs.\n"
         f"Global: {G['leads']} leads (mes previo {G['prevLeads']}, {mom}% MoM), {G['cierres']} cierres, "
         f"conversión {_conv(G['cierres'], G['leads'])}% (= {G['cierres']}/{G['leads']}), ticket Bs {G['ticket']}.\n"
         f"MES ANTERIOR ({pd.get('prevMonth', 'mes previo')}) CORTADO AL MISMO DÍA del mes (comparación pareja, NO es el total del mes): {G['prevLeads']} leads, "
@@ -1262,14 +1263,14 @@ def bake_ai(pd):
     # Un prompt CORTO por analista -> respuestas pequeñas, sin truncado; si una falla, se reintenta sola
     P = {}
     P["diagnostico"] = (
-        "Eres analista comercial senior de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "Eres analista comercial senior de MULTIESPUMAS - SUEÑA (Bolivia). " + negocio + "\n"
         "DATOS DEL MES:\n" + ctx + "\n"
         f"Top en cierres: {top['name'] if top else '—'}. Más débil en conversión: {worst['name'] if worst else '—'}.\n"
         "Entrega un diagnóstico de portada. Responde SOLO JSON válido, sin texto extra, forma EXACTA:\n"
         '{"titular":"frase contundente máx 11 palabras","diagnostico":"2-3 frases con el insight central y números",'
         '"palancas":["acción 1","acción 2","acción 3"],"riesgo":"el mayor riesgo en 1 frase"}')
     P["crm"] = (
-        "Eres el ANALISTA DE CRM (Kommo) de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "Eres el ANALISTA DE CRM (Kommo) de MULTIESPUMAS - SUEÑA (Bolivia). " + negocio + "\n"
         "Tu ÚNICO tema es la HIGIENE del embudo: velocidad de primera respuesta (% <24h por vendedora), backlog +72h, "
         "leads nunca-tocados y \"no responden\" (rapidez de seguimiento). Di QUIÉN tiene el peor hábito de seguimiento y "
         "qué fichas rescatar primero. NO opines de ventas, ticket ni dinero.\n"
@@ -1277,7 +1278,7 @@ def bake_ai(pd):
         f"\"no responden\" {M['noResp']} ({M['noRespPct']}%).\nEquipo:\n" + team_lines + "\n"
         "Forma EXACTA: " + shape_agent + rule_a)
     P["ventas"] = (
-        "Eres el ANALISTA DE VENTAS de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "Eres el ANALISTA DE VENTAS de MULTIESPUMAS - SUEÑA (Bolivia). " + negocio + "\n"
         "Tu ÚNICO tema es el RESULTADO comercial: conversión por vendedora (compradores/leads), ticket promedio, "
         "pipeline en Bs y dónde está el dinero. Compara por EFICIENCIA (no por volumen) y di quién deja dinero sobre la "
         "mesa. NO hables de disciplina de CRM ni de canales.\n"
@@ -1285,14 +1286,14 @@ def bake_ai(pd):
         f"(reservado Bs {G['pipeline'] - G['cerrado']}), ticket Bs {G['ticket']}.\nEquipo:\n" + team_lines + "\n"
         "Forma EXACTA: " + shape_agent + rule_a)
     P["comportamiento"] = (
-        "Eres el ANALISTA DE COMPORTAMIENTO y CANALES de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "Eres el ANALISTA DE COMPORTAMIENTO y CANALES de MULTIESPUMAS - SUEÑA (Bolivia). " + negocio + "\n"
         f"Tu ÚNICO tema: por qué entran y por qué se enfrían los leads. El {M['noRespPct']}% termina en \"no responden\". "
         "NO hables de metas individuales ni de la disciplina de cada vendedora. Explica el PATRÓN: qué canal y qué etapa "
         f"pierde clientes, y cómo reactivar los {M['noResp']} que no responden.\n"
         f"Canales (leads/conv%/cierres): {ch_dot}.\n"
         "Forma EXACTA: " + shape_agent + rule_a)
     P["sintesis"] = (
-        "Eres el DIRECTOR COMERCIAL de Heaven Colchones (Bolivia). " + negocio + "\n"
+        "Eres el DIRECTOR COMERCIAL de MULTIESPUMAS - SUEÑA (Bolivia). " + negocio + "\n"
         "Combina operación de CRM, ventas y comportamiento en UN plan priorizado de 3 decisiones para la reunión de "
         "gerencia, ordenadas por impacto en Bs, cada una con responsable y meta concreta.\n"
         "DATOS DEL MES:\n" + ctx + "\n"
