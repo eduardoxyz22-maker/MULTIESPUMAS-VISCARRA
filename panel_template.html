@@ -3288,6 +3288,7 @@ function MetasSection() {
     const pct = meta ? Math.round(cerrado / meta * 100) : 0;
     const proyPct = meta ? Math.round(proy / meta * 100) : 0;
     const mn = window.metaMinOf ? window.metaMinOf(v.name) : 0;
+    const minPct = mn ? Math.round(cerrado / mn * 100) : 0;
     const col = cerrado >= meta ? "var(--green)" : cerrado >= mn ? "var(--amber)" : "var(--red)";
     return /*#__PURE__*/React.createElement("div", {
       className: "meta-row",
@@ -3315,20 +3316,29 @@ function MetasSection() {
       v: v
     }), /*#__PURE__*/React.createElement("span", {
       className: "meta-proy"
-    }, "\xB7 m\xEDn ", fmtMoney(mn), " \xB7 proy. ", fmtMoney(proy), " (", proyPct, "%)"))), /*#__PURE__*/React.createElement("div", {
-      className: "meta-bar"
+    }, "\xB7 proy. ", fmtMoney(proy), " (", proyPct, "%)"))), /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", alignItems: "center", gap: 8, marginTop: 4 }
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "ww", style: { width: 26, fontSize: ".6rem", flexShrink: 0 }
+    }, "m\xEDn"), /*#__PURE__*/React.createElement("div", {
+      className: "meta-bar", style: { flex: 1 }
     }, /*#__PURE__*/React.createElement("i", {
-      style: {
-        width: Math.min(100, pct) + "%",
-        background: col
-      }
+      style: { width: Math.min(100, minPct) + "%", background: cerrado >= mn ? "var(--green)" : "var(--red)" }
+    })), /*#__PURE__*/React.createElement("span", {
+      style: { width: 122, textAlign: "right", fontSize: ".64rem", flexShrink: 0, color: cerrado >= mn ? "var(--green)" : "var(--red)" }
+    }, fmtMoney(mn), " \xB7 ", minPct, "%")), /*#__PURE__*/React.createElement("div", {
+      style: { display: "flex", alignItems: "center", gap: 8, marginTop: 4 }
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "ww", style: { width: 26, fontSize: ".6rem", flexShrink: 0 }
+    }, "obj"), /*#__PURE__*/React.createElement("div", {
+      className: "meta-bar", style: { flex: 1 }
+    }, /*#__PURE__*/React.createElement("i", {
+      style: { width: Math.min(100, pct) + "%", background: cerrado >= meta ? "var(--green)" : "var(--amber)" }
     }), /*#__PURE__*/React.createElement("span", {
-      className: "proy",
-      style: {
-        left: Math.min(100, proyPct) + "%"
-      },
-      title: "Proyecci\xF3n"
-    })));
+      className: "proy", style: { left: Math.min(100, proyPct) + "%" }, title: "Proyecci\xF3n"
+    })), /*#__PURE__*/React.createElement("span", {
+      style: { width: 122, textAlign: "right", fontSize: ".64rem", flexShrink: 0, color: col }
+    }, fmtMoney(meta), " \xB7 ", pct, "%")));
   }), /*#__PURE__*/React.createElement("div", {
     className: "meta-row meta-total"
   }, /*#__PURE__*/React.createElement("div", {
