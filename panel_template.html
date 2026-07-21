@@ -3269,7 +3269,9 @@ function MetasSection() {
   const totCerr = D.team.reduce((s, v) => s + cerradoOf(v), 0);
   const totProy = D.team.reduce((s, v) => s + proyOf(v), 0);
   const totPipe = D.team.reduce((s, v) => s + (v.pipeline || 0), 0);
+  const totMin = D.team.reduce((s, v) => s + (window.metaMinOf ? window.metaMinOf(v.name) : 0), 0);
   const tPct = totMeta ? Math.min(100, Math.round(totCerr / totMeta * 100)) : 0;
+  const tMinPct = totMin ? Math.round(totCerr / totMin * 100) : 0;
   const tCol = tPct >= 100 ? "var(--green)" : tPct >= 70 ? "var(--amber)" : "var(--red)";
   const Stepper = ({
     v
@@ -3364,13 +3366,26 @@ function MetasSection() {
       color: tCol
     }
   }, "(", tPct, "%)")))), /*#__PURE__*/React.createElement("div", {
-    className: "meta-bar"
+    style: { display: "flex", alignItems: "center", gap: 8, marginTop: 4 }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ww", style: { width: 26, fontSize: ".6rem", flexShrink: 0 }
+  }, "m\xEDn"), /*#__PURE__*/React.createElement("div", {
+    className: "meta-bar", style: { flex: 1 }
   }, /*#__PURE__*/React.createElement("i", {
-    style: {
-      width: tPct + "%",
-      background: tCol
-    }
-  }))));
+    style: { width: Math.min(100, tMinPct) + "%", background: totCerr >= totMin ? "var(--green)" : "var(--red)" }
+  })), /*#__PURE__*/React.createElement("span", {
+    style: { width: 132, textAlign: "right", fontSize: ".64rem", flexShrink: 0, color: totCerr >= totMin ? "var(--green)" : "var(--red)" }
+  }, fmtMoney(totMin), " \xB7 ", tMinPct, "%")), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", alignItems: "center", gap: 8, marginTop: 4 }
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "ww", style: { width: 26, fontSize: ".6rem", flexShrink: 0 }
+  }, "obj"), /*#__PURE__*/React.createElement("div", {
+    className: "meta-bar", style: { flex: 1 }
+  }, /*#__PURE__*/React.createElement("i", {
+    style: { width: tPct + "%", background: tCol }
+  })), /*#__PURE__*/React.createElement("span", {
+    style: { width: 132, textAlign: "right", fontSize: ".64rem", flexShrink: 0, color: tCol }
+  }, fmtMoney(totMeta), " \xB7 ", tPct, "%"))));
 }
 window.MetasSection = MetasSection;
 

@@ -583,7 +583,7 @@ def build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, co
             dup_rows.append({"phone": ph, "fichas": len(items),
                              "vendedoras": " · ".join(vends), "etapas": " · ".join(stgs),
                              "leadIds": [i[0] for i in items],
-                             "estado": "Fusionar" if "Compradores" in stgs else "Revisar"})
+                             "estado": "Fusionar" if any("compro" in (s or "").lower() for s in stgs) else "Revisar"})
     dup_rows.sort(key=lambda r: -r["fichas"])
     if contact_phone:   # solo si pudimos leer teléfonos, sustituye el conteo por el real
         _dup_contactos = len(dup_rows)
@@ -657,6 +657,10 @@ def build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, co
         for sn, c in vcur[n]["stage"].items():
             stage_tot[sn] += c
     total_st = sum(stage_tot.values()) or 1
+    # tally por CLASE de etapa (para el embudo, que no debe depender de nombres exactos)
+    class_tot = defaultdict(int)
+    for sn, c in stage_tot.items():
+        class_tot[classify_stage(sn)] += c
     stagesGlobal = [{"name": sn, "count": c, "pct": round(c / total_st * 100),
                      "color": STAGE_COLORS.get(sn) or CLASS_COLORS.get(classify_stage(sn), "#9AA3AF")}
                     for sn, c in sorted(stage_tot.items(), key=lambda x: -x[1])]
@@ -823,10 +827,10 @@ def build_panel_data(cur, prev, stage_map, user_map, events, source_field_id, co
     # misma población (la distribución por etapa actual), por lo que nunca puede
     # superar el 100%. Antes se sumaban conteos que se solapaban y se mezclaban
     # con los cierres por fecha de contrato, y eso producía barras de 173% / 106%.
-    _f_inter = stage_tot.get("Interesado", 0)
-    _f_cotz = stage_tot.get("Cotización enviada", 0)
-    _f_agen = stage_tot.get("Agendado / Visita", 0)
-    _f_comp = stage_tot.get("Compradores", 0)
+    _f_inter = class_tot.get("interesado", 0) + class_tot.get("atendido", 0)
+    _f_cotz = class_tot.get("cotizacion", 0)
+    _f_agen = class_tot.get("agendado", 0)
+    _f_comp = class_tot.get("compradores", 0)
     _calif = _f_inter + _f_cotz + _f_agen + _f_comp      # llegaron al menos a "Interesado"
     _avanz = _f_cotz + _f_agen + _f_comp                  # llegaron al menos a "Cotización/Visita"
     funnel2 = [
