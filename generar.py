@@ -1506,41 +1506,37 @@ def main():
         "filter[created_at][to]":   int(p_end.timestamp())}, "leads")
     print(f"     → {len(prev)} leads")
 
-    # ── VENTANA AMPLIA (~300 días): base para pipeline total y ventas por contrato ──
-    print("  📊 pipeline + ventas (ventana amplia)…")
-    wide_start = m_start - datetime.timedelta(days=300)
-    wide = fetch_paginated("/leads", {
-        "with": "contacts,catalog_elements",
-        "filter[pipeline_id]": PIPELINE_ID,
-        "order[created_at]": "desc",   # más NUEVO primero: con cuentas de alto volumen el tope de páginas conservaría leads viejos y perdería el mes en curso
-        "filter[created_at][from]": int(wide_start.timestamp()),
-        "filter[created_at][to]":   int(m_end.timestamp())},
-        "leads", max_pages=40, sleep=0.12)
+    # ── CIERRES: TODOS los leads en la etapa ganada (COMPRO) por STATUS — NO por
+    #    ventana de creación (así ve leads viejos que cerraron este mes) — y se cuentan
+    #    por FECHA DE CONTRATO, idéntico a filtrar por ese campo en el CRM.
+    print("  📊 cierres (COMPRO por status · por fecha de contrato)…")
     ms, me = int(m_start.timestamp()), int(m_end.timestamp())
     ps, pe = int(p_start.timestamp()), int(p_end.timestamp())
-
-    # CERRADO por FECHA CONTRATO: compradores cuyo campo cae en el mes
+    compra_ids = [sid for sid, info in stage_map.items() if info.get("cls") == "compradores"]
+    won_params = {"with": "contacts,catalog_elements"}
+    for _i, _sid in enumerate(compra_ids):
+        won_params[f"filter[statuses][{_i}][pipeline_id]"] = PIPELINE_ID
+        won_params[f"filter[statuses][{_i}][status_id]"] = _sid
+    won_pool = fetch_paginated("/leads", won_params, "leads", max_pages=80, sleep=0.12) if compra_ids else []
+    print(f"     → {len(won_pool)} leads en etapa ganada (todos los meses)")
+    # Cada COMPRO cuenta SOLO por su FECHA DE CONTRATO (idéntico a filtrar por ese campo
+    # en el CRM). Los COMPRO sin fecha NO cuentan hasta que se complete el campo.
     won = []; won_prev = []
-    if contract_field_id:
-        for ld in wide:
-            if stage_map.get(ld.get("status_id"), {}).get("cls") != "compradores":
-                continue
-            cts = contract_ts(ld, contract_field_id)
-            if not cts or cts < 946684800:   # None/0/fecha inválida (campo nuevo o vacío) → usa creación
-                cts = ld.get("created_at", 0)
-            ld["_contract_ts"] = cts
-            if ms <= cts < me:
-                won.append(ld)
-            elif ps <= cts < pe:
-                won_prev.append(ld)
-    else:
-        print("  ⚠ no encontré campo 'Fecha contrato'; uso estado actual", file=sys.stderr)
-        for ld in cur:
-            if stage_map.get(ld.get("status_id"), {}).get("cls") == "compradores":
-                ld["_contract_ts"] = ld.get("created_at", 0); won.append(ld)
-        for ld in prev:
-            if stage_map.get(ld.get("status_id"), {}).get("cls") == "compradores":
-                ld["_contract_ts"] = ld.get("created_at", 0); won_prev.append(ld)
+    _sin_fecha = 0
+    for ld in won_pool:
+        cts = contract_ts(ld, contract_field_id) if contract_field_id else None
+        if not cts or cts < 946684800:      # sin fecha de contrato válida → NO cuenta (como el filtro del CRM)
+            _sin_fecha += 1
+            ld["_contract_ts"] = ld.get("created_at", 0)
+            continue
+        ld["_contract_ts"] = cts
+        if ms <= cts < me:
+            won.append(ld)
+        elif ps <= cts < pe:
+            won_prev.append(ld)
+    _com_sin_fecha = _sin_fecha
+    if _sin_fecha:
+        print(f"     ⚠ {_sin_fecha} COMPRO SIN 'Fecha contrato' → NO cuentan (completá la fecha para que sumen)", file=sys.stderr)
 
     # PIPELINE TOTAL del vendedor = leads DEL MES con monto por cerrar (abiertos)
     # + lo cerrado del mes (comprador + fecha contrato). Ej: 30.000 por cerrar +
