@@ -4119,7 +4119,13 @@ window.CountUp = CountUp;
 window.Sparkline = Sparkline;
 window.Donut = Donut;
 window.Heatmap = Heatmap;
-window.TOP_CLOSER = D.team.reduce((a, b) => b.cierres > a.cierres ? b : a, D.team[0]).name;
+// Trofeo: al que va MÁS CERCA DE SU META (% de cumplimiento), no al de más cierres —
+// cada vendedor tiene un objetivo distinto, así el premio es justo.
+window.TOP_CLOSER = D.team.reduce((a, b) => {
+  const pa = a.metaMonto ? (a.value || 0) / a.metaMonto : 0;
+  const pb = b.metaMonto ? (b.value || 0) / b.metaMonto : 0;
+  return pb > pa ? b : a;
+}, D.team[0]).name;
 
 /* ---------- Resumen view ---------- */
 // ── Resumen listo para WhatsApp (texto horneado por generar.py en D.wsp) ────
