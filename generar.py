@@ -457,7 +457,7 @@ def aggregate(leads, stage_map, user_map, events, source_field_id, now_ts, won_l
         elif cls == "interesado":
             d["interesado"] += 1; d["calif"] += 1
         elif cls == "atendido":
-            d["atendido"] += 1                 # respondida, pero NO cuenta como calificado
+            d["atendido"] += 1; d["calif"] += 1   # el vendedor la movió a Atendido → cuenta como calificado
         elif cls == "nueva":
             d["nueva"] += 1
         if ld.get("created_by") == 0: d["bot"] += 1
