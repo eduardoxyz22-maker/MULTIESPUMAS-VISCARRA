@@ -1,7 +1,7 @@
 # Placas dentales — reel Remotion
 
-Reel vertical (1080×1920, 30 fps, 26 s) sobre **placas dentales de descarga**
-(bruxismo), pensado para Instagram / TikTok / estados de WhatsApp.
+Reel vertical (1080×1920, 30 fps, 34 s) sobre **placas dentales removibles**
+(prótesis parcial), pensado para Instagram / TikTok / estados de WhatsApp.
 
 Hecho con [Remotion](https://remotion.dev). Todo es código: no hay assets
 externos ni fuentes descargadas, así que renderiza sin red.
@@ -18,16 +18,34 @@ Las dos usan el mismo guion y componentes; solo cambia el tema
 
 ## Guion (frames a 30 fps)
 
-| Escena       | Frames    | Contenido                                            |
-| ------------ | --------- | ---------------------------------------------------- |
-| `Hook`       | 0 – 106   | "¿Amaneces con la mandíbula tensa?"                  |
-| `Sintomas`   | 96 – 262  | 4 señales de bruxismo                                |
-| `Solucion`   | 252 – 428 | Qué es la placa de descarga + animación diente/placa |
-| `Beneficios` | 418 – 606 | Protege el esmalte · alivia tensión · duermes mejor  |
-| `Cta`        | 596 – 780 | Agenda tu valoración + WhatsApp                      |
+| Escena       | Frames      | Contenido                                              |
+| ------------ | ----------- | ------------------------------------------------------ |
+| `Hook`       | 0 – 130     | Hilera de dientes donde una pieza se cae y deja el hueco |
+| `Senales`    | 120 – 296   | 4 señales de que vivir con espacios te cuesta          |
+| `Solucion`   | 286 – 496   | La placa se dibuja sola: acrílico, dientes y ganchos   |
+| `Proceso`    | 486 – 672   | 3 pasos unidos por un riel que se va llenando          |
+| `Beneficios` | 662 – 846   | Masticar · sonreír · cuidar los dientes que quedan     |
+| `Cta`        | 836 – 1020  | Agenda tu valoración + WhatsApp (botón con ondas)      |
 
-Las escenas se solapan ~10 frames para que los fades encadenen sin negros.
-Los tiempos viven en `TIMELINE` (`src/PlacasDentales.tsx`).
+Las escenas se solapan ~10 frames: la que sale se desplaza mientras la que
+entra ya está llegando. Los tiempos viven en `TIMELINE`
+(`src/PlacasDentales.tsx`) y la dirección de cada transición se pasa como
+`dir` a `<Scene>`.
+
+## Animaciones
+
+Todo el movimiento es procedural, sin librerías de animación:
+
+- **`SonrisaHueco`** — hilera de dientes en curva de sonrisa; una pieza se
+  afloja, gira, cae y deja un hueco que late.
+- **`PlacaRemovible`** — el acrílico se dibuja con `strokeDashoffset`, los
+  dientes caen escalonados sobre la arcada, enganchan los ganchos metálicos y
+  un destello barre la placa. Después queda flotando e inclinándose apenas.
+- **`Particulas`** — puntos de luz que suben en loop (aleatoriedad
+  determinista, nunca `Math.random`, que rompería el render por frames).
+- **`Background`** — dos manchas de luz que se mueven con seno/coseno.
+- Micro-movimiento en iconos, chips y el botón de WhatsApp (ondas que salen
+  del botón en bucle).
 
 ## Comandos
 
@@ -56,8 +74,12 @@ npx remotion render PlacasDentales-Spadental out/placas.mp4 \
 
 - `whatsapp` y `direccion` en `src/theme.ts` son **PLACEHOLDER** (`+591 700 00000`).
   Reemplazar por los datos reales de cada clínica.
-- El texto es informativo y no promete resultados clínicos; si se agrega una
-  promesa o un precio, revisar que cumpla las políticas de salud de Meta.
+- El texto es informativo y no promete resultados clínicos ni precios; si se
+  agrega una promesa o un precio, revisar que cumpla las políticas de salud
+  de Meta.
+- Los plazos ("prueba y ajuste", "se fabrica a tu medida") no dan una cantidad
+  de días a propósito. Si gerencia quiere prometer un plazo, va en
+  `src/scenes/Proceso.tsx`.
 
 ## Estructura
 
@@ -69,6 +91,7 @@ src/
   theme.ts            paletas y datos de contacto por clínica
   layout.ts           margen seguro del reel
   anim.ts             helpers de spring / fade / pulse
-  components/         Background, Scene (fade), Icons, ToothGuard
-  scenes/             Hook, Sintomas, Solucion, Beneficios, Cta
+  components/         Background, Particulas, Scene, Icons,
+                      PlacaRemovible, SonrisaHueco
+  scenes/             Hook, Senales, Solucion, Proceso, Beneficios, Cta
 ```

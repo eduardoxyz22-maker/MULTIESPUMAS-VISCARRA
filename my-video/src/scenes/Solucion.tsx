@@ -1,8 +1,14 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { enter, fadeUp, popIn } from "../anim";
-import { ToothGuard } from "../components/ToothGuard";
+import { PlacaRemovible } from "../components/PlacaRemovible";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
+
+const ETIQUETAS = [
+  { texto: "Se pone y se quita", delay: 74 },
+  { texto: "Sin cirugía", delay: 84 },
+  { texto: "Hecha a tu medida", delay: 94 },
+];
 
 export const Solucion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
@@ -10,10 +16,9 @@ export const Solucion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
 
   const kicker = enter(frame, fps, 2);
   const titulo = enter(frame, fps, 10);
-  const pie = enter(frame, fps, 54);
 
   return (
-    <AbsoluteFill style={{ ...SAFE, alignItems: "center" }}>
+    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 8 }}>
       <div
         style={{
           ...popIn(kicker),
@@ -30,10 +35,10 @@ export const Solucion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
       <h2
         style={{
           ...fadeUp(titulo),
-          margin: "18px 0 0",
+          margin: "14px 0 0",
           textAlign: "center",
           color: theme.text,
-          fontSize: 90,
+          fontSize: 88,
           fontWeight: 800,
           lineHeight: 1.05,
           letterSpacing: -2,
@@ -41,25 +46,41 @@ export const Solucion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
       >
         Placa dental
         <br />
-        de descarga
+        removible
       </h2>
 
-      <ToothGuard theme={theme} delay={14} />
+      <PlacaRemovible theme={theme} delay={12} />
 
-      <p
+      <div
         style={{
-          ...fadeUp(pie, 30),
-          margin: 0,
-          textAlign: "center",
-          color: theme.muted,
-          fontSize: 40,
-          lineHeight: 1.35,
-          maxWidth: 820,
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          gap: 16,
         }}
       >
-        Un protector hecho <strong style={{ color: theme.text }}>a tu medida</strong>{" "}
-        que absorbe la fuerza de la mordida mientras duermes.
-      </p>
+        {ETIQUETAS.map(({ texto, delay }) => {
+          const p = enter(frame, fps, delay, 20);
+          return (
+            <div
+              key={texto}
+              style={{
+                ...popIn(p, 0.7),
+                padding: "16px 30px",
+                borderRadius: 999,
+                background: theme.card,
+                border: `2px solid ${theme.cardBorder}`,
+                color: theme.text,
+                fontSize: 32,
+                fontWeight: 600,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {texto}
+            </div>
+          );
+        })}
+      </div>
     </AbsoluteFill>
   );
 };

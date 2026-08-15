@@ -1,24 +1,24 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { enter, fadeUp, popIn } from "../anim";
-import { IconDescanso, IconEscudo, IconRelax } from "../components/Icons";
+import { enter, fadeUp, popIn, pulse } from "../anim";
+import { IconEscudo, IconManzana, IconSonrisa } from "../components/Icons";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
 const BENEFICIOS = [
   {
+    Icon: IconManzana,
+    titulo: "Vuelves a masticar",
+    texto: "Con los dos lados, sin miedo a la comida dura.",
+  },
+  {
+    Icon: IconSonrisa,
+    titulo: "Recuperas tu sonrisa",
+    texto: "Dientes del color que elijas, se ven naturales.",
+  },
+  {
     Icon: IconEscudo,
-    titulo: "Protege el esmalte",
-    texto: "Frena el desgaste antes de que necesites coronas.",
-  },
-  {
-    Icon: IconRelax,
-    titulo: "Alivia la tensión",
-    texto: "Menos dolor de mandíbula, cuello y cabeza.",
-  },
-  {
-    Icon: IconDescanso,
-    titulo: "Duermes mejor",
-    texto: "Tu musculatura descansa de verdad toda la noche.",
+    titulo: "Cuidas lo que te queda",
+    texto: "Frena que los demás dientes se sigan moviendo.",
   },
 ];
 
@@ -28,6 +28,7 @@ export const Beneficios: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
 
   const titulo = enter(frame, fps, 4);
   const nota = enter(frame, fps, 62);
+  const late = pulse(frame, fps, 1.8);
 
   return (
     <AbsoluteFill style={{ ...SAFE, gap: 40 }}>
@@ -48,6 +49,7 @@ export const Beneficios: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
       <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
         {BENEFICIOS.map(({ Icon, titulo: t, texto }, i) => {
           const p = enter(frame, fps, 16 + i * 14);
+          const flota = pulse(frame, fps, 2.4 + i * 0.4);
           return (
             <div
               key={t}
@@ -71,6 +73,7 @@ export const Beneficios: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
                   alignItems: "center",
                   justifyContent: "center",
                   background: theme.accent,
+                  transform: `translateY(${(flota - 0.5) * 10}px)`,
                 }}
               >
                 <Icon size={50} color={theme.accentInk} />
@@ -113,9 +116,10 @@ export const Beneficios: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           fontSize: 31,
           fontWeight: 600,
           whiteSpace: "nowrap",
+          transform: `${fadeUp(nota, 26).transform} scale(${1 + late * 0.02})`,
         }}
       >
-        Lista en 2 visitas · molde sin dolor
+        Desde 1 pieza hasta la arcada completa
       </div>
     </AbsoluteFill>
   );

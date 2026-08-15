@@ -4,6 +4,10 @@ import { IconWhatsapp } from "../components/Icons";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
+/** Ondas que salen del botón, desfasadas entre sí. */
+const ONDAS = [0, 22, 44];
+const CICLO = 66;
+
 export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -15,9 +19,7 @@ export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const late = pulse(frame, fps, 1.6);
 
   return (
-    <AbsoluteFill
-      style={{ ...SAFE, alignItems: "center", gap: 30 }}
-    >
+    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 28 }}>
       <div
         style={{
           ...popIn(marca),
@@ -49,7 +51,7 @@ export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           margin: 0,
           textAlign: "center",
           color: theme.text,
-          fontSize: 96,
+          fontSize: 92,
           fontWeight: 800,
           lineHeight: 1.04,
           letterSpacing: -2.2,
@@ -71,34 +73,60 @@ export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           lineHeight: 1.3,
         }}
       >
-        Evaluamos tu mordida y te decimos si de verdad necesitas una placa.
+        Te decimos qué tipo de placa necesitas y cuánto cuesta, sin compromiso.
       </p>
 
-      <div
-        style={{
-          ...popIn(boton, 0.8),
-          transform: `${popIn(boton, 0.8).transform} scale(${interpolate(late, [0, 1], [1, 1.025])})`,
-          marginTop: 16,
-          display: "flex",
-          alignItems: "center",
-          gap: 22,
-          padding: "30px 54px",
-          borderRadius: 999,
-          background: theme.accent,
-          color: theme.accentInk,
-          fontSize: 46,
-          fontWeight: 800,
-          boxShadow: `0 24px 70px ${theme.accent}44`,
-        }}
-      >
-        <IconWhatsapp size={52} color={theme.accentInk} />
-        Escríbenos al WhatsApp
+      <div style={{ position: "relative", marginTop: 20 }}>
+        {ONDAS.map((desfase) => {
+          const q = ((frame + desfase) % CICLO) / CICLO;
+          return (
+            <div
+              key={desfase}
+              style={{
+                position: "absolute",
+                inset: 0,
+                borderRadius: 999,
+                border: `3px solid ${theme.accent}`,
+                opacity: boton * interpolate(q, [0, 1], [0.45, 0]),
+                transform: `scale(${interpolate(q, [0, 1], [1, 1.35])})`,
+              }}
+            />
+          );
+        })}
+
+        <div
+          style={{
+            ...popIn(boton, 0.8),
+            position: "relative",
+            transform: `${popIn(boton, 0.8).transform} scale(${interpolate(late, [0, 1], [1, 1.03])})`,
+            display: "flex",
+            alignItems: "center",
+            gap: 22,
+            padding: "30px 54px",
+            borderRadius: 999,
+            background: theme.accent,
+            color: theme.accentInk,
+            fontSize: 46,
+            fontWeight: 800,
+            boxShadow: `0 24px 70px ${theme.accent}44`,
+          }}
+        >
+          <span
+            style={{
+              display: "flex",
+              transform: `rotate(${(late - 0.5) * 14}deg)`,
+            }}
+          >
+            <IconWhatsapp size={52} color={theme.accentInk} />
+          </span>
+          Escríbenos al WhatsApp
+        </div>
       </div>
 
       <div
         style={{
           ...fadeUp(datos, 24),
-          marginTop: 8,
+          marginTop: 16,
           textAlign: "center",
           color: theme.text,
           fontSize: 40,

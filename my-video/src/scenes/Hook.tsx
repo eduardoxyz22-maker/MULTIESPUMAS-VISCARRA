@@ -1,5 +1,6 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { enter, fadeUp, popIn, pulse } from "../anim";
+import { SonrisaHueco } from "../components/SonrisaHueco";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
@@ -9,16 +10,15 @@ export const Hook: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
 
   const badge = enter(frame, fps, 2);
   const l1 = enter(frame, fps, 12);
-  const l2 = enter(frame, fps, 22);
-  const sub = enter(frame, fps, 40);
-  const glow = pulse(frame, fps, 2);
+  const l2 = enter(frame, fps, 20);
+  const sub = enter(frame, fps, 74);
+  const glow = pulse(frame, fps, 1.8);
 
   return (
-    <AbsoluteFill style={{ ...SAFE, gap: 34 }}>
+    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 30 }}>
       <div
         style={{
           ...popIn(badge),
-          alignSelf: "flex-start",
           display: "flex",
           alignItems: "center",
           gap: 16,
@@ -27,7 +27,7 @@ export const Hook: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           border: `2px solid ${theme.cardBorder}`,
           background: theme.card,
           color: theme.accent,
-          fontSize: 32,
+          fontSize: 30,
           fontWeight: 600,
           letterSpacing: 1.4,
           textTransform: "uppercase",
@@ -39,40 +39,44 @@ export const Hook: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
             height: 14,
             borderRadius: 999,
             background: theme.accent,
-            opacity: 0.4 + glow * 0.6,
+            opacity: 0.3 + glow * 0.7,
+            transform: `scale(${0.8 + glow * 0.5})`,
           }}
         />
-        Bruxismo nocturno
+        Placas dentales
       </div>
+
+      <SonrisaHueco theme={theme} />
 
       <h1
         style={{
           margin: 0,
+          textAlign: "center",
           color: theme.text,
           fontSize: 92,
-          lineHeight: 1.02,
+          lineHeight: 1.04,
           fontWeight: 800,
-          letterSpacing: -2.5,
+          letterSpacing: -2.4,
         }}
       >
-        <span style={{ display: "block", ...fadeUp(l1) }}>¿Amaneces con</span>
+        <span style={{ display: "block", ...fadeUp(l1) }}>¿Te falta</span>
         <span style={{ display: "block", ...fadeUp(l2) }}>
-          la <span style={{ color: theme.accent }}>mandíbula</span>
+          <span style={{ color: theme.accent }}>una pieza</span> o varias?
         </span>
-        <span style={{ display: "block", ...fadeUp(l2) }}>tensa?</span>
       </h1>
 
       <p
         style={{
           ...fadeUp(sub, 30),
           margin: 0,
+          textAlign: "center",
           color: theme.muted,
           fontSize: 42,
-          lineHeight: 1.35,
+          lineHeight: 1.3,
           maxWidth: 800,
         }}
       >
-        Aprietas los dientes mientras duermes y ni te enteras.
+        No tienes que quedarte así.
       </p>
     </AbsoluteFill>
   );

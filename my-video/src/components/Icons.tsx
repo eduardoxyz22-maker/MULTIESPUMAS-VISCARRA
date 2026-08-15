@@ -14,62 +14,71 @@ const base = (size: number) => ({
   strokeLinejoin: "round" as const,
 });
 
-/** Rechinar los dientes de noche. */
-export const IconLuna: React.FC<IconProps> = ({ size = 34, color }) => (
+/** Masticar / morder. */
+export const IconManzana: React.FC<IconProps> = ({ size = 34, color }) => (
   <svg {...base(size)} style={{ color }}>
-    <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2Z" />
-    <path d="M15.5 3.5h3.8l-3.8 3.4h3.8" />
+    <path d="M12 7.4c-1.4-1.3-3.4-1.6-5-.6-1.9 1.2-2.5 3.9-1.6 6.6.8 2.4 2.6 4.8 4.3 5.4 1 .4 1.6 0 2.3 0s1.3.4 2.3 0c1.7-.6 3.5-3 4.3-5.4.4-1.2.5-2.4.3-3.4" />
+    <path d="M12 7.4V4.6M12 4.6c0-1.2 1-2.2 2.2-2.2M15.8 6.2c1.2 0 2.2-1 2.2-2.2" />
   </svg>
 );
 
-/** Dolor de cabeza al despertar. */
-export const IconDolor: React.FC<IconProps> = ({ size = 34, color }) => (
+/** Sonreír / no sonreír. */
+export const IconSonrisa: React.FC<IconProps> = ({ size = 34, color }) => (
   <svg {...base(size)} style={{ color }}>
-    <path d="M8 20v-2.2a6.5 6.5 0 1 1 8.6-6.4V13h1.6l-1.2 2.4.8.7-1 .9v1.2a1.8 1.8 0 0 1-1.8 1.8H13" />
-    <path d="M12 3.2V1.4M17.6 5.2 18.9 4M6.4 5.2 5.1 4" />
+    <circle cx="12" cy="12" r="8.6" />
+    <path d="M7.8 13.6a4.8 4.8 0 0 0 8.4 0Z" />
+    <path d="M8.6 9.2h.01M15.4 9.2h.01" strokeWidth={2.4} />
   </svg>
 );
 
-/** Desgaste del esmalte. */
-export const IconDiente: React.FC<IconProps> = ({ size = 34, color }) => (
+/** Los dientes vecinos se desplazan. */
+export const IconMover: React.FC<IconProps> = ({ size = 34, color }) => (
   <svg {...base(size)} style={{ color }}>
-    <path d="M12 3.4c-2-1-4.4-.6-5.6.9-1.3 1.6-1 3.7-.5 5.7.4 1.7.6 3.4.8 5.2.2 1.7.4 3.4 1.5 3.6 1.2.2 1.4-2.2 1.9-4 .3-1 .7-1.6 1.9-1.6s1.6.6 1.9 1.6c.5 1.8.7 4.2 1.9 4 1.1-.2 1.3-1.9 1.5-3.6.2-1.8.4-3.5.8-5.2.5-2 .8-4.1-.5-5.7-1.2-1.5-3.6-1.9-5.6-.9Z" />
-    <path d="M8.6 7.6c1-.7 2.2-1 3.4-1s2.4.3 3.4 1" strokeDasharray="2 2" />
+    <rect x="3.4" y="7.6" width="4.4" height="9" rx="1.6" />
+    <rect x="16.2" y="7.6" width="4.4" height="9" rx="1.6" />
+    <path d="M10 12h1.6M14 12h-1.6" />
+    <path d="m10.6 10.4 1.6 1.6-1.6 1.6M13.4 10.4 11.8 12l1.6 1.6" />
   </svg>
 );
 
-/** Tensión en la mandíbula / ATM. */
-export const IconMandibula: React.FC<IconProps> = ({ size = 34, color }) => (
+/** Hablar / pronunciar. */
+export const IconHablar: React.FC<IconProps> = ({ size = 34, color }) => (
   <svg {...base(size)} style={{ color }}>
-    <path d="M4 6.5c0-1.4 1.1-2.5 2.5-2.5h11A2.5 2.5 0 0 1 20 6.5v2A2.5 2.5 0 0 1 17.5 11H14a2 2 0 0 0-2 2v2.5" />
-    <path d="M12 15.5a3.5 3.5 0 0 1-3.5 3.5H7" />
-    <path d="M17.5 15.5c1.4.6 2.3 1.8 2.5 3.3M6.5 15.5c-1.4.6-2.3 1.8-2.5 3.3" />
+    <path d="M20.5 12.6c0 3.5-3.4 6.3-7.6 6.3-.9 0-1.8-.1-2.6-.4L5 20.4l1.3-3.2c-1.1-1.1-1.8-2.6-1.8-4.2 0-3.5 3.4-6.3 7.6-6.3s8.4 2.4 8.4 5.9Z" />
+    <path d="M9.4 12.4h.01M12.6 12.4h.01M15.8 12.4h.01" strokeWidth={2.2} />
   </svg>
 );
 
-/** Protección del esmalte. */
+/** Toma de molde. */
+export const IconMolde: React.FC<IconProps> = ({ size = 34, color }) => (
+  <svg {...base(size)} style={{ color }}>
+    <path d="M4.6 8.4c0 6.4 3.3 11 7.4 11s7.4-4.6 7.4-11" />
+    <path d="M4.6 8.4c0-2 3.3-3.6 7.4-3.6s7.4 1.6 7.4 3.6" />
+    <path d="M8 9.6v2.2M12 9.9v2.4M16 9.6v2.2" />
+  </svg>
+);
+
+/** Fabricación en laboratorio. */
+export const IconLab: React.FC<IconProps> = ({ size = 34, color }) => (
+  <svg {...base(size)} style={{ color }}>
+    <path d="M10 3.4v5.2L5.2 17a2.2 2.2 0 0 0 1.9 3.3h9.8a2.2 2.2 0 0 0 1.9-3.3L14 8.6V3.4" />
+    <path d="M8.6 3.4h6.8M7.6 14.6h8.8" />
+  </svg>
+);
+
+/** Listo / aprobado. */
+export const IconCheck: React.FC<IconProps> = ({ size = 34, color }) => (
+  <svg {...base(size)} style={{ color }}>
+    <circle cx="12" cy="12" r="8.6" />
+    <path d="m8.4 12.2 2.5 2.5 4.7-5.1" />
+  </svg>
+);
+
+/** Proteger lo que queda. */
 export const IconEscudo: React.FC<IconProps> = ({ size = 34, color }) => (
   <svg {...base(size)} style={{ color }}>
     <path d="M12 3 5 5.8v5.4c0 4 2.9 7.6 7 9.1 4.1-1.5 7-5.1 7-9.1V5.8L12 3Z" />
     <path d="m9 12 2.2 2.2L15.4 10" />
-  </svg>
-);
-
-/** Alivio de la tensión. */
-export const IconRelax: React.FC<IconProps> = ({ size = 34, color }) => (
-  <svg {...base(size)} style={{ color }}>
-    <path d="M3.5 12a8.5 8.5 0 1 1 17 0 8.5 8.5 0 0 1-17 0Z" />
-    <path d="M8.4 13.6a4.6 4.6 0 0 0 7.2 0" />
-    <path d="M8.6 9.4h.01M15.4 9.4h.01" strokeWidth={2.4} />
-  </svg>
-);
-
-/** Mejor descanso. */
-export const IconDescanso: React.FC<IconProps> = ({ size = 34, color }) => (
-  <svg {...base(size)} style={{ color }}>
-    <path d="M3 17v-4.5A2.5 2.5 0 0 1 5.5 10H18a3 3 0 0 1 3 3v4" />
-    <path d="M3 17h18M3 20v-3M21 20v-3" />
-    <path d="M6.5 10V8.2A1.2 1.2 0 0 1 7.7 7h3.1a1.2 1.2 0 0 1 1.2 1.2V10" />
   </svg>
 );
 

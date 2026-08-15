@@ -1,27 +1,30 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { Background } from "./components/Background";
+import { Particulas } from "./components/Particulas";
 import { Scene } from "./components/Scene";
 import { Beneficios } from "./scenes/Beneficios";
 import { Cta } from "./scenes/Cta";
 import { Hook } from "./scenes/Hook";
-import { Sintomas } from "./scenes/Sintomas";
+import { Proceso } from "./scenes/Proceso";
+import { Senales } from "./scenes/Senales";
 import { Solucion } from "./scenes/Solucion";
 import { MARGEN } from "./layout";
 import { BrandTheme, FONT_STACK, SPADENTAL } from "./theme";
 
 /**
  * Guion del reel (30 fps). Cada escena se solapa ~10 frames con la
- * siguiente para que el fade encadene sin negros intermedios.
+ * siguiente: la que sale se desplaza mientras la que entra ya está llegando.
  */
 export const TIMELINE = {
-  hook: { from: 0, durationInFrames: 106 },
-  sintomas: { from: 96, durationInFrames: 166 },
-  solucion: { from: 252, durationInFrames: 176 },
-  beneficios: { from: 418, durationInFrames: 188 },
-  cta: { from: 596, durationInFrames: 184 },
+  hook: { from: 0, durationInFrames: 130 },
+  senales: { from: 120, durationInFrames: 176 },
+  solucion: { from: 286, durationInFrames: 210 },
+  proceso: { from: 486, durationInFrames: 186 },
+  beneficios: { from: 662, durationInFrames: 184 },
+  cta: { from: 836, durationInFrames: 184 },
 } as const;
 
-export const DURACION_TOTAL = 780; // 26 s
+export const DURACION_TOTAL = 1020; // 34 s
 
 export type PlacasDentalesProps = {
   theme: BrandTheme;
@@ -91,20 +94,24 @@ export const PlacasDentales: React.FC<PlacasDentalesProps> = ({
   return (
     <AbsoluteFill style={{ fontFamily: FONT_STACK }}>
       <Background theme={theme} />
+      <Particulas theme={theme} />
 
-      <Scene {...TIMELINE.hook}>
+      <Scene {...TIMELINE.hook} dir="arriba">
         <Hook theme={theme} />
       </Scene>
-      <Scene {...TIMELINE.sintomas}>
-        <Sintomas theme={theme} />
+      <Scene {...TIMELINE.senales} dir="izquierda">
+        <Senales theme={theme} />
       </Scene>
-      <Scene {...TIMELINE.solucion}>
+      <Scene {...TIMELINE.solucion} dir="arriba">
         <Solucion theme={theme} />
       </Scene>
-      <Scene {...TIMELINE.beneficios}>
+      <Scene {...TIMELINE.proceso} dir="derecha">
+        <Proceso theme={theme} />
+      </Scene>
+      <Scene {...TIMELINE.beneficios} dir="izquierda">
         <Beneficios theme={theme} />
       </Scene>
-      <Scene {...TIMELINE.cta}>
+      <Scene {...TIMELINE.cta} dir="arriba">
         <Cta theme={theme} />
       </Scene>
 

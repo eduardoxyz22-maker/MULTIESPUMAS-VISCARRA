@@ -1,22 +1,22 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { enter, fadeIn, fadeUp } from "../anim";
+import { enter, fadeIn, fadeUp, pulse } from "../anim";
 import {
-  IconDiente,
-  IconDolor,
-  IconLuna,
-  IconMandibula,
+  IconHablar,
+  IconManzana,
+  IconMover,
+  IconSonrisa,
 } from "../components/Icons";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
 const SENALES = [
-  { Icon: IconLuna, texto: "Rechinas los dientes al dormir" },
-  { Icon: IconDolor, texto: "Dolor de cabeza al despertar" },
-  { Icon: IconDiente, texto: "Dientes gastados o sensibles" },
-  { Icon: IconMandibula, texto: "Chasquido al abrir la boca" },
+  { Icon: IconManzana, texto: "Masticas de un solo lado" },
+  { Icon: IconSonrisa, texto: "Evitas sonreír en las fotos" },
+  { Icon: IconMover, texto: "Los dientes vecinos se mueven" },
+  { Icon: IconHablar, texto: "Se te traban las palabras" },
 ];
 
-export const Sintomas: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
+export const Senales: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -29,19 +29,21 @@ export const Sintomas: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           ...fadeUp(titulo),
           margin: 0,
           color: theme.text,
-          fontSize: 76,
+          fontSize: 74,
           fontWeight: 800,
           letterSpacing: -1.6,
+          lineHeight: 1.08,
         }}
       >
-        4 señales de que
+        Vivir con espacios
         <br />
-        <span style={{ color: theme.accent }}>necesitas una placa</span>
+        <span style={{ color: theme.accent }}>te cuesta más</span>
       </h2>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
         {SENALES.map(({ Icon, texto }, i) => {
-          const p = enter(frame, fps, 16 + i * 11);
+          const p = enter(frame, fps, 14 + i * 11);
+          const flota = pulse(frame, fps, 2.2 + i * 0.3);
           return (
             <div
               key={texto}
@@ -66,14 +68,15 @@ export const Sintomas: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
                   alignItems: "center",
                   justifyContent: "center",
                   background: `${theme.accent}1F`,
+                  transform: `translateY(${(flota - 0.5) * 9}px) rotate(${(flota - 0.5) * 5}deg)`,
                 }}
               >
-                <Icon size={44} color={theme.accent} />
+                <Icon size={46} color={theme.accent} />
               </div>
               <span
                 style={{
                   color: theme.text,
-                  fontSize: 37,
+                  fontSize: 38,
                   fontWeight: 600,
                   lineHeight: 1.2,
                 }}
