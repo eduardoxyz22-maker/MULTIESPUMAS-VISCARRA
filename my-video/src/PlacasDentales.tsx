@@ -1,6 +1,7 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { ramp } from "./design";
 import { Background } from "./components/Background";
-import { Particulas } from "./components/Particulas";
+import { Corte } from "./components/Corte";
 import { Scene } from "./components/Scene";
 import { AntesDespues } from "./scenes/AntesDespues";
 import { Cta } from "./scenes/Cta";
@@ -32,61 +33,39 @@ export type PlacasDentalesProps = {
   theme: BrandTheme;
 };
 
-const Marca: React.FC<{ theme: BrandTheme }> = ({ theme }) => (
+/** Firma discreta abajo, como en un aviso: no compite con el contenido. */
+const Firma: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
+  const frame = useCurrentFrame();
+  /** Se apaga en el cierre, donde la marca ya aparece en grande. */
+  const visible = 1 - ramp(frame, TIMELINE.cta.from - 10, 20);
+
+  return (
   <div
     style={{
       position: "absolute",
-      top: 68,
+      bottom: 74,
       left: MARGEN,
       display: "flex",
       alignItems: "center",
-      gap: 16,
+      gap: 14,
       color: theme.muted,
-      fontSize: 28,
+      fontSize: 24,
       fontWeight: 600,
-      letterSpacing: 3,
+      letterSpacing: 4,
       textTransform: "uppercase",
+      opacity: 0.75 * visible,
     }}
   >
     <span
       style={{
-        width: 40,
-        height: 6,
+        width: 10,
+        height: 10,
         borderRadius: 999,
         background: theme.accent,
       }}
     />
     {theme.clinica}
   </div>
-);
-
-const Progreso: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
-  const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  const p = Math.min(1, frame / (durationInFrames - 1));
-
-  return (
-    <div
-      style={{
-        position: "absolute",
-        left: MARGEN,
-        right: MARGEN,
-        bottom: 68,
-        height: 8,
-        borderRadius: 999,
-        background: "rgba(255,255,255,0.12)",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        style={{
-          width: `${p * 100}%`,
-          height: "100%",
-          borderRadius: 999,
-          background: theme.accent,
-        }}
-      />
-    </div>
   );
 };
 
@@ -94,9 +73,14 @@ export const PlacasDentales: React.FC<PlacasDentalesProps> = ({
   theme = SPADENTAL,
 }) => {
   return (
-    <AbsoluteFill style={{ fontFamily: FONT_STACK }}>
+    <AbsoluteFill
+      style={{
+        fontFamily: FONT_STACK,
+        fontFeatureSettings: '"ss01", "cv05", "tnum"',
+        WebkitFontSmoothing: "antialiased",
+      }}
+    >
       <Background theme={theme} />
-      <Particulas theme={theme} />
 
       <Scene {...TIMELINE.hook} dir="arriba">
         <Hook theme={theme} />
@@ -120,8 +104,11 @@ export const PlacasDentales: React.FC<PlacasDentalesProps> = ({
         <Cta theme={theme} />
       </Scene>
 
-      <Marca theme={theme} />
-      <Progreso theme={theme} />
+      <Firma theme={theme} />
+
+      {/* Barridos solo en los dos cambios de capítulo */}
+      <Corte en={TIMELINE.solucion.from + 6} theme={theme} />
+      <Corte en={TIMELINE.cta.from + 6} theme={theme} />
     </AbsoluteFill>
   );
 };

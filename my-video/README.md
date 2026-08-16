@@ -5,8 +5,9 @@ Reel vertical (1080×1920, 30 fps, 38 s) sobre **placas dentales removibles**
 El objetivo es captar pacientes: gancho en el primer segundo, promesa visual
 (antes/después), cómo se hace, dónde queda y CTA a WhatsApp.
 
-Hecho con [Remotion](https://remotion.dev). Todo es código: no hay assets
-externos ni fuentes descargadas, así que renderiza sin red.
+Hecho con [Remotion](https://remotion.dev). Todo es código: la única
+dependencia externa es la tipografía, y va embebida en base64, así que
+renderiza sin red.
 
 ## Composiciones
 
@@ -34,6 +35,26 @@ Las escenas se solapan ~10 frames: la que sale se desplaza mientras la que
 entra ya está llegando. Los tiempos viven en `TIMELINE`
 (`src/PlacasDentales.tsx`) y la dirección de cada transición se pasa como
 `dir` a `<Scene>`.
+
+## Dirección de arte
+
+Lo que separa esto de una plantilla:
+
+- **Tipografía real.** Inter variable (100–900) embebida en base64 en
+  `src/fonts/inter.css`. Sin esto el render cae al stack del sistema
+  (DejaVu Sans), que es lo que hace ver amateur cualquier pieza.
+- **Escala tipográfica con corrección óptica** (`src/design.ts`): el
+  interletrado se cierra a medida que crece el cuerpo.
+- **Curvas de animación propias.** Expo-out para entradas en vez de un
+  spring genérico: arranca rapidísimo y frena largo. Un spring igual para
+  todo es lo que hace que una pieza se sienta "de plantilla".
+- **Revelado por máscara** (`Titular`): cada línea sube desde detrás de su
+  propio borde, escalonada. No hay fades de texto en todo el reel.
+- **Grano, viñeta y fugas de luz** (`Background`): el grano se genera con
+  `feTurbulence` en un data URI y solo se mueve el fondo, así que sale
+  barato aunque cubra los 1080×1920 de cada frame.
+- **Composición editorial**: filas con filete y numeración en vez de
+  tarjetas con borde redondeado en todas partes.
 
 ## Animaciones
 
@@ -67,9 +88,8 @@ Todo el movimiento es procedural, sin librerías de animación:
   sobre la superficie (el mismo cuerpo, espejado y con máscara de degradado).
   Los dientes llevan silueta anatómica (incisivos planos al frente, molares
   con cúspides atrás), encía festoneada en el cuello y brillo especular.
-- **`Particulas`** — puntos de luz que suben en loop (aleatoriedad
-  determinista, nunca `Math.random`, que rompería el render por frames).
-- **`Background`** — dos manchas de luz que se mueven con seno/coseno.
+- **`Corte`** — barrido de color, solo en los dos cambios de capítulo
+  (entrada al producto y al cierre): en todos los cortes, cansa.
 - Micro-movimiento en iconos, chips y el botón de WhatsApp (ondas que salen
   del botón en bucle).
 
@@ -122,8 +142,10 @@ src/
   theme.ts            paletas y datos de contacto por clínica
   layout.ts           margen seguro del reel
   anim.ts             helpers de spring / fade / pulse
-  components/         Background, Particulas, Scene, Icons, PlacaRemovible,
-                      SonrisaHueco, Persona, Fachada, MapaPin
+  design.ts           curvas de animación y escala tipográfica
+  fonts/inter.css     Inter variable embebida (OFL)
+  components/         Background, Scene, Corte, Titular, Icons,
+                      PlacaRemovible, SonrisaHueco, Persona, Fachada, MapaPin
   scenes/             Hook, Senales, Solucion, AntesDespues, Proceso,
                       Ubicacion, Cta
 ```

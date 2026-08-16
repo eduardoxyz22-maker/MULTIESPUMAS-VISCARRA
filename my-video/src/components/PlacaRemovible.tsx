@@ -372,7 +372,7 @@ export const PlacaRemovible: React.FC<{
       />
 
       {/* Reflejo sobre la superficie */}
-      <g mask="url(#fundeReflejo)" opacity={0.28}>
+      <g mask="url(#fundeReflejo)" opacity={0.18}>
         <g
           transform={`translate(0 ${2 * (CY + ry + 40)}) scale(1 -1) translate(0 ${flotaY})`}
         >

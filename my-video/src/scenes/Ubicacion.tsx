@@ -1,5 +1,7 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { enter, fadeUp, popIn } from "../anim";
+import { enter, popIn } from "../anim";
+import { TIPO } from "../design";
+import { Rotulo, Titular } from "../components/Titular";
 import { Fachada } from "../components/Fachada";
 import { MapaPin } from "../components/MapaPin";
 import { SAFE } from "../layout";
@@ -10,40 +12,21 @@ export const Ubicacion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const kicker = enter(frame, fps, 2);
-  const titulo = enter(frame, fps, 8);
   const chip = enter(frame, fps, 30);
 
   return (
     <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 12 }}>
-      <div
-        style={{
-          ...popIn(kicker),
-          color: theme.accent,
-          fontSize: 32,
-          fontWeight: 700,
-          letterSpacing: 4,
-          textTransform: "uppercase",
-        }}
-      >
-        Cómo llegar
-      </div>
+      <Rotulo texto="Cómo llegar" color={theme.accent} desde={2} centrado />
 
-      <h2
-        style={{
-          ...fadeUp(titulo),
-          margin: "8px 0 4px",
-          textAlign: "center",
-          color: theme.text,
-          fontSize: 84,
-          fontWeight: 800,
-          lineHeight: 1.04,
-          letterSpacing: -2,
-        }}
-      >
-        Estamos acá
-        <span style={{ color: theme.accent }}>.</span>
-      </h2>
+      <div style={{ marginTop: 14, marginBottom: 6 }}>
+        <Titular
+          color={theme.text}
+          desde={8}
+          alineado="center"
+          tam={84}
+          lineas={["Estamos acá"]}
+        />
+      </div>
 
       <div style={{ width: "100%" }}>
         <MapaPin theme={theme} delay={6} />
@@ -53,12 +36,11 @@ export const Ubicacion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
         style={{
           ...popIn(chip, 0.8),
           padding: "16px 32px",
-          borderRadius: 999,
+          borderRadius: 8,
           background: theme.card,
           border: `2px solid ${theme.cardBorder}`,
           color: theme.text,
-          fontSize: 32,
-          fontWeight: 700,
+          ...TIPO.chip,
           whiteSpace: "nowrap",
           textAlign: "center",
         }}

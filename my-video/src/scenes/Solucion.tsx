@@ -1,53 +1,32 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { enter, fadeUp, popIn } from "../anim";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { ramp, TIPO } from "../design";
 import { PlacaRemovible } from "../components/PlacaRemovible";
+import { Rotulo, Titular } from "../components/Titular";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
 const ETIQUETAS = [
   { texto: "Se pone y se quita", delay: 168 },
-  { texto: "Sin cirugía", delay: 177 },
-  { texto: "Hecha a tu medida", delay: 186 },
+  { texto: "Sin cirugía", delay: 176 },
+  { texto: "Hecha a tu medida", delay: 184 },
 ];
 
 export const Solucion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  const kicker = enter(frame, fps, 2);
-  const titulo = enter(frame, fps, 10);
 
   return (
-    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 8 }}>
-      <div
-        style={{
-          ...popIn(kicker),
-          color: theme.accent,
-          fontSize: 32,
-          fontWeight: 700,
-          letterSpacing: 4,
-          textTransform: "uppercase",
-        }}
-      >
-        La solución
-      </div>
+    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 10 }}>
+      <Rotulo texto="La solución" color={theme.accent} desde={2} centrado />
 
-      <h2
-        style={{
-          ...fadeUp(titulo),
-          margin: "14px 0 0",
-          textAlign: "center",
-          color: theme.text,
-          fontSize: 88,
-          fontWeight: 800,
-          lineHeight: 1.05,
-          letterSpacing: -2,
-        }}
-      >
-        Placa dental
-        <br />
-        removible
-      </h2>
+      <div style={{ marginTop: 18 }}>
+        <Titular
+          color={theme.text}
+          desde={8}
+          alineado="center"
+          tam={90}
+          lineas={["Placa dental", "removible"]}
+        />
+      </div>
 
       <PlacaRemovible theme={theme} delay={12} llamados />
 
@@ -56,24 +35,24 @@ export const Solucion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          gap: 16,
+          gap: 14,
+          marginTop: 34,
         }}
       >
         {ETIQUETAS.map(({ texto, delay }) => {
-          const p = enter(frame, fps, delay, 20);
+          const p = ramp(frame, delay, 26);
           return (
             <div
               key={texto}
               style={{
-                ...popIn(p, 0.7),
-                padding: "16px 30px",
-                borderRadius: 999,
-                background: theme.card,
+                padding: "15px 28px",
+                borderRadius: 8,
                 border: `2px solid ${theme.cardBorder}`,
                 color: theme.text,
-                fontSize: 32,
-                fontWeight: 600,
+                ...TIPO.chip,
                 whiteSpace: "nowrap",
+                opacity: p,
+                transform: `translateY(${(1 - p) * 26}px) scale(${interpolate(p, [0, 1], [0.94, 1])})`,
               }}
             >
               {texto}

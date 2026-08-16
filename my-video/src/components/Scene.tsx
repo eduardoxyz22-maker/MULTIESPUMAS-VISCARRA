@@ -1,11 +1,5 @@
-import {
-  AbsoluteFill,
-  interpolate,
-  Sequence,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
-import { enter } from "../anim";
+import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
+import { ramp, SUAVE } from "../design";
 
 export type Direccion = "arriba" | "abajo" | "izquierda" | "derecha";
 
@@ -16,8 +10,9 @@ const EJE: Record<Direccion, [number, number]> = {
   derecha: [-1, 0],
 };
 
-const SALIDA = 12;
-const DIST = 90;
+const SALIDA_FRAMES = 12;
+/** Entrada corta y firme; el detalle fino lo pone cada escena. */
+const DIST = 56;
 
 const Movimiento: React.FC<{
   durationInFrames: number;
@@ -25,26 +20,26 @@ const Movimiento: React.FC<{
   children: React.ReactNode;
 }> = ({ durationInFrames, dir, children }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
-  const entrada = enter(frame, fps, 0, 22);
+  const entrada = ramp(frame, 0, 30);
   const salida = interpolate(
     frame,
-    [durationInFrames - SALIDA, durationInFrames],
+    [durationInFrames - SALIDA_FRAMES, durationInFrames],
     [0, 1],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: SUAVE },
   );
 
   const [ex, ey] = EJE[dir];
-  const desp = (1 - entrada) * DIST - salida * DIST * 0.75;
-  const opacity = entrada * (1 - salida);
-  const scale = interpolate(salida, [0, 1], [1, 0.94]);
+  const desp = (1 - entrada) * DIST - salida * DIST * 0.6;
+  /** La opacidad sube antes que el movimiento: se siente más ágil. */
+  const opacity = ramp(frame, 0, 9) * (1 - salida);
+  const escala = interpolate(entrada, [0, 1], [1.035, 1]) * (1 - salida * 0.04);
 
   return (
     <AbsoluteFill
       style={{
         opacity,
-        transform: `translate(${ex * desp}px, ${ey * desp}px) scale(${scale})`,
+        transform: `translate(${ex * desp}px, ${ey * desp}px) scale(${escala})`,
       }}
     >
       {children}
@@ -52,7 +47,7 @@ const Movimiento: React.FC<{
   );
 };
 
-/** Escena con entrada elástica y salida desplazada en la dirección indicada. */
+/** Escena con entrada expo y salida desplazada en la dirección indicada. */
 export const Scene: React.FC<{
   from: number;
   durationInFrames: number;

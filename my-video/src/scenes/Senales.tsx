@@ -1,6 +1,7 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
-import { enter, fadeIn, fadeUp, pulse } from "../anim";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { ramp, TIPO } from "../design";
 import { IconManzana, IconMover, IconSonrisa } from "../components/Icons";
+import { Rotulo, Titular } from "../components/Titular";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
@@ -12,67 +13,61 @@ const SENALES = [
 
 export const Senales: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-
-  const titulo = enter(frame, fps, 4);
 
   return (
-    <AbsoluteFill style={{ ...SAFE, gap: 46 }}>
-      <h2
-        style={{
-          ...fadeUp(titulo),
-          margin: 0,
-          color: theme.text,
-          fontSize: 74,
-          fontWeight: 800,
-          letterSpacing: -1.6,
-          lineHeight: 1.08,
-        }}
-      >
-        Vivir con espacios
-        <br />
-        <span style={{ color: theme.accent }}>te cuesta más</span>
-      </h2>
-
+    <AbsoluteFill style={{ ...SAFE, gap: 52 }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
+        <Rotulo texto="Lo que cuesta" color={theme.accent} desde={2} />
+        <Titular
+          color={theme.text}
+          desde={8}
+          lineas={[
+            "Vivir con",
+            "espacios",
+            <span key="c" style={{ color: theme.accent }}>
+              te cuesta más
+            </span>,
+          ]}
+        />
+      </div>
+
+      {/* Filas con filete, en vez de tarjetas: se lee editorial, no plantilla */}
+      <div style={{ display: "flex", flexDirection: "column" }}>
         {SENALES.map(({ Icon, texto }, i) => {
-          const p = enter(frame, fps, 14 + i * 11);
-          const flota = pulse(frame, fps, 2.2 + i * 0.3);
+          const p = ramp(frame, 26 + i * 8, 30);
           return (
             <div
               key={texto}
               style={{
-                ...fadeIn(p),
                 display: "flex",
                 alignItems: "center",
                 gap: 30,
-                padding: "30px 34px",
-                borderRadius: 30,
-                background: theme.card,
-                border: `2px solid ${theme.cardBorder}`,
+                padding: "34px 4px",
+                borderTop: `2px solid ${theme.cardBorder}`,
+                opacity: p,
+                transform: `translateX(${(1 - p) * 46}px)`,
               }}
             >
-              <div
+              <span
                 style={{
-                  flexShrink: 0,
-                  width: 84,
-                  height: 84,
-                  borderRadius: 24,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  background: `${theme.accent}1F`,
-                  transform: `translateY(${(flota - 0.5) * 9}px) rotate(${(flota - 0.5) * 5}deg)`,
+                  ...TIPO.rotulo,
+                  fontSize: 26,
+                  color: theme.accent,
+                  opacity: 0.7,
+                  minWidth: 44,
                 }}
               >
-                <Icon size={46} color={theme.accent} />
-              </div>
+                0{i + 1}
+              </span>
+              <span style={{ display: "flex", width: 60, justifyContent: "center" }}>
+                <Icon size={56} color={theme.accent} />
+              </span>
               <span
                 style={{
                   color: theme.text,
-                  fontSize: 38,
-                  fontWeight: 600,
-                  lineHeight: 1.2,
+                  ...TIPO.tarjetaTitulo,
+                  fontSize: 40,
+                  letterSpacing: -0.8,
                 }}
               >
                 {texto}
@@ -80,6 +75,14 @@ export const Senales: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
             </div>
           );
         })}
+        <div
+          style={{
+            height: 2,
+            background: theme.cardBorder,
+            transform: `scaleX(${interpolate(ramp(frame, 52, 30), [0, 1], [0, 1])})`,
+            transformOrigin: "left",
+          }}
+        />
       </div>
     </AbsoluteFill>
   );

@@ -71,5 +71,5 @@ export const COSMETIC: BrandTheme = {
   promesa: "Te respondemos por WhatsApp",
 };
 
-export const FONT_STACK =
-  '"Inter", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif';
+/** Inter va embebida en src/fonts/inter.css: el render corre sin red. */
+export const FONT_STACK = '"Inter", system-ui, sans-serif';

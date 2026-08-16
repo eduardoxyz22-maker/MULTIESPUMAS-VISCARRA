@@ -4,7 +4,9 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { enter, fadeIn, fadeUp } from "../anim";
+import { enter, fadeIn } from "../anim";
+import { ramp, TIPO } from "../design";
+import { Rotulo, Titular } from "../components/Titular";
 import { IconCheck, IconLab, IconMolde } from "../components/Icons";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
@@ -33,29 +35,21 @@ export const Proceso: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const titulo = enter(frame, fps, 4);
   /** La línea se dibuja de arriba abajo conectando los pasos. */
-  const linea = interpolate(frame, [16, 88], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const linea = ramp(frame, 16, 74);
 
   return (
     <AbsoluteFill style={{ ...SAFE, gap: 44 }}>
-      <h2
-        style={{
-          ...fadeUp(titulo),
-          margin: 0,
-          color: theme.text,
-          fontSize: 74,
-          fontWeight: 800,
-          letterSpacing: -1.6,
-          lineHeight: 1.08,
-        }}
-      >
-        Así se hace
-        <span style={{ color: theme.accent }}>.</span>
-      </h2>
+      <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
+        <Rotulo texto="El proceso" color={theme.accent} desde={2} />
+        <Titular
+          color={theme.text}
+          desde={8}
+          lineas={[
+            "Así se hace",
+          ]}
+        />
+      </div>
 
       <div style={{ position: "relative" }}>
         {/* Riel que une los 3 pasos */}
@@ -136,8 +130,7 @@ export const Proceso: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
                 <div
                   style={{
                     color: theme.text,
-                    fontSize: 46,
-                    fontWeight: 700,
+                    ...TIPO.tarjetaTitulo,
                     letterSpacing: -0.8,
                   }}
                 >
@@ -147,8 +140,7 @@ export const Proceso: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
                   style={{
                     marginTop: 10,
                     color: theme.muted,
-                    fontSize: 34,
-                    lineHeight: 1.3,
+                    ...TIPO.tarjetaTexto,
                     maxWidth: 640,
                   }}
                 >

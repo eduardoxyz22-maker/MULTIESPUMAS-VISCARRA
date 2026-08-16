@@ -1,68 +1,44 @@
-import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { enter, fadeUp, popIn } from "../anim";
+import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { ramp, TIPO } from "../design";
 import { SonrisaHueco } from "../components/SonrisaHueco";
+import { Rotulo, Titular } from "../components/Titular";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
 const GANANCIAS = [
   { texto: "Vuelves a masticar", delay: 62 },
-  { texto: "Sonríes sin taparte", delay: 72 },
-  { texto: "Sin cirugía", delay: 82 },
+  { texto: "Sonríes sin taparte", delay: 70 },
+  { texto: "Sin cirugía", delay: 78 },
 ];
 
 /** El pago emocional del reel: el hueco se llena y la sonrisa se completa. */
 export const AntesDespues: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
 
-  const kicker = enter(frame, fps, 2);
-  const titulo = enter(frame, fps, 8);
   /** La etiqueta cambia justo cuando la pieza nueva calza. */
-  const cambio = interpolate(frame, [40, 52], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
+  const cambio = ramp(frame, 40, 14);
 
   return (
-    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 18 }}>
-      <div
-        style={{
-          ...popIn(kicker),
-          color: theme.accent,
-          fontSize: 32,
-          fontWeight: 700,
-          letterSpacing: 4,
-          textTransform: "uppercase",
-        }}
-      >
-        Antes · Después
-      </div>
+    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 16 }}>
+      <Rotulo texto="Antes · Después" color={theme.accent} desde={2} centrado />
 
-      <h2
-        style={{
-          ...fadeUp(titulo),
-          margin: "10px 0 20px",
-          textAlign: "center",
-          color: theme.text,
-          fontSize: 80,
-          fontWeight: 800,
-          lineHeight: 1.04,
-          letterSpacing: -2,
-        }}
-      >
-        Tu sonrisa
-        <br />
-        completa otra vez
-      </h2>
+      <div style={{ marginTop: 16, marginBottom: 10 }}>
+        <Titular
+          color={theme.text}
+          desde={8}
+          alineado="center"
+          tam={82}
+          lineas={["Tu sonrisa", "completa otra vez"]}
+        />
+      </div>
 
       <div style={{ position: "relative" }}>
         <SonrisaHueco theme={theme} modo="repara" delay={10} />
 
-        {/* Etiqueta que pasa de ANTES a DESPUÉS */}
         <div
           style={{
             position: "absolute",
-            top: 178,
+            top: 196,
             left: "50%",
             transform: "translateX(-50%)",
             display: "grid",
@@ -77,15 +53,15 @@ export const AntesDespues: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
               style={{
                 gridArea: "1 / 1",
                 opacity: op,
-                padding: "12px 28px",
-                borderRadius: 999,
+                padding: "12px 26px",
+                borderRadius: 6,
                 border: `2px solid ${color}`,
                 color,
-                fontSize: 28,
+                fontSize: 26,
                 fontWeight: 800,
-                letterSpacing: 3,
+                letterSpacing: 4,
                 whiteSpace: "nowrap",
-                transform: `scale(${0.9 + op * 0.1})`,
+                transform: `translateY(${(1 - op) * 12}px)`,
               }}
             >
               {texto}
@@ -99,31 +75,39 @@ export const AntesDespues: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          gap: 16,
-          marginTop: 16,
+          gap: 14,
+          marginTop: 22,
         }}
       >
         {GANANCIAS.map(({ texto, delay }) => {
-          const p = enter(frame, fps, delay, 20);
+          const p = ramp(frame, delay, 26);
           return (
             <div
               key={texto}
               style={{
-                ...popIn(p, 0.7),
                 display: "flex",
                 alignItems: "center",
                 gap: 12,
-                padding: "16px 28px",
-                borderRadius: 999,
+                padding: "15px 26px",
+                borderRadius: 8,
                 background: theme.card,
                 border: `2px solid ${theme.cardBorder}`,
                 color: theme.text,
-                fontSize: 32,
-                fontWeight: 600,
+                ...TIPO.chip,
                 whiteSpace: "nowrap",
+                opacity: p,
+                transform: `translateY(${(1 - p) * 26}px) scale(${interpolate(p, [0, 1], [0.94, 1])})`,
               }}
             >
-              <span style={{ color: theme.accent, fontSize: 30 }}>✓</span>
+              <svg width={22} height={22} viewBox="0 0 24 24" fill="none">
+                <path
+                  d="m5 12.5 4.5 4.5L19 7.5"
+                  stroke={theme.accent}
+                  strokeWidth={3}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
               {texto}
             </div>
           );

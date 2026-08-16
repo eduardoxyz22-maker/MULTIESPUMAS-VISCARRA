@@ -1,6 +1,8 @@
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { enter, fadeUp, popIn, pulse } from "../anim";
+import { pulse } from "../anim";
+import { ramp, TIPO } from "../design";
 import { IconWhatsapp } from "../components/Icons";
+import { Titular } from "../components/Titular";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
@@ -12,71 +14,70 @@ export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const marca = enter(frame, fps, 2);
-  const titulo = enter(frame, fps, 12);
-  const boton = enter(frame, fps, 28);
-  const datos = enter(frame, fps, 44);
+  const marca = ramp(frame, 2, 26);
+  const sub = ramp(frame, 26, 28);
+  const boton = ramp(frame, 34, 30);
+  const datos = ramp(frame, 48, 28);
   const late = pulse(frame, fps, 1.6);
 
   return (
-    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 28 }}>
+    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 26 }}>
       <div
         style={{
-          ...popIn(marca),
           textAlign: "center",
-          color: theme.accent,
-          fontSize: 40,
-          fontWeight: 700,
-          letterSpacing: 1,
+          opacity: marca,
+          transform: `translateY(${(1 - marca) * 20}px)`,
         }}
       >
-        {theme.clinica}
         <div
           style={{
-            marginTop: 10,
+            color: theme.accent,
+            fontSize: 38,
+            fontWeight: 800,
+            letterSpacing: -0.5,
+          }}
+        >
+          {theme.clinica}
+        </div>
+        <div
+          style={{
+            marginTop: 12,
             color: theme.muted,
-            fontSize: 28,
-            fontWeight: 500,
-            letterSpacing: 2,
-            textTransform: "uppercase",
+            ...TIPO.rotulo,
+            fontSize: 25,
           }}
         >
           {theme.lema}
         </div>
       </div>
 
-      <h2
-        style={{
-          ...fadeUp(titulo),
-          margin: 0,
-          textAlign: "center",
-          color: theme.text,
-          fontSize: 92,
-          fontWeight: 800,
-          lineHeight: 1.04,
-          letterSpacing: -2.2,
-        }}
-      >
-        Agenda tu
-        <br />
-        valoración
-      </h2>
+      <div style={{ marginTop: 10 }}>
+        <Titular
+          color={theme.text}
+          desde={10}
+          alineado="center"
+          tam={96}
+          peso={900}
+          lineas={["Agenda tu", "valoración"]}
+        />
+      </div>
 
       <p
         style={{
-          ...fadeUp(titulo, 24),
           margin: 0,
           textAlign: "center",
           color: theme.muted,
-          fontSize: 38,
-          maxWidth: 780,
-          lineHeight: 1.3,
+          ...TIPO.subtitulo,
+          fontSize: 36,
+          maxWidth: 800,
+          opacity: sub,
+          transform: `translateY(${(1 - sub) * 20}px)`,
         }}
       >
         Te decimos qué placa necesitas y cuánto cuesta, sin compromiso.
       </p>
 
-      <div style={{ position: "relative", marginTop: 20 }}>
+      <div style={{ position: "relative", marginTop: 22 }}>
         {ONDAS.map((desfase) => {
           const q = ((frame + desfase) % CICLO) / CICLO;
           return (
@@ -85,10 +86,10 @@ export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
               style={{
                 position: "absolute",
                 inset: 0,
-                borderRadius: 999,
+                borderRadius: 14,
                 border: `3px solid ${theme.accent}`,
-                opacity: boton * interpolate(q, [0, 1], [0.45, 0]),
-                transform: `scale(${interpolate(q, [0, 1], [1, 1.35])})`,
+                opacity: boton * interpolate(q, [0, 1], [0.4, 0]),
+                transform: `scale(${interpolate(q, [0, 1], [1, 1.3])})`,
               }}
             />
           );
@@ -96,51 +97,47 @@ export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
 
         <div
           style={{
-            ...popIn(boton, 0.8),
             position: "relative",
-            transform: `${popIn(boton, 0.8).transform} scale(${interpolate(late, [0, 1], [1, 1.03])})`,
             display: "flex",
             alignItems: "center",
             gap: 22,
-            padding: "30px 54px",
-            borderRadius: 999,
+            padding: "30px 52px",
+            borderRadius: 14,
             background: theme.accent,
             color: theme.accentInk,
-            fontSize: 46,
+            fontSize: 44,
             fontWeight: 800,
-            boxShadow: `0 24px 70px ${theme.accent}44`,
+            letterSpacing: -0.6,
+            boxShadow: `0 30px 80px ${theme.accent}3D`,
+            opacity: boton,
+            transform: `translateY(${(1 - boton) * 26}px) scale(${interpolate(late, [0, 1], [1, 1.02])})`,
           }}
         >
-          <span
-            style={{
-              display: "flex",
-              transform: `rotate(${(late - 0.5) * 14}deg)`,
-            }}
-          >
-            <IconWhatsapp size={52} color={theme.accentInk} />
-          </span>
+          <IconWhatsapp size={50} color={theme.accentInk} />
           Escríbenos al WhatsApp
         </div>
       </div>
 
       <div
         style={{
-          ...fadeUp(datos, 24),
-          marginTop: 16,
+          marginTop: 20,
           textAlign: "center",
           color: theme.text,
-          fontSize: 40,
-          fontWeight: 700,
+          fontSize: 42,
+          fontWeight: 800,
           letterSpacing: 1,
+          opacity: datos,
+          transform: `translateY(${(1 - datos) * 20}px)`,
         }}
       >
         {theme.whatsapp}
         <div
           style={{
-            marginTop: 12,
+            marginTop: 14,
             color: theme.muted,
-            fontSize: 30,
+            fontSize: 28,
             fontWeight: 500,
+            letterSpacing: 0,
           }}
         >
           {theme.promesa} · {theme.direccion}
