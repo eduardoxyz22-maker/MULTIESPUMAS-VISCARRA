@@ -5,9 +5,9 @@ import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
 const ETIQUETAS = [
-  { texto: "Se pone y se quita", delay: 74 },
-  { texto: "Sin cirugía", delay: 84 },
-  { texto: "Hecha a tu medida", delay: 94 },
+  { texto: "Se pone y se quita", delay: 168 },
+  { texto: "Sin cirugía", delay: 177 },
+  { texto: "Hecha a tu medida", delay: 186 },
 ];
 
 export const Solucion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
@@ -49,7 +49,7 @@ export const Solucion: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
         removible
       </h2>
 
-      <PlacaRemovible theme={theme} delay={12} />
+      <PlacaRemovible theme={theme} delay={12} llamados />
 
       <div
         style={{

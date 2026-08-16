@@ -18,15 +18,15 @@ import { BrandTheme, FONT_STACK, SPADENTAL } from "./theme";
  */
 export const TIMELINE = {
   hook: { from: 0, durationInFrames: 116 },
-  senales: { from: 106, durationInFrames: 140 },
-  solucion: { from: 236, durationInFrames: 196 },
-  antesDespues: { from: 422, durationInFrames: 180 },
-  proceso: { from: 592, durationInFrames: 166 },
-  ubicacion: { from: 748, durationInFrames: 196 },
-  cta: { from: 934, durationInFrames: 176 },
+  senales: { from: 106, durationInFrames: 136 },
+  solucion: { from: 232, durationInFrames: 260 },
+  antesDespues: { from: 482, durationInFrames: 172 },
+  proceso: { from: 644, durationInFrames: 156 },
+  ubicacion: { from: 790, durationInFrames: 186 },
+  cta: { from: 966, durationInFrames: 170 },
 } as const;
 
-export const DURACION_TOTAL = 1110; // 37 s
+export const DURACION_TOTAL = 1136; // 38 s
 
 export type PlacasDentalesProps = {
   theme: BrandTheme;

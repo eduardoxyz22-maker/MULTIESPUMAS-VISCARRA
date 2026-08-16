@@ -1,6 +1,6 @@
 # Placas dentales — reel Remotion
 
-Reel vertical (1080×1920, 30 fps, 37 s) sobre **placas dentales removibles**
+Reel vertical (1080×1920, 30 fps, 38 s) sobre **placas dentales removibles**
 (prótesis parcial), pensado para Instagram / TikTok / estados de WhatsApp.
 El objetivo es captar pacientes: gancho en el primer segundo, promesa visual
 (antes/después), cómo se hace, dónde queda y CTA a WhatsApp.
@@ -22,13 +22,13 @@ Las dos usan el mismo guion y componentes; solo cambia el tema
 
 | Escena         | Frames      | Contenido                                                |
 | -------------- | ----------- | -------------------------------------------------------- |
-| `Hook`         | 0 – 116     | Una pieza se cae y deja el hueco: "¿Te falta un diente?"  |
-| `Senales`      | 106 – 246   | 3 señales de que vivir con espacios te cuesta            |
-| `Solucion`     | 236 – 432   | La placa se dibuja sola: acrílico, dientes y ganchos     |
-| `AntesDespues` | 422 – 602   | El hueco se llena y la sonrisa se completa               |
-| `Proceso`      | 592 – 758   | 3 pasos unidos por un riel que se va llenando            |
-| `Ubicacion`    | 748 – 944   | Mapa con ruta + fachada con pacientes entrando           |
-| `Cta`          | 934 – 1110  | Agenda tu valoración + WhatsApp (botón con ondas)        |
+| `Hook`         | 0 – 116     | Una pieza se cae, la cámara se sacude y queda el hueco    |
+| `Senales`      | 106 – 242   | 3 señales de que vivir con espacios te cuesta            |
+| `Solucion`     | 232 – 492   | Showcase completo de la placa (ver abajo)                |
+| `AntesDespues` | 482 – 654   | El hueco se llena y la sonrisa se completa               |
+| `Proceso`      | 644 – 800   | 3 pasos unidos por un riel que se va llenando            |
+| `Ubicacion`    | 790 – 976   | Mapa con ruta + fachada con pacientes entrando           |
+| `Cta`          | 966 – 1136  | Agenda tu valoración + WhatsApp (botón con ondas)        |
 
 Las escenas se solapan ~10 frames: la que sale se desplaza mientras la que
 entra ya está llegando. Los tiempos viven en `TIMELINE`
@@ -48,12 +48,25 @@ Todo el movimiento es procedural, sin librerías de animación:
   justo cuando alguien llega.
 - **`MapaPin`** — mini mapa donde la ruta se dibuja y el pin cae sobre el
   consultorio, con onda en bucle.
-- **`PlacaRemovible`** — el acrílico se dibuja con `strokeDashoffset`, los
-  dientes caen escalonados sobre la arcada, enganchan los ganchos metálicos y
-  un destello barre la placa. Después queda flotando e inclinándose apenas.
-  Los dientes no son rectángulos: llevan silueta anatómica (incisivos planos
-  al frente, molares con cúspides atrás), encía festoneada en el cuello y
-  brillo especular.
+- **`PlacaRemovible`** — la escena estrella. Coreografía en frames locales:
+
+  | Frames  | Qué pasa                                                    |
+  | ------- | ----------------------------------------------------------- |
+  | 0–34    | el acrílico se dibuja con `strokeDashoffset`                |
+  | 26–70   | caen los dientes escalonados, cada uno suelta un anillo     |
+  | 70–92   | enganchan los ganchos metálicos                             |
+  | 60–112  | un destello barre la placa                                  |
+  | 100–152 | **la placa se inclina en 3D** (vista oclusal → frontal)     |
+  | 122–158 | se dibujan los llamados a las partes                        |
+  | 196–246 | acercamiento sobre la placa terminada                       |
+  | siempre | flota, se mece, late el halo, orbitan destellos y ondas     |
+
+  El giro 3D sale gratis: toda la geometría se calcula desde una media elipse,
+  así que basta animar el radio vertical (`ry`) para que la arcada gire en
+  perspectiva y los dientes acompañen solos. La placa además tiene reflejo
+  sobre la superficie (el mismo cuerpo, espejado y con máscara de degradado).
+  Los dientes llevan silueta anatómica (incisivos planos al frente, molares
+  con cúspides atrás), encía festoneada en el cuello y brillo especular.
 - **`Particulas`** — puntos de luz que suben en loop (aleatoriedad
   determinista, nunca `Math.random`, que rompería el render por frames).
 - **`Background`** — dos manchas de luz que se mueven con seno/coseno.

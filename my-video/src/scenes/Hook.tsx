@@ -1,4 +1,9 @@
-import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
+import {
+  AbsoluteFill,
+  interpolate,
+  useCurrentFrame,
+  useVideoConfig,
+} from "remotion";
 import { enter, fadeUp, popIn, pulse } from "../anim";
 import { SonrisaHueco } from "../components/SonrisaHueco";
 import { SAFE } from "../layout";
@@ -14,8 +19,25 @@ export const Hook: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const sub = enter(frame, fps, 70);
   const glow = pulse(frame, fps, 1.8);
 
+  /** Cuando la pieza toca el piso, la cámara se sacude y hay un fogonazo. */
+  const impacto = interpolate(frame, [58, 63, 84], [0, 1, 0], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const sacude = Math.sin(frame * 2.2) * 13 * impacto;
+
   return (
-    <AbsoluteFill style={{ ...SAFE, alignItems: "center", gap: 30 }}>
+    <AbsoluteFill
+      style={{
+        ...SAFE,
+        alignItems: "center",
+        gap: 30,
+        transform: `translate(${sacude}px, ${sacude * 0.45}px)`,
+      }}
+    >
+      <AbsoluteFill
+        style={{ background: theme.accent, opacity: impacto * 0.1 }}
+      />
       <div
         style={{
           ...popIn(badge),
