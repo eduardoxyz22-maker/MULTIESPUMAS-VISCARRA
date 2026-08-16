@@ -2,12 +2,13 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { Background } from "./components/Background";
 import { Particulas } from "./components/Particulas";
 import { Scene } from "./components/Scene";
-import { Beneficios } from "./scenes/Beneficios";
+import { AntesDespues } from "./scenes/AntesDespues";
 import { Cta } from "./scenes/Cta";
 import { Hook } from "./scenes/Hook";
 import { Proceso } from "./scenes/Proceso";
 import { Senales } from "./scenes/Senales";
 import { Solucion } from "./scenes/Solucion";
+import { Ubicacion } from "./scenes/Ubicacion";
 import { MARGEN } from "./layout";
 import { BrandTheme, FONT_STACK, SPADENTAL } from "./theme";
 
@@ -16,15 +17,16 @@ import { BrandTheme, FONT_STACK, SPADENTAL } from "./theme";
  * siguiente: la que sale se desplaza mientras la que entra ya está llegando.
  */
 export const TIMELINE = {
-  hook: { from: 0, durationInFrames: 130 },
-  senales: { from: 120, durationInFrames: 176 },
-  solucion: { from: 286, durationInFrames: 210 },
-  proceso: { from: 486, durationInFrames: 186 },
-  beneficios: { from: 662, durationInFrames: 184 },
-  cta: { from: 836, durationInFrames: 184 },
+  hook: { from: 0, durationInFrames: 116 },
+  senales: { from: 106, durationInFrames: 140 },
+  solucion: { from: 236, durationInFrames: 196 },
+  antesDespues: { from: 422, durationInFrames: 180 },
+  proceso: { from: 592, durationInFrames: 166 },
+  ubicacion: { from: 748, durationInFrames: 196 },
+  cta: { from: 934, durationInFrames: 176 },
 } as const;
 
-export const DURACION_TOTAL = 1020; // 34 s
+export const DURACION_TOTAL = 1110; // 37 s
 
 export type PlacasDentalesProps = {
   theme: BrandTheme;
@@ -105,11 +107,14 @@ export const PlacasDentales: React.FC<PlacasDentalesProps> = ({
       <Scene {...TIMELINE.solucion} dir="arriba">
         <Solucion theme={theme} />
       </Scene>
-      <Scene {...TIMELINE.proceso} dir="derecha">
+      <Scene {...TIMELINE.antesDespues} dir="derecha">
+        <AntesDespues theme={theme} />
+      </Scene>
+      <Scene {...TIMELINE.proceso} dir="izquierda">
         <Proceso theme={theme} />
       </Scene>
-      <Scene {...TIMELINE.beneficios} dir="izquierda">
-        <Beneficios theme={theme} />
+      <Scene {...TIMELINE.ubicacion} dir="derecha">
+        <Ubicacion theme={theme} />
       </Scene>
       <Scene {...TIMELINE.cta} dir="arriba">
         <Cta theme={theme} />

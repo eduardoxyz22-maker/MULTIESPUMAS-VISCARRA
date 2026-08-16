@@ -9,9 +9,9 @@ export const Hook: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
   const { fps } = useVideoConfig();
 
   const badge = enter(frame, fps, 2);
-  const l1 = enter(frame, fps, 12);
-  const l2 = enter(frame, fps, 20);
-  const sub = enter(frame, fps, 74);
+  const l1 = enter(frame, fps, 6);
+  const l2 = enter(frame, fps, 13);
+  const sub = enter(frame, fps, 70);
   const glow = pulse(frame, fps, 1.8);
 
   return (
@@ -61,7 +61,7 @@ export const Hook: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
       >
         <span style={{ display: "block", ...fadeUp(l1) }}>¿Te falta</span>
         <span style={{ display: "block", ...fadeUp(l2) }}>
-          <span style={{ color: theme.accent }}>una pieza</span> o varias?
+          <span style={{ color: theme.accent }}>un diente</span>?
         </span>
       </h1>
 
@@ -76,7 +76,7 @@ export const Hook: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           maxWidth: 800,
         }}
       >
-        No tienes que quedarte así.
+        Se nota al comer, al hablar y en las fotos.
       </p>
     </AbsoluteFill>
   );

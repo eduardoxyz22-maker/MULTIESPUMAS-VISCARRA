@@ -1,11 +1,6 @@
 import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
 import { enter, fadeIn, fadeUp, pulse } from "../anim";
-import {
-  IconHablar,
-  IconManzana,
-  IconMover,
-  IconSonrisa,
-} from "../components/Icons";
+import { IconManzana, IconMover, IconSonrisa } from "../components/Icons";
 import { SAFE } from "../layout";
 import { BrandTheme } from "../theme";
 
@@ -13,7 +8,6 @@ const SENALES = [
   { Icon: IconManzana, texto: "Masticas de un solo lado" },
   { Icon: IconSonrisa, texto: "Evitas sonreír en las fotos" },
   { Icon: IconMover, texto: "Los dientes vecinos se mueven" },
-  { Icon: IconHablar, texto: "Se te traban las palabras" },
 ];
 
 export const Senales: React.FC<{ theme: BrandTheme }> = ({ theme }) => {

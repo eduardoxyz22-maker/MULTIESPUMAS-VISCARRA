@@ -25,6 +25,10 @@ export type BrandTheme = {
   cardBorder: string;
   whatsapp: string;
   direccion: string;
+  /** Punto de referencia para "cómo llegar" (lo que la gente sí ubica). */
+  referencia: string;
+  /** Promesa de atención del CTA. Debe ser verdad: se puede cumplir. */
+  promesa: string;
 };
 
 export const SPADENTAL: BrandTheme = {
@@ -42,7 +46,9 @@ export const SPADENTAL: BrandTheme = {
   card: "rgba(255, 255, 255, 0.05)",
   cardBorder: "rgba(182, 240, 46, 0.24)",
   whatsapp: "+591 700 00000",
-  direccion: "Mercado Mutualista · 3er anillo, Santa Cruz",
+  direccion: "Mercado Mutualista · 3er anillo",
+  referencia: "Dentro del Mercado Mutualista",
+  promesa: "Te respondemos por WhatsApp",
 };
 
 export const COSMETIC: BrandTheme = {
@@ -60,7 +66,9 @@ export const COSMETIC: BrandTheme = {
   card: "rgba(255, 255, 255, 0.05)",
   cardBorder: "rgba(217, 180, 91, 0.26)",
   whatsapp: "+591 700 00000",
-  direccion: "Equipetrol Norte, Santa Cruz",
+  direccion: "Equipetrol Norte",
+  referencia: "Equipetrol Norte, Santa Cruz",
+  promesa: "Te respondemos por WhatsApp",
 };
 
 export const FONT_STACK =

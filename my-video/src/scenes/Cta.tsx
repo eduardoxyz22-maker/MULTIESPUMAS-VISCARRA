@@ -73,7 +73,7 @@ export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
           lineHeight: 1.3,
         }}
       >
-        Te decimos qué tipo de placa necesitas y cuánto cuesta, sin compromiso.
+        Te decimos qué placa necesitas y cuánto cuesta, sin compromiso.
       </p>
 
       <div style={{ position: "relative", marginTop: 20 }}>
@@ -143,7 +143,7 @@ export const Cta: React.FC<{ theme: BrandTheme }> = ({ theme }) => {
             fontWeight: 500,
           }}
         >
-          {theme.direccion}
+          {theme.promesa} · {theme.direccion}
         </div>
       </div>
     </AbsoluteFill>
