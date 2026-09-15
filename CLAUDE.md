@@ -45,9 +45,19 @@ Es un clon del panel de Heaven Colchones, adaptado a **otra cuenta de Kommo** y 
 
 ## Vendedores (equipo activo)
 
-Fernando Peinado Charcas, Mauricio Merida (15141820), Alberto Pareja.
-Definidos en `VENDOR_CFG` de `generar.py`. **Las metas (metaCierres/metaMonto) son
-PLACEHOLDER** — reemplazar con las metas mensuales reales de gerencia.
+- **Fernando Peinado Charcas** (id 13129427) → Calle Charcas
+- **Mauricio Merida** (id 15141820) → Av. Mutualista
+- **Juan Pablo** (id **13073611**) → Av. Carmelo Ortiz
+
+Definidos en `VENDOR_CFG` de `generar.py` (color, iniciales, metas reales de MONTO:
+`metaMin` mínima y `metaMonto` objetivo, en Bs).
+
+⚠️ **Juan Pablo = user id 13073611.** El NOMBRE de esa cuenta en Kommo es editable y ya
+lo cambiaron varias veces (`Alberto Pareja` → `FERNANDO` → `JUAN PABLO`), lo que rompía
+su nombre/metas/color en el panel y hacía aparecer **"dos Fernando"**. Por eso el rename
+es **por ID** (`USER_RENAME_ID = {13073611: "Juan Pablo"}`, prioritario sobre el de
+por-nombre `USER_RENAME`). No lo cambies a por-nombre: aunque en Kommo le pongan
+cualquier cosa, el panel debe seguir mostrando "Juan Pablo".
 
 ## Moneda
 
