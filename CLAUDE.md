@@ -64,5 +64,7 @@ en curso). El botón "Actualizar" del dashboard solo recarga la página.
 - En **Windows** correr con `PYTHONUTF8=1` (la consola cp1252 no imprime los emojis del
   script). En CI (Linux) no hace falta, pero el workflow lo pone igual.
 - NO pushear a `main` mientras el workflow corre (el push del bot puede fallar).
-- Validar `generar.py` con `python -m py_compile` antes de pushear.
+- Validar `generar.py` con `python -m py_compile` antes de pushear, y correr los tests:
+  `python3 tests/test_duplicados.py` (detector de duplicados) y `node tests/test_paneldup.js`
+  (la tabla como se ve en el panel). Todo test nuevo va en `tests/` y se commitea con el cambio.
 - El token es como la contraseña del CRM: nunca commitear `.kommo_token`.
