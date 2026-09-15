@@ -61,6 +61,11 @@ MESES = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 # Identidad por vendedora (color, iniciales, sucursal, metas). Si entra una
 # vendedora nueva no listada aquí, se le asignan valores por defecto seguros.
 # Kommo trae al vendedor Juan Pablo bajo el usuario "Alberto Pareja"; se renombra.
+# OJO: el nombre en Kommo es EDITABLE y ya lo cambiaron varias veces
+# (Alberto Pareja → FERNANDO → JUAN PABLO), lo que rompía el nombre, las metas y el
+# color de esta vendedora (y creaba "dos Fernando"). Por eso el rename PRIORITARIO es
+# POR ID de usuario (estable); el de por-nombre queda solo como respaldo.
+USER_RENAME_ID = {13073611: "Juan Pablo"}   # Av. Carmelo Ortiz (cuenta que en Kommo fue "Alberto Pareja")
 USER_RENAME = {"Alberto Pareja": "Juan Pablo"}
 
 # Vendedores del embudo SUEÑA. La SUCURSAL viene del campo "Sucursal" por-lead.
@@ -1429,7 +1434,8 @@ def main():
     print("  👥 usuarios…")
     users = fetch_paginated("/users", {}, "users", max_pages=10)
     user_map = {u["id"]: u.get("name", "") for u in users}
-    user_map = {uid: USER_RENAME.get((nm or "").strip(), nm) for uid, nm in user_map.items()}
+    user_map = {uid: (USER_RENAME_ID.get(uid) or USER_RENAME.get((nm or "").strip(), nm))
+                for uid, nm in user_map.items()}
 
     print("  🔎 campo de origen…")
     try:
