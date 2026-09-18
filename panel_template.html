@@ -2260,7 +2260,7 @@ function ProfileDrawer({
   const metaPct = metaMonto ? Math.round(cerrado / metaMonto * 100) : 0;
   const proy = v ? window.proy ? window.proy(cerrado, v.pipeline).fin : Math.round(cerrado * (D.daysInMonth || 31) / (D.curDay || 26)) : 0;
   const proyPct = metaMonto ? Math.round(proy / metaMonto * 100) : 0;
-  const metaMin = v ? v.metaMin || 0 : 0;
+  const metaMin = v ? (window.metaMinOf ? window.metaMinOf(v.name) : v.metaMin || 0) : 0;
   const metaCol = cerrado >= metaMonto ? "var(--green)" : cerrado >= metaMin ? "var(--amber)" : "var(--red)";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: `scrim${v ? " show" : ""}`,
@@ -3120,6 +3120,7 @@ window.KpiDrawer = KpiDrawer;
 // Editable sales-goal store — shared by the Metas section AND the vendor ficha,
 // so editing in either place syncs everywhere. Persisted to localStorage.
 const META_KEY = "suena_metas_monto_v1",
+  META_MIN_KEY = "suena_metas_min_v1",
   META_STEP = 5000;
 function readMetas() {
   const base = {};
@@ -3143,6 +3144,29 @@ function setMetaVal(name, raw) {
 function bumpMetaVal(name, d) {
   setMetaVal(name, (readMetas()[name] || 0) + d * META_STEP);
 }
+// Igual que arriba, pero para la meta MÍNIMA (piso). Persistida aparte en META_MIN_KEY.
+function readMetasMin() {
+  const base = {};
+  D.team.forEach(v => base[v.name] = v.metaMin || 0);
+  try {
+    Object.assign(base, JSON.parse(localStorage.getItem(META_MIN_KEY) || "{}"));
+  } catch (e) {}
+  return base;
+}
+function setMetaMinVal(name, raw) {
+  let n = Math.round(parseFloat(String(raw).replace(/[^0-9.]/g, "")));
+  if (isNaN(n) || n < 0) n = 0;
+  if (n > 50000000) n = 50000000;
+  const m = readMetasMin();
+  m[name] = n;
+  try {
+    localStorage.setItem(META_MIN_KEY, JSON.stringify(m));
+  } catch (e) {}
+  window.dispatchEvent(new CustomEvent("metas-change"));
+}
+function bumpMetaMinVal(name, d) {
+  setMetaMinVal(name, (readMetasMin()[name] || 0) + d * META_STEP);
+}
 function useMetas() {
   const [m, setM] = useState(readMetas);
   useEffect(() => {
@@ -3152,16 +3176,28 @@ function useMetas() {
   }, []);
   return m;
 }
+function useMetasMin() {
+  const [m, setM] = useState(readMetasMin);
+  useEffect(() => {
+    const h = () => setM(readMetasMin());
+    window.addEventListener("metas-change", h);
+    return () => window.removeEventListener("metas-change", h);
+  }, []);
+  return m;
+}
 // Reusable Bs stepper control
 function MetaStepper({
   name,
-  metas
+  metas,
+  kind
 }) {
+  const _bump = kind === "min" ? bumpMetaMinVal : bumpMetaVal;
+  const _set = kind === "min" ? setMetaMinVal : setMetaVal;
   return /*#__PURE__*/React.createElement("span", {
     className: "meta-stepper",
     onClick: e => e.stopPropagation()
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => bumpMetaVal(name, -1),
+    onClick: () => _bump(name, -1),
     "aria-label": "menos"
   }, "\u2212"), /*#__PURE__*/React.createElement("span", {
     className: "meta-pre"
@@ -3170,10 +3206,10 @@ function MetaStepper({
     type: "text",
     inputMode: "numeric",
     value: (metas[name] || 0).toLocaleString("en-US"),
-    onChange: e => setMetaVal(name, e.target.value),
+    onChange: e => _set(name, e.target.value),
     onClick: e => e.target.select()
   }), /*#__PURE__*/React.createElement("button", {
-    onClick: () => bumpMetaVal(name, 1),
+    onClick: () => _bump(name, 1),
     "aria-label": "m\xE1s"
   }, "+"));
 }
@@ -3181,9 +3217,15 @@ window.useMetas = useMetas;
 window.MetaStepper = MetaStepper;
 // Mínima de venta por vendedor (fija, viene de generar.py). La objetivo es editable (useMetas).
 window.metaMinOf = function (name) {
+  // Lee la mínima EDITABLE (localStorage) con respaldo al valor de generar.py.
+  try {
+    const ov = JSON.parse(localStorage.getItem(META_MIN_KEY) || "{}");
+    if (ov && ov[name] != null) return ov[name];
+  } catch (e) {}
   const t = (window.PANEL_DATA.team || []).find(x => x.name === name);
   return t && t.metaMin ? t.metaMin : 0;
 };
+window.useMetasMin = useMetasMin;
 // Nombre corto para chips/heatmaps. Respeta nombres compuestos (ej. "Juan Pablo").
 window.shortOf = function (name) {
   const t = (window.PANEL_DATA.team || []).find(x => x.name === name);
@@ -3257,6 +3299,7 @@ function NotesBox({
 window.NotesBox = NotesBox;
 function MetasSection() {
   const metas = useMetas();
+  const metasMin = useMetasMin();
   const cerradoOf = v => v.value != null ? v.value : v.cierres * v.ticket;
   const proyOf = v => window.proy(cerradoOf(v), v.pipeline).fin;
   const rows = D.team.filter(v => (metas[v.name] || 0) > 0).map(v => ({
@@ -3313,10 +3356,6 @@ function MetasSection() {
         color: col
       }
     }, fmtMoney(cerrado)), /*#__PURE__*/React.createElement("span", {
-      className: "ww"
-    }, "/"), /*#__PURE__*/React.createElement(Stepper, {
-      v: v
-    }), /*#__PURE__*/React.createElement("span", {
       className: "meta-proy"
     }, "\xB7 proy. ", fmtMoney(proy), " (", proyPct, "%)"))), /*#__PURE__*/React.createElement("div", {
       style: { display: "flex", alignItems: "center", gap: 8, marginTop: 4 }
@@ -3326,9 +3365,11 @@ function MetasSection() {
       className: "meta-bar", style: { flex: 1 }
     }, /*#__PURE__*/React.createElement("i", {
       style: { width: Math.min(100, minPct) + "%", background: cerrado >= mn ? "var(--green)" : "var(--red)" }
-    })), /*#__PURE__*/React.createElement("span", {
-      style: { width: 122, textAlign: "right", fontSize: ".64rem", flexShrink: 0, color: cerrado >= mn ? "var(--green)" : "var(--red)" }
-    }, fmtMoney(mn), " \xB7 ", minPct, "%")), /*#__PURE__*/React.createElement("div", {
+    })), /*#__PURE__*/React.createElement(MetaStepper, {
+      name: v.name, metas: metasMin, kind: "min"
+    }), /*#__PURE__*/React.createElement("span", {
+      style: { width: 52, textAlign: "right", fontSize: ".64rem", flexShrink: 0, color: cerrado >= mn ? "var(--green)" : "var(--red)" }
+    }, minPct, "%")), /*#__PURE__*/React.createElement("div", {
       style: { display: "flex", alignItems: "center", gap: 8, marginTop: 4 }
     }, /*#__PURE__*/React.createElement("span", {
       className: "ww", style: { width: 26, fontSize: ".6rem", flexShrink: 0 }
@@ -3338,9 +3379,11 @@ function MetasSection() {
       style: { width: Math.min(100, pct) + "%", background: cerrado >= meta ? "var(--green)" : "var(--amber)" }
     }), /*#__PURE__*/React.createElement("span", {
       className: "proy", style: { left: Math.min(100, proyPct) + "%" }, title: "Proyecci\xF3n"
-    })), /*#__PURE__*/React.createElement("span", {
-      style: { width: 122, textAlign: "right", fontSize: ".64rem", flexShrink: 0, color: col }
-    }, fmtMoney(meta), " \xB7 ", pct, "%")));
+    })), /*#__PURE__*/React.createElement(MetaStepper, {
+      name: v.name, metas: metas, kind: "monto"
+    }), /*#__PURE__*/React.createElement("span", {
+      style: { width: 52, textAlign: "right", fontSize: ".64rem", flexShrink: 0, color: col }
+    }, pct, "%")));
   }), /*#__PURE__*/React.createElement("div", {
     className: "meta-row meta-total"
   }, /*#__PURE__*/React.createElement("div", {
