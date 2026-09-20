@@ -50,6 +50,37 @@ tiene **todos sus conjuntos pausados**: sus Bs 4.414 y los resultados "mixed" so
 julio, no una fuga activa**. En los últimos 30 días gastó ~Bs 68. Sirve como lección de por qué
 no se mezclan objetivos en un conjunto, no como urgencia.
 
+### La segmentación real de los cuatro conjuntos (leída, no supuesta)
+
+Los cuatro apuntan al **mismo público, sin una sola diferencia**:
+
+- Geo: lugar `Mutualista` (key `820294104758619`), **radio 4 km**, tipos `frequently_in` + `home`
+  + `recent`.
+- Edad **18–65**, sin filtro de género.
+- `optimization_goal: CONVERSATIONS` · `billing_event: IMPRESSIONS` · `destination_type: WHATSAPP`.
+- `advantage_audience: 1` en los cuatro · **sin pixel ni `promoted_object`**.
+
+Eso vuelve la fragmentación un hecho, no una sospecha: **es un solo público partido en cuatro
+presupuestos**, compitiendo consigo mismo en la subasta.
+
+Presupuesto configurado vs. gasto real diario:
+
+| Conjunto | Presupuesto/día | Gasta/día | Lectura |
+|---|---|---|---|
+| Blanqueamiento | Bs 44,00 | ~Bs 43,3 | gasta todo |
+| Placas | Bs 34,50 | ~Bs 34,2 | gasta todo |
+| Endodoncia | Bs 25,00 | ~Bs 9,7 | **solo el 39%** — atascado en aprendizaje |
+| Limpieza 230 | Bs 25,00 | Bs 0 | pausado |
+
+Inconsistencias entre conjuntos que conviene unificar al consolidar:
+
+- `user_age_unknown: true` en Blanqueamiento y Endodoncia, ausente en Placas y Limpieza.
+- `targeting_automation.individual_setting {age:1, gender:1, geo:0}` en Blanqueamiento y Placas;
+  Endodoncia en cambio trae `targeting_optimization: "expansion_all"` (el que más abre).
+- A **Limpieza le faltan ubicaciones**: no tiene Messenger ni `messenger_story`, los otros tres sí.
+- Los cuatro incluyen **Audience Network con `rewarded_video`**, ubicación de baja calidad para
+  campañas de conversación. Vigilarla; no tocarla en el mismo test.
+
 ### Lo pendiente, por impacto
 
 1. **Un solo anuncio por conjunto, y todos video.** Es el techo más grande y no cuesta pauta:

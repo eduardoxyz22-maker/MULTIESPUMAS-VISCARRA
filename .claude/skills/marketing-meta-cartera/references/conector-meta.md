@@ -6,6 +6,14 @@ Aprendido a los golpes operando estas cuentas. Leer antes de tocar nada.
 
 - **Leer todo**: campañas, conjuntos, anuncios, insights, series por día (`time_increment: "1"`),
   desgloses (`breakdowns`), y borradores (`object_state: "draft"`).
+- **Leer la segmentación completa de un conjunto.** Campo `targeting` a nivel `adset` (alias
+  `targeting_spec`): devuelve geo con radio y coordenadas, `age_min`/`age_max`, ubicaciones
+  efectivas, `targeting_automation` (Advantage+ y qué dimensiones expande) y `user_age_unknown`.
+  Junto con `daily_budget`, `optimization_goal`, `billing_event`, `destination_type` y
+  `promoted_object` alcanza para **clonar un conjunto sin pedirle nada al usuario**.
+  ⚠️ Los subcampos sueltos (`geo_locations`, `age_min`) **no** existen como campo propio: hay que
+  pedir `targeting` entero. Verificado el 20/09/2026 en Spadental — una nota vieja decía que no se
+  podía leer y era falsa.
 - `ads_get_opportunity_score` → puntaje 0–100 por cuenta y recomendaciones priorizadas, cada una
   con su impacto estimado. **Mirarlo en cada revisión semanal: es gratis.**
 - `ads_insights_advertiser_context` → cómo clasifica Meta el negocio y en qué etapa del embudo
