@@ -48,6 +48,11 @@ Aprendido a los golpes operando estas cuentas. Leer antes de tocar nada.
    **"Maximizar el número de conversaciones con mensajes"** — `REPLIES` no aparece ahí, no la busques.
 6. **La vista previa reporta campos vacíos que sí están.** Puede devolver `body: ""` y
    `link_url: ""` con el anuncio completo. **Abrir la `preview_url` y mirarla.**
+   **La captura de un anuncio con video suele salir en negro**, porque el reproductor no arrancó
+   todavía: el video reproduce bien al darle play. No es un defecto del creativo y no hay que
+   reportarlo como problema — verificado el 20/09/2026 en Spadental, donde dos de tres capturas
+   salieron negras y los tres videos estaban sanos. Sale inconsistente: el mismo llamado puede
+   renderizar un frame real en un anuncio y negro en otro.
 7. **El objetivo de optimización de un conjunto ya creado no se cambia.** Queda fijo. Si está mal,
    se duplica el conjunto: en el borrador sí es editable.
 8. **La campaña es el interruptor maestro.** Con la campaña pausada no entrega nada aunque el
