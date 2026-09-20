@@ -57,6 +57,17 @@ Aprendido a los golpes operando estas cuentas. Leer antes de tocar nada.
    mismo que no gastar.**
 10. **`ads_get_ig_accounts` no está habilitada en todas las cuentas** — Meta la libera de a poco.
 
+11. **Al crear un conjunto, Meta le mete defaults que vos no pediste.** Verificado el 20/09/2026
+    creando `SPA-VENTAS-Servicios-Mutualista`: se pidió solo geo + edad + `advantage_audience: 1`,
+    y volvió además con `targeting_optimization: "expansion_all"` y `user_age_unknown: true`.
+    También convirtió `age_min`/`age_max` en `age_min_suggestion`/`age_max_suggestion`, porque con
+    Advantage+ la edad es sugerencia y no tope. **Para edad dura hay que mandar
+    `targeting_automation.advantage_audience: 0` explícito.**
+12. **Las ubicaciones efectivas de un conjunto nuevo pueden no coincidir con las del que clonaste.**
+    En el mismo caso, el conjunto nuevo salió sin `messenger` en `effective_publisher_platforms`
+    aunque el conjunto de origen sí lo tenía. Se derivan del destino y de la configuración de la
+    página, no de lo que mandaste. **Verificar en la interfaz antes de activar.**
+
 ## Carteles de la interfaz que hay que rechazar
 
 - **"Puedes obtener un costo por cliente potencial un 24% más bajo si actualizas tu objetivo"** →
