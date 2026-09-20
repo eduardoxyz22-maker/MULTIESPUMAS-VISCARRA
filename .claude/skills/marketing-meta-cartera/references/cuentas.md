@@ -27,31 +27,56 @@ rompe el reporte, el presupuesto mínimo y la comparación de costos.
 Dental clase media, Mercado Mutualista, 3er anillo. WhatsApp como canal de conversión.
 **Opportunity Score: 90/100.**
 
-Campañas activas (histórico completo):
+### Lo que está corriendo de verdad (últimos 30 días)
 
-| Campaña | Objetivo | Gasto | CPM | CTR | Conversaciones | Costo/conv | Frec |
+Una sola campaña entrega: `SPA-PRUEBA-VENTAS-Blanqueamiento-17/07` (`120249534640970636`,
+OUTCOME_SALES), con **un conjunto por servicio y exactamente un anuncio en cada conjunto**:
+
+| Conjunto | Gasto 30d | CPM | CTR | Conversaciones | Costo/conv | Frec | Anuncios |
 |---|---|---|---|---|---|---|---|
-| `SPA-PRUEBA-VENTAS-Blanqueamiento-17/07` | OUTCOME_SALES | Bs 4.440,50 | Bs 9,98 | 2,26% | 1.562 | **Bs 2,84** | 2,40 |
-| `Campaña Campaña de mensajes personalizada 6/7/2026` | OUTCOME_ENGAGEMENT | Bs 4.413,91 | Bs 17,20 | 2,00% | **"mixed"** | **no medible** | 2,35 |
+| `SPA-VENTAS-Blanqueamiento-Mutualista` | Bs 1.299,94 | **Bs 8,42** | 2,07% | 559 | **Bs 2,33** | 1,88 | 1 (video) |
+| `SPA-VENTAS-Placas-Acrilicas-Mutualista` | Bs 1.024,85 | Bs 12,36 | 3,24% | 347 | Bs 2,95 | 1,55 | 1 (video) |
+| `SPA-VENTAS-Endodoncia-Mutualista` | Bs 289,99 | Bs 24,86 | 3,46% | 76 | Bs 3,82 | 1,48 | 1 (video) |
+| `SPA-VENTAS-Limpieza230-Mutualista` (conjunto pausado) | Bs 105,96 | Bs 22,45 | 2,25% | 7 | Bs 15,14 | 1,25 | 1 |
 
-**Lo pendiente, por impacto:**
+Total activo: **~Bs 2.720 · 989 conversaciones · Bs 2,75 promedio**.
 
-1. **Fragmentación (−17% costo por conversación, 6 pts).** Meta detecta conjuntos con públicos
-   similares dentro de la misma campaña: se están pisando entre sí y le muestran el mismo anuncio
-   a la misma gente. Afecta a las campañas `120250956797460636` y `120250352884220636`.
-   **Es la mejora de mayor impacto de toda la cartera.** Consolidar conjuntos.
-2. **`Campaña Campaña de mensajes personalizada 6/7/2026` tiene Bs 4.414 gastados y resultados
-   "mixed"** — el conjunto mezcla objetivos y Meta no puede reportar un costo por resultado.
-   Está gastando casi lo mismo que la campaña que sí mide, a ciegas. Separar por objetivo.
-   De paso, el nombre duplicado (`Campaña Campaña…`) es el default: renombrar.
-3. **Mezclar imagen y video en el conjunto** (−8% costo por conversación, 3 pts).
-4. **Escalar la campaña `120249545266610636`** — Meta estima +81% más conversiones con más
-   presupuesto. Entrega estable y costo por resultado más bajo que sus pares.
+Diagnóstico de subasta (`ads_insights_auction_ranking_benchmarks`): los tres anuncios dan
+*"You are all good"*. Blanqueamiento y Placas con interacción y conversión **por encima del
+promedio**; Endodoncia en promedio en todo. **Los creativos no son el problema.**
 
-Bs 2,84 por conversación con CPM de Bs 9,98 es el mejor número de la cartera. Esta cuenta compra
-barato: lo que falta es ordenarla para que no compita consigo misma.
+La campaña vieja `Campaña Campaña de mensajes personalizada 6/7/2026` (`120249143305470636`)
+tiene **todos sus conjuntos pausados**: sus Bs 4.414 y los resultados "mixed" son **historia de
+julio, no una fuga activa**. En los últimos 30 días gastó ~Bs 68. Sirve como lección de por qué
+no se mezclan objetivos en un conjunto, no como urgencia.
 
----
+### Lo pendiente, por impacto
+
+1. **Un solo anuncio por conjunto, y todos video.** Es el techo más grande y no cuesta pauta:
+   Andromeda y GEM premian diversidad creativa, y acá no hay ninguna. Meta además marca
+   `mixed_formats` (−8%) en Placas Acrílicas. Subir a 4–6 anuncios por conjunto mezclando
+   imagen, video y carrusel.
+2. **Fragmentación (−17%, 6 pts).** Los tres conjuntos apuntan al mismo público de Mutualista,
+   separados solo por servicio: compiten entre sí en la subasta. Consolidar en **un conjunto con
+   los servicios como anuncios distintos**. Bonus: Endodoncia, con 76 conversaciones en 30 días
+   (~18/semana), **nunca sale de fase de aprendizaje**; dentro del conjunto grande sí.
+3. **El remarketing está armado y apagado.** `SPA-RETARGET-Consulta30-FB365`
+   (`120250385380820636`) tiene dos anuncios activos (`SPA-Retarget-NoAdivines`,
+   `SPA-Retarget-NosViste`) y **Bs 0 gastados, 0 impresiones**. Es el público más barato que
+   existe. Prenderlo con Bs 15–20/día.
+4. **Escalar Blanqueamiento** (`120249545266610636`): Meta estima +81% más conversiones. Es el
+   conjunto con CPM más bajo (Bs 8,42) y frecuencia 1,88 — hay espacio. +20–30% semanal.
+5. **Limpieza Bs 230 quedó en limbo**: conjunto pausado con el anuncio activo, Bs 15,14 por
+   conversación sobre apenas Bs 106 de gasto. Nunca tuvo chance real. O entra como un anuncio más
+   del conjunto consolidado, o se descarta — pero no se deja a medias.
+6. **Limpieza de cuenta**: hay una docena de `ZZ-ARCHIVO-*` y `ZZ-JUL-*`, y
+   `ZZ-ARCHIVO-BLANQUEAMIENTO (error DCO, jul)` figura **ACTIVE** dentro de un conjunto pausado.
+   No entrega, pero ensucia toda lectura de la cuenta.
+7. **Falta el dato del negocio.** 989 conversaciones en 30 días: ¿cuántas terminaron en cita?
+   ¿cuántas se presentaron? Sin eso no hay CAC y no se puede decidir cuánto escalar.
+
+Bs 2,33 por conversación con CPM de Bs 8,42 es el mejor número de la cartera. Esta cuenta compra
+barato: lo que falta es ordenarla y darle creativos.
 
 ## 2. COSMETIC Dental & Face Center — `1010573671517161`
 
