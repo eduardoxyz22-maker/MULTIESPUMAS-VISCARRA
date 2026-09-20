@@ -69,17 +69,17 @@ de moneda, ajustar `PANEL_CURRENCY` (y las etiquetas estáticas del template).
 GitHub → Actions → **Generar Panel Viscarra** → **Run workflow** (month/year vacíos = mes
 en curso). El botón "Actualizar" del dashboard solo recarga la página.
 
-## Marketing y pauta en Meta
+## Marketing y pauta en Meta (cartera propia)
 
-La publicidad de la cuenta vive en `.claude/skills/marketing-meta-multiespumas/` (skill) y
-`.claude/agents/estratega-meta-multiespumas.md` (subagente). Ahí está la cuenta real
-(`3475940726049285`, BOB, business MultiEspumas Viscarra SRL), las trampas del conector de Meta
-Ads, las novedades de la plataforma 2026 y el circuito cerrado **Meta → Kommo → venta en Bs**
-(CAC y ROAS calculados contra `window.PANEL_DATA`, no contra métricas de Meta sueltas).
+Ojo: **esta cuenta de Kommo/panel es de MultiEspumas, que la opera otra empresa.** La skill de
+publicidad que vive en este repo NO es sobre esta marca: cubre la **cartera propia** de cuentas
+publicitarias — FERROMARC / Ferro Todo, MIRNA marca personal, COSMETIC y Ezequiel SPADENTAL.
 
-Regla corta: el costo por conversación de esta cuenta es de ~Bs 1 y el ROAS ~19x; el cuello de
-botella **no es la pauta, es el seguimiento** (72% de las fichas sin tocar +72 h). No recomendar
-subir presupuesto sin mirar antes el backlog del panel.
+- Skill: `.claude/skills/marketing-meta-cartera/`
+- Subagente: `.claude/agents/estratega-meta-cartera.md`
+
+MultiEspumas, Sueña y Heaven aparecen ahí solo como **cuentas espejo**: se leen para copiar lo que
+sirve (el método de circuito cerrado CRM → venta, la convención de nombres) y **nunca se tocan**.
 
 ## Reglas de oro / gotchas
 
