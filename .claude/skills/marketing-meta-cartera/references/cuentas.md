@@ -91,10 +91,16 @@ Inconsistencias entre conjuntos que conviene unificar al consolidar:
    separados solo por servicio: compiten entre sí en la subasta. Consolidar en **un conjunto con
    los servicios como anuncios distintos**. Bonus: Endodoncia, con 76 conversaciones en 30 días
    (~18/semana), **nunca sale de fase de aprendizaje**; dentro del conjunto grande sí.
-3. **El remarketing está armado y apagado.** `SPA-RETARGET-Consulta30-FB365`
-   (`120250385380820636`) tiene dos anuncios activos (`SPA-Retarget-NoAdivines`,
-   `SPA-Retarget-NosViste`) y **Bs 0 gastados, 0 impresiones**. Es el público más barato que
-   existe. Prenderlo con Bs 15–20/día.
+3. **El remarketing NO funciona en esta cuenta. Ya se probó.**
+   `SPA-RETARGET-Consulta30-FB365` (`120250385380820636`), historial completo: Bs 59,13 ·
+   3.010 impresiones · **CPM Bs 19,64** · CTR 2,69% · **2 conversaciones a Bs 29,57**.
+   Contra los Bs 2,53 de Blanqueamiento: **12x más caro**. Eduardo reporta tres intentos
+   fallidos de remarketing, y el dato lo respalda.
+   **No volver a sugerirlo acá sin una razón nueva.** El motivo no es mala ejecución: el CTR de
+   2,69% es de los mejores de la cuenta, o sea que el anuncio engancha. El problema es el
+   **CPM de Bs 19,64 contra Bs 8,59 del tráfico frío** — el público que ya interactuó, dentro de
+   un radio de 4 km, es demasiado chico y Meta cobra caro por alcanzarlo.
+
 4. **Escalar Blanqueamiento** (`120249545266610636`): Meta estima +81% más conversiones. Es el
    conjunto con CPM más bajo (Bs 8,42) y frecuencia 1,88 — hay espacio. +20–30% semanal.
 5. **Limpieza Bs 230 quedó en limbo**: conjunto pausado con el anuncio activo, Bs 15,14 por

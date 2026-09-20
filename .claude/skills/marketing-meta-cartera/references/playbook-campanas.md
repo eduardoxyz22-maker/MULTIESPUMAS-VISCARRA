@@ -82,6 +82,25 @@ FER | RMK | Catálogo      | ABO | <mes-año>   ← requiere catálogo cargado
 6. Meta todavía no le asignó vertical a esta cuenta: las primeras 2 semanas el sistema está
    aprendiendo qué es el negocio. Los costos iniciales **no** son representativos.
 
+## Cuándo el remarketing SIRVE y cuándo no
+
+No es "siempre el público más barato". Esa regla de manual es falsa en negocios locales.
+
+**La prueba, antes de proponerlo: compará el CPM del público de remarketing contra el del
+tráfico frío de la misma cuenta.**
+
+- Tráfico frío caro (CPM alto, público competido) → el remarketing rescata. Sirve.
+- **Tráfico frío barato → el remarketing es un lujo que no rinde.** Comprar gente nueva sale
+  menos que insistirle a quien ya te vio y no escribió.
+
+Caso medido en Spadental (20/09/2026): remarketing CPM Bs 19,64 y Bs 29,57 por conversación,
+contra tráfico frío CPM Bs 8,59 y Bs 2,53 por conversación. **12x más caro.** Con un radio de
+4 km, el público de "ya interactuó" es tan chico que Meta cobra una fortuna por alcanzarlo.
+
+Corolario: en una clínica o comercio de barrio con geo apretada, **asumí que el remarketing NO
+va** hasta que el CPM del frío suba. Donde sí puede tener sentido es en FERROMARC, con catálogo
+cargado y remarketing por producto visto — pero eso se prueba, no se da por hecho.
+
 ## Escenarios de presupuesto
 
 | Escenario | Bs/día | Bs/mes | Para qué sirve |
