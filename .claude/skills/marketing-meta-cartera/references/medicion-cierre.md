@@ -46,6 +46,32 @@ Puesto en una tabla:
 celebrar los Bs 2,84 de Spadental o de criticar los Bs 13,41 de Mirna, hay que saber qué pasó
 después del mensaje.
 
+## En Cosmetic el costo por conversación MIENTE — caso Implantes
+
+Dato del cliente, 21/09/2026. `COS-Implantes-Entrada-17/07` acumuló **393 conversaciones a
+Bs 4,31** con CPM de Bs 18,95 — el segundo mejor costo de toda la cuenta. **Se pausó porque no
+dejaba paciente en la silla.**
+
+O sea: el conjunto que el tablero de Meta señalaba como uno de los mejores era, en el negocio,
+el peor. No es que la métrica sea imperfecta: **está invertida.**
+
+La explicación que encaja: un implante cuesta miles de Bs. Un anuncio que hace barata la
+conversación atrae a quien pregunta "¿cuánto sale?" y desaparece con el precio. **Conversación
+barata en tratamiento de ticket alto = curioso de precio, no paciente.**
+
+**Reglas que salen de esto:**
+
+1. **Nunca ordenar los conjuntos de Cosmetic por costo por conversación.** Ahí el orden puede
+   ser exactamente al revés del orden de rentabilidad.
+2. **Sospechar del conjunto de ticket alto con CTR muy alto y conversación barata.** Es el perfil
+   de Implantes. Al 21/09 `COS-VENTAS-Carillas-Sep` tiene ese mismo perfil (CTR 3,57%,
+   Bs 5,04): antes de escalarlo, preguntar si sienta pacientes.
+3. **Para ticket alto, calificar por precio DENTRO del anuncio.** Decir el rango o el "desde"
+   filtra al curioso antes de que escriba. Sube el costo por conversación y mejora el paciente.
+   Es lo contrario de optimizar por conversación barata, y es lo correcto acá.
+4. **Antes de escalar cualquier conjunto de esta cuenta, la pregunta no es cuánto cuesta la
+   conversación: es si esa conversación se sienta en el sillón.** Eduardo lo sabe; la API no.
+
 ## Lo que falta montar (la deuda de la cartera)
 
 Ninguna de las cuatro cuentas cierra el circuito hoy. Dos formas de arreglarlo, en orden de
