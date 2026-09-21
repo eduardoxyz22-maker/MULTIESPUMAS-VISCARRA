@@ -87,13 +87,17 @@ Resumen operativo; el detalle con fuentes está en `references/novedades-2026.md
 
 1. **Andromeda + GEM**: el motor de recuperación y ranking se reconstruyó. Premia **diversidad
    creativa real** (ganchos, formatos y protagonistas distintos), no variantes cosméticas.
-   Apuntar a 8–12 conceptos genuinamente distintos por campaña, refresco cada 2–3 semanas.
+   Apuntar a 8–12 conceptos genuinamente distintos por campaña. ⚠️ **NO rotar por calendario**:
+   el anuncio vive mientras la frecuencia del conjunto esté bajo 3,5, y los nuevos se suman en
+   vez de reemplazar. La regla de "refrescar cada 2–3 semanas" está desmentida por los datos de
+   las cuentas espejo — ver `references/playbook-campanas.md`.
 2. **Advantage+ unificado** (feb 2026): ya no hay "manual vs Advantage+". Las automatizaciones
    vienen prendidas por defecto y se apagan una por una. Hay que saber cuáles apagar —
    especialmente en las cuentas de salud, donde el público angosto es el activo.
-3. **Opportunity Score**: tablero gratis, por cuenta. Hoy: Cosmetic 99 · Mirna 94 · Spadental 90.
-   **Ojo con la trampa**: el score mide obediencia, no rentabilidad. Priorizá por impacto
-   estimado, no por puntos.
+3. **Opportunity Score**: tablero gratis, por cuenta. **Está probado que mide obediencia, no
+   rentabilidad**: las dos cuentas espejo que compran conversaciones a Bs 0,82–2,65 puntúan
+   **87**, y nuestras cuentas, que pagan Bs 2,33–12,98, puntúan 90–100. Al revés. Usalo como
+   pista de configuración, jamás como medida de si la cuenta va bien.
 4. **Señal de conversión**: compartir **eventos de compra/cita de WhatsApp** hace que Meta
    optimice hacia *quien compra* y no hacia *quien escribe*. Es la palanca más grande que no
    cuesta presupuesto adicional.

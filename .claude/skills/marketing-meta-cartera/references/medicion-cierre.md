@@ -75,6 +75,22 @@ barata en tratamiento de ticket alto = curioso de precio, no paciente.**
 4. **Antes de escalar cualquier conjunto de esta cuenta, la pregunta no es cuánto cuesta la
    conversación: es si esa conversación se sienta en el sillón.** Eduardo lo sabe; la API no.
 
+## La pregunta que va ANTES de subir un solo peso
+
+No es cuánto cuesta la conversación. Es **en cuánto tiempo se contesta.**
+
+| | Conversación a Bs 1 (espejo) | Conversación a Bs 2,84 (Spadental) |
+|---|---|---|
+| Cierra al 2% | **CAC Bs 50** | CAC Bs 142 |
+| Cierra al 30% | CAC Bs 3,33 | **CAC Bs 9,47** |
+
+La cuenta espejo compró ~8.000 conversaciones en 90 días y **cerca de 6.000 personas escribieron
+sin que nadie les contestara a tiempo** (72% de fichas paradas +72 h). Su costo por conversación
+es el mejor de las seis cuentas y su negocio es el peor.
+
+**Ese número —el tiempo de primera respuesta— no lo tenemos para ninguna de nuestras tres
+cuentas.** Es el verdadero cuello de botella de la cartera y no está en la pauta.
+
 ## Lo que falta montar (la deuda de la cartera)
 
 Ninguna de las cuatro cuentas cierra el circuito hoy. Dos formas de arreglarlo, en orden de

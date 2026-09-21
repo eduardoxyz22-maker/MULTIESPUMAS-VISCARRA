@@ -127,8 +127,10 @@ Premium: diseño de sonrisa, implantes, armonización facial, capilar. Equipetro
 
 **Lo pendiente:**
 
-1. **Capilar está saturando: frecuencia 3,33.** La misma persona ya vio el anuncio más de tres
-   veces. Creativos nuevos o ampliar público. **No subir presupuesto en esa campaña.**
+1. **Capilar NO está saturado — la alarma de 3,33 era un error de lectura.** Ese número es la
+   frecuencia **lifetime** (desde el 24/07). En 30 días es **2,54** y en 7 días **1,92**. Parte
+   de esa acumulación se explica porque el conjunto estuvo pausado del 27/08 al 07/09.
+   **Frecuencia siempre a 7 y 30 días; la lifetime no mide saturación actual.**
 2. **Escalar Blanqueamiento `120251119317480272`** — Meta estima +79% más conversiones. Ahí sí va
    el presupuesto que no va a Capilar. Subilo con la regla de siempre, +20–30% semanal.
 3. **El pico de CPM de mediados de septiembre NO fue canibalización: fue el mercado.**
@@ -162,34 +164,70 @@ cuenta es *valor de tratamientos cerrados / inversión*, no volumen de mensajes.
 
 ## 3. MIRNA - MARCA PERSONAL — `4565775887031504`
 
-La marca personal de la Dra. Mirna Veizaga, separada de las dos clínicas.
-**Opportunity Score: 94/100.**
+La marca personal de la Dra. Mirna Veizaga, separada de sus dos clínicas.
+**Opportunity Score 96** — y ver el punto 16 de `conector-meta.md` antes de darle peso.
 
-| Campaña | Objetivo | Gasto | CPM | CTR | Conversaciones | Costo/conv | Frec |
-|---|---|---|---|---|---|---|---|
-| `Nueva campaña de Interacción` | OUTCOME_ENGAGEMENT | Bs 536,35 | **Bs 46,93** | 3,30% | 40 | **Bs 13,41** | 1,84 |
+Historia completa (11 días, 10–20/09): Bs 545,09 · 42 conversaciones · **Bs 12,98 c/u**.
+Una sola campaña: `MIR | EV | Estetica | Santa Cruz | 2026` (`120257388963040151`).
 
-**Lo pendiente:**
+### Meta NO la clasifica como salud
 
-1. **Pasar a una campaña CTWA dedicada** (−7% costo por conversación, 4 pts). Hoy es una campaña
-   genérica de Interacción: Meta optimiza hacia interacción, no hacia conversación.
-2. **El nombre es el default de Meta.** Renombrar con la convención de la cartera.
-3. **Mejoras de texto Advantage+** (−3% costo por resultado, 2 pts).
-4. **El presupuesto está sobredimensionado para el público.** Al 21/09 el conjunto activo tiene
-   Bs 66/día configurados y consume ~Bs 43 — el 66%. Un tope que el público no puede llenar
-   empuja a Meta a ensanchar la entrega para gastarlo, y es candidato a explicar parte del CPM
-   altísimo. **Hipótesis a probar, no hecho comprobado**: bajarlo a ~Bs 45 y mirar si el CPM
-   cede. No hacerlo antes de que el conjunto consolidado salga de aprendizaje (arrancó el 17/09).
-5. **El CPM de Bs 46,93 es 4,7x el de Spadental.** Público muy angosto. Antes de meter más plata,
-   definir qué vende esta cuenta: si es autoridad/marca, el KPI no es costo por conversación y
-   hay que decirlo; si es captación, tiene que ofrecer un servicio concreto como las clínicas.
+| Cuenta | Vertical que le asigna Meta |
+|---|---|
+| **Mirna** | **Publishing · Online Only Publications** |
+| Spadental | Healthcare · Health Systems and Practitioners |
+| Cosmetic | Healthcare · Health Systems and Practitioners |
 
-El CTR de 3,30% es el más alto de la cartera: **el contenido gusta**. El problema no es el
-creativo, es la estructura y la definición del objetivo.
+Meta la lee como **un medio de contenido**, no como una profesional de la salud. Eso define
+contra quién puja en la subasta y explica parte del CPM.
 
----
+### Dos hipótesis mías que los datos MATARON
 
-## 4. FERROMARC / Ferro Todo — `1551786946119762`
+**1. "El presupuesto está sobredimensionado y eso infla el CPM." FALSO.**
+Correlación entre gasto diario y CPM: **0,289** (0,141 sacando el día parcial de arranque).
+El contraejemplo es letal: el 12/09 Labios llenó el **138%** de su presupuesto y tuvo **su CPM
+más barato (Bs 31,91)**; el 14/09 Expocruz llegó apenas al 87,5% y marcó **Bs 97,25**, el más
+caro de la cuenta. Y el 18/09 el consolidado llegó al 91,8% de los Bs 66: **el público sí puede
+llenarlo.** → **NO bajar el presupuesto.**
+
+**2. "El anuncio que convierte mejor recibe menos plata." FALSO, igual que en Cosmetic.**
+Labios Bs 10,56/conv (12 conversaciones) contra Expocruz Bs 10,09 (**4 conversaciones**).
+Diferencia del 4,5% medida sobre 4 casos: una conversación más o menos lo mueve a Bs 8,07 o
+Bs 13,45. `auction_ranking_benchmarks` devuelve "Not Yet Available" para los dos — **ni Meta
+tiene volumen para rankearlos.** Y Meta no lo apagó por capricho: el CTR de Expocruz se derrumbó
+3,66% → 1,75% → **0,00%** con CPM 40% más caro. Apostó bien.
+
+### Lo que SÍ explicaba el CPM alto
+
+Del registro de actividad, **14/09 a las 22:47**: alguien pausó el conjunto Labios y le subió el
+presupuesto a Expocruz. Verificado: **el 15 y el 16/09 Labios entregó Bs 0,00 y cero
+impresiones.** La cuenta pasó dos días corriendo **solo el ángulo caro de Expocruz**, en plena
+feria. De ahí salen los Bs 72,19 y Bs 76,81 que dispararon la alarma.
+
+El control entre cuentas lo confirma: el 14/09 subieron las tres juntas (mercado), pero el 15 y
+16 Spadental y Cosmetic bajaron y Mirna no (6,69x Spadental el 16). Eso fue la cuenta.
+
+**El CPM real de esta cuenta no es Bs 46,93. Es Bs 34,30** (20/09, limpia). Está en 3,3–3,4x
+Spadental, no en 5x. Sigue siendo la más cara, pero no es el público.
+
+### Lo pendiente
+
+1. **No tocar el presupuesto 7 días.** El conjunto nació el 17/09 y lleva 16 conversaciones;
+   necesita 50 en 7 días para salir de aprendizaje. El subgasto es aprendizaje, no falta de
+   gente. **Se declara techo de público solo si al 28/09, con Expocruz apagado y Bs 66/día, el
+   CPM sigue arriba de Bs 45.**
+2. **Falta un número en el anuncio.** Los dos creativos dicen "Agendá tu valoración" sin precio,
+   sin servicio cerrado, sin zona y sin número de WhatsApp. CTR 3,29% (el mejor de la cartera:
+   el contenido gusta) con la conversación más cara de la cartera. Ese desajuste es el
+   diagnóstico.
+3. **Postura sobre qué es esta cuenta**: hoy **no es marca de autoridad, es una tercera clínica
+   mal disfrazada.** Ya optimiza por CONVERSATIONS y manda a WhatsApp — eso es captación. El
+   copy, en cambio, es de marca pura. Hay que elegir captación y darle una oferta concreta.
+   KPI propuesto hasta tener dato del negocio: **costo por valoración agendada**.
+4. **~36 horas en gracia / pago pendiente entre el 18 y el 19/09.** Cuatro eventos en 10 días.
+   El umbral de facturación es muy bajo para el ritmo de gasto.
+
+## 4. FERROMARC## 4. FERROMARC / Ferro Todo — `1551786946119762`
 
 Ferretería e importadora (`importadoratotal.bo`). Cuenta **ACTIVE, con método de pago, y cero
 campañas en toda su historia**. Meta no le asignó ni vertical (`\N`).
@@ -214,6 +252,21 @@ cero".
 
 ---
 
+## Las tres cuentas se quedaron sin método de pago en septiembre
+
+Del registro de actividad, verificado el 21/09/2026:
+
+| Cuenta | Cortes | El peor |
+|---|---|---|
+| Spadental | 3 en 25 días | 27/08, **16 horas** — ese día gastó Bs 48,92 contra una mediana de Bs 88 |
+| Cosmetic | 2 | 06/09, ~3 horas |
+| Mirna | 4 en 10 días | 18–19/09, **~36 horas** en gracia |
+
+Cada corte frena la entrega y puede empujar los conjuntos de vuelta a fase de aprendizaje.
+**Es la única mejora de la cartera que no requiere criterio: tarjeta de respaldo y subir el
+umbral de facturación.** Y contamina cualquier lectura diaria — antes de explicar una caída,
+mirar si ese día la cuenta estuvo cortada.
+
 ## Cuentas espejo — qué copiar y qué no
 
 Heaven, MultiEspumas y Sueña las lleva **otra empresa**. No se tocan: no se crea, no se edita, no
@@ -228,6 +281,24 @@ se pausa nada. Solo se leen para aprender. Lo que vale la pena copiar:
    el 2%, porque el 72% de las fichas queda sin contestar más de 72 h. **El costo por conversación
    barato no salva a nadie si nadie contesta.** Aplicá esa vara a nuestras cuentas antes de
    celebrar los Bs 2,84 de Spadental.
+
+### Lo que NO se copia, con el número
+
+1. **Campañas de seguidores.** MultiEspumas tiene ocho (`PRE | Seguidores FB`, ago-2024 a
+   feb-2025 más Sueña 2026): **~Bs 3.357** en likes a Bs 0,38–0,60, cero ventas rastreables. Es
+   su segundo destino de plata y no produjo nada medible.
+2. **Formularios de clientes potenciales.** Sus tres campañas B2B: Bs 1.152,93 por 195 leads a
+   **Bs 5,05–6,05**, mientras en la misma cuenta y las mismas fechas la conversación de WhatsApp
+   costaba Bs 1,43–1,71. **3–4x más caro y con un lead más flojo.** Es el cartel que Meta nos
+   muestra y que hay que rechazar.
+3. **Su frecuencia.** La campaña madre acumula **7,42** en dos años y va en 2,8–3,9 mensual,
+   pegada al techo. Con un radio de 4 km como el de Spadental, esa presión satura en semanas.
+4. **Su desorden.** Heaven tiene más de 40 anuncios en ACTIVE y solo ~10 gastan; 23 conjuntos
+   ACTIVE y 12 en Bs 0,00. Ensucia toda lectura y se terminan tomando decisiones sobre números
+   que no existen.
+5. **El volumen sin el otro lado del mostrador.** Ver la tabla de `medicion-cierre.md`: compran a
+   Bs 1 y cierran al 2% porque nadie contesta. **La cuenta "peor" es la nuestra solo si mirás la
+   primera columna.**
 
 Lo que **no** se copia: su estructura de campañas (embudo único, casi todo en consideración) ni
 sus campañas de seguidores, que consumieron meses de presupuesto sin producir venta medible.

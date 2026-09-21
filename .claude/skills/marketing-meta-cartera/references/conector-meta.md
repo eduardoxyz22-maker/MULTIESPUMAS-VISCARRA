@@ -102,6 +102,22 @@ Aprendido a los golpes operando estas cuentas. Leer antes de tocar nada.
     `ads_get_ad_entities(level="ad_account", time_increment="1", fields=["cpm","impressions"])`.
     Correrla cada vez que se prende o se apaga un conjunto, y antes de sumar uno nuevo.
 
+16. **El Opportunity Score correlaciona AL REVÉS con el rendimiento real.** Medido el
+    21/09/2026 sobre las seis cuentas del conector:
+
+    | Cuenta | Score | Bs por conversación |
+    |---|---|---|
+    | MultiEspumas (espejo) | **87** | **Bs 0,82** |
+    | Heaven (espejo) | **87** | Bs 2,65 |
+    | Spadental | 90 → 100 | Bs 2,53 |
+    | Mirna | 96 | Bs 12,98 |
+    | Cosmetic | **99** | Bs 5,51 |
+
+    Las dos cuentas más baratas de todas tienen el peor puntaje; la más cara de las nuestras
+    tiene 99. **El score mide cuántas recomendaciones aceptaste, y aceptarlas todas no es lo
+    mismo que rendir.** Sirve para detectar configuración rota (fragmentación, formatos, señal
+    de conversión). No sirve para decir si una cuenta va bien ni para decidir presupuesto.
+
 ## Carteles de la interfaz que hay que rechazar
 
 - **"Puedes obtener un costo por cliente potencial un 24% más bajo si actualizas tu objetivo"** →

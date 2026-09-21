@@ -99,6 +99,60 @@ CTA:     Mandá tu lista por WhatsApp y te cotizamos
 B2C habla de **precio y garantía**. B2B habla de **cotización, plazo y factura**. No mezclarlos en
 el mismo anuncio: son dos personas distintas.
 
+## La estructura de copy que separa un curioso de un paciente
+
+Es el hallazgo más valioso de la cartera y salió de comparar dos anuncios reales de Cosmetic,
+misma clínica, mismo público, misma geo, misma optimización.
+
+**Implantes** — 393 conversaciones a Bs 4,31 y **cero pacientes**:
+> *"Recupera la confianza de sonreír sin pena. Si perdiste una pieza dental, no dejes que afecte
+> tu autoestima. Reserva tu cita por WhatsApp."*
+
+**Carillas** — Bs 5,23 y **sí sienta gente**:
+> *"«¿Se me van a notar?» Es lo primero que pregunta casi todo el mundo. Unas carillas bien
+> hechas no se notan, y eso no depende del material: depende de que se diseñen para tu boca. El
+> color, el largo y la forma se definen según tus rasgos, no según un catálogo."*
+
+**La diferencia es una sola: Carillas hace el trabajo de la consulta ANTES de la conversación.
+Implantes lo delega entero al WhatsApp.**
+
+Quien lee Carillas ya resolvió su duda principal y escribe para agendar. Quien lee Implantes
+escribe para preguntar lo único que el anuncio dejó abierto — *"¿cuánto sale?"* — escucha el
+número y desaparece. 393 veces.
+
+**La prueba de que es el copy y no la categoría:** el anuncio VIEJO de Carillas estaba escrito
+al estilo Implantes (*"Una sonrisa diseñada para vos cambia tu confianza"* — promesa emocional,
+cero criterio) y costaba **Bs 10,50** por conversación. El nuevo: **Bs 5,23**. Se partió al
+medio solo cambiando el texto.
+
+> **En ticket alto, un anuncio que solo promete un sentimiento compra preguntas. Uno que
+> responde una objeción concreta con criterio técnico compra pacientes. Y el costo por
+> conversación se mueve AL REVÉS: el primero sale más barato.**
+
+**Corolario: en Cosmetic, un CPM bajo en un tratamiento caro es una ALARMA.** Significa que Meta
+encontró un bolsillo barato de gente que escribe mensajes. Los Bs 16,73 de CPM de Implantes eran
+la señal de alerta, no el logro.
+
+**La plantilla, entonces, para cualquier servicio de ticket alto:**
+
+1. La objeción del paciente, **citada entre comillas** como la dice él.
+2. La respuesta con **un criterio verificable**, no con un adjetivo.
+3. Recién ahí, la invitación.
+
+## Público amplio le gana al público armado — probado
+
+Heaven, mismo mes, mismos creativos, misma campaña, dos conjuntos:
+
+| Público | CPM | Bs/conversación |
+|---|---|---|
+| Santa Cruz ciudad, 22–65, **sin públicos personalizados** | Bs 12,42 | **Bs 2,52** |
+| Radios 6 y 3 km + 3 retargeting + similares 2% y 3% + intereses | Bs 13,64 | **Bs 4,75** |
+
+**El público armado sale 1,9x más caro, y se repite dos meses seguidos.** Encaja con que
+Spadental probó remarketing tres veces y pagó Bs 29,57 contra Bs 2,53 del frío.
+
+**No gastes tiempo armando públicos personalizados.** Geo + edad + amplio + Advantage+.
+
 ## Reglas de copy
 
 - **Precio adelante donde se puede** (Spadental, FERROMARC). En estos mercados el precio es el
@@ -110,6 +164,13 @@ el mismo anuncio: son dos personas distintas.
 - **Nada de mayúsculas sostenidas ni cinco emojis.** Meta castiga el texto sensacionalista y la
   gente lo lee como spam.
 - **Si el creativo se generó o retocó sustancialmente con IA, declararlo al subirlo.**
+- **Escribí el número de WhatsApp en el cuerpo del anuncio, además del botón.** Heaven lo pone
+  en los seis creativos; Mirna en ninguno. Ojo: el clic a un `wa.me` escrito NO cuenta como
+  conversación CTWA ni trae las 72 h gratis — es respaldo, no reemplazo del botón.
+- **Poné la dirección física en cada anuncio.** Heaven cierra con sus tres sucursales; en salud
+  la confianza pesa más todavía. Spadental lo hace, Mirna no dice dónde atiende.
+- **Nombrá el anuncio con formato y fecha adentro** (`AdReel:`, `18/09 …`). Se lee qué es y de
+  cuándo sin abrir nada.
 
 ## Restricciones de salud de Meta — leer antes de escribir para las clínicas
 

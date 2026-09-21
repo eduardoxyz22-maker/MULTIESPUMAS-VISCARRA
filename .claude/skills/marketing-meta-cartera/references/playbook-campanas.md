@@ -138,6 +138,35 @@ cargado y remarketing por producto visto — pero eso se prueba, no se da por he
 
 **Regla transversal**: presupuesto sano de un negocio = **5–10% de sus ingresos mensuales**.
 
+## Rotación de creativos — la regla de "cada 2–3 semanas" es FALSA
+
+Estuvo escrita acá y en el SKILL.md, sacada de la doctrina de Andromeda. **Los datos de las
+cuentas espejo la desmienten, y con una muestra enorme.**
+
+| | MultiEspumas | Heaven |
+|---|---|---|
+| Antigüedad del conjunto principal | **17 meses** (creado 30/04/2025) | 3 semanas — se rehace cada mes |
+| Costo por conversación | **Bs 0,82** | Bs 2,44 – 5,88 |
+| Conversaciones acumuladas | 45.610 | 19.606 |
+
+**Misma empresa, misma ciudad, mismo rubro. El que deja quieto paga 2–5x menos.** Y sus
+anuncios ganadores llevan meses al aire sin retirarse: `AdReel: Solo tengo 10bs` corre desde
+marzo a Bs 1,21, y encima le sumaron cuatro nuevos. Meta se lo dice textual a Heaven en su
+propio tablero: *"Mantén en circulación el anuncio original para optimizar los resultados."*
+
+**La regla correcta:**
+
+> Un anuncio vive mientras la **frecuencia del conjunto esté por debajo de 3,5**, no mientras
+> tenga menos de tres semanas. Los creativos nuevos se **suman**, no reemplazan.
+
+**Salvedad que sí importa para nosotros:** MultiEspumas aguanta 17 meses porque su público es
+toda Santa Cruz. Spadental corre en un radio de 4 km y se quema mucho antes. La regla no es
+"nunca rotar": es **medir la frecuencia en vez de mirar el calendario**.
+
+**Corolario estructural:** el conjunto debe ser permanente y los servicios entran y salen como
+**anuncios**, nunca como conjuntos nuevos. Cada conjunto nuevo tira a la basura el aprendizaje
+acumulado. Es lo que Heaven hace mal y le cuesta 2–5x.
+
 ## Fase de aprendizaje
 
 - Un conjunto sale de aprendizaje con ~**50 conversiones por semana**.
