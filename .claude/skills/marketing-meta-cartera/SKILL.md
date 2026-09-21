@@ -125,6 +125,25 @@ Resumen operativo; el detalle con fuentes está en `references/novedades-2026.md
   ROAS, y por qué el costo por conversación solo no sirve para decidir.
 - `references/rutina-operativa.md` — checklist diario, semanal y mensual; reporte al cliente.
 
+## LA REGLA QUE VA ANTES DE TODAS LAS DEMÁS
+
+**Antes de proponer o ejecutar cualquier cosa, consultá el historial completo con
+`date_preset: "maximum"` de la entidad exacta que vas a tocar — conjunto, anuncio, creativo
+o IMAGEN — y mostrale al usuario el número que salga. Si no le mostraste el historial, no lo
+propongas.**
+
+El 21/09/2026 esta regla se rompió tres veces en una sola sesión, y las tres las cazó el
+cliente, no el agente:
+
+| Se propuso | El dato que ya existía |
+|---|---|
+| Remarketing | Ya probado 3 veces: Bs 29,57/conversación, 12x el tráfico frío |
+| Diseño Sonrisa "nunca se prendió" | Corrió desde el 16/07: Bs 515,22, Bs 9,37/conv, el peor de la cuenta |
+| Un creativo nuevo sobre `carillas 1 .jpeg` | Esa imagen ya corrió en `COS-Carillas`: **Bs 10,50/conv contra Bs 5,24 del video** |
+
+Las tres estaban a una consulta de distancia. **La regla no se aplica solo a conjuntos y
+campañas: se aplica a cada imagen y cada video de la biblioteca antes de reusarlo.**
+
 ## Reglas de oro
 
 - **Nunca afirmes un número sin haberlo consultado en esta sesión.**

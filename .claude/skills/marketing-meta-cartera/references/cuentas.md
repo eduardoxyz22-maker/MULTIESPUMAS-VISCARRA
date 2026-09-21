@@ -149,7 +149,14 @@ Premium: diseño de sonrisa, implantes, armonización facial, capilar. Equipetro
    igual fue correcto por su propio rendimiento (CPM Bs 49,13, Bs 7,60 por conversación), pero
    no envenenaba la cuenta.
 
-4. **Diseño de Sonrisa ya se probó y anduvo mal**: Bs 515,22 · 55 conversaciones · **Bs 9,37**,
+4. **La imagen `carillas 1 .jpeg` (`c7df6a00195f33948cf1dd343f9428b5`) ya falló.** Corrió en
+   `COS-Carillas` (`120250846507250272`): Bs 147,01 · 3.201 impresiones · CTR 2,09 % ·
+   **CPM Bs 45,93** · 14 conversaciones a **Bs 10,50** — el doble que el video de Carillas
+   (Bs 5,24) con CPM 17 % más alto. Eduardo la pausó por eso.
+   **No reusar esa imagen.** El ángulo de las tres preguntas necesita una pieza propia,
+   diseñada con las preguntas en pantalla. El anuncio `120251962480610272`, creado el 21/09
+   sobre esa misma imagen, quedó PAUSADO con Bs 0 gastados y **no se activa**.
+5. **Diseño de Sonrisa ya se probó y anduvo mal**: Bs 515,22 · 55 conversaciones · **Bs 9,37**,
    el peor costo de la cuenta. No proponerlo de nuevo sin un ángulo o creativo distinto.
 5. **Facial Expocruz**: Bs 7,60 por conversación con CPM de Bs 49,13, y encima canibaliza.
    Si se reactiva por la feria, es a cambio de apagar otro.
