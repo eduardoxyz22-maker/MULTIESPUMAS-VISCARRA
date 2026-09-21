@@ -73,6 +73,23 @@ Aprendido a los golpes operando estas cuentas. Leer antes de tocar nada.
     aunque el conjunto de origen sí lo tenía. Se derivan del destino y de la configuración de la
     página, no de lo que mandaste. **Verificar en la interfaz antes de activar.**
 
+13. **`last_30d` te hace afirmar que algo "nunca corrió".** Un conjunto que gastó en julio sale
+    con Bs 0 en una consulta de 30 días. **Antes de decir que algo no se probó, consultá
+    `date_preset: "maximum"`.** Pasó el 20/09/2026 con `COS-Diseno-Sonrisa-16/07`: se reportó
+    "nunca se prendió" cuando había gastado Bs 515,22 y traído 55 conversaciones a Bs 9,37 — el
+    peor costo de la cuenta. El cliente lo sabía y el agente no.
+
+14. **El Opportunity Score NO detecta canibalización entre conjuntos.** Su alerta
+    `fragmentation` compara definiciones de público parecidas, no colisión real en la subasta.
+    Caso medido en Cosmetic (score 99, sin ninguna alerta): al prender un cuarto conjunto
+    simultáneo, `COS-Facial-Expocruz`, el **CPM de toda la cuenta** pasó de Bs 16,19 (6–7/09) a
+    Bs 38,69 (13–15/09, pico de Bs 47,21) y volvió a Bs 17,82 al pausarlo (17–19/09). Las
+    impresiones diarias cayeron de 8.788 a 2.718 con gasto similar.
+    **Nunca digas "Meta no ve que compitan, entonces no compiten".** La prueba real es la serie
+    diaria de CPM a nivel cuenta:
+    `ads_get_ad_entities(level="ad_account", time_increment="1", fields=["cpm","impressions"])`.
+    Correrla cada vez que se prende o se apaga un conjunto, y antes de sumar uno nuevo.
+
 ## Carteles de la interfaz que hay que rechazar
 
 - **"Puedes obtener un costo por cliente potencial un 24% más bajo si actualizas tu objetivo"** →

@@ -129,8 +129,19 @@ Premium: diseño de sonrisa, implantes, armonización facial, capilar. Equipetro
 
 1. **Capilar está saturando: frecuencia 3,33.** La misma persona ya vio el anuncio más de tres
    veces. Creativos nuevos o ampliar público. **No subir presupuesto en esa campaña.**
-2. **Escalar `120251119317480272`** — Meta estima +79% más conversiones. Ahí sí va el presupuesto
-   que no va a Capilar.
+2. **Escalar Blanqueamiento `120251119317480272`** — Meta estima +79% más conversiones. Ahí sí va
+   el presupuesto que no va a Capilar. **Pero subilo de a poco y mirando el CPM diario de la
+   cuenta**: esta cuenta ya demostró que se canibaliza (ver abajo).
+3. **Esta cuenta SE CANIBALIZA, aunque el score diga 99.** En septiembre, prender un cuarto
+   conjunto simultáneo (`COS-Facial-Expocruz`) llevó el CPM de toda la cuenta de Bs 16,19 a
+   Bs 38,69 y hundió las impresiones de 8.788 a 2.718 por día. Al pausarlo volvió a Bs 17,82.
+   Lo detectó Eduardo, no el Opportunity Score. **Tres conjuntos simultáneos es el techo probado
+   de esta cuenta; el cuarto rompió el equilibrio.** Antes de prender uno nuevo, decidí cuál se
+   apaga.
+4. **Diseño de Sonrisa ya se probó y anduvo mal**: Bs 515,22 · 55 conversaciones · **Bs 9,37**,
+   el peor costo de la cuenta. No proponerlo de nuevo sin un ángulo o creativo distinto.
+5. **Facial Expocruz**: Bs 7,60 por conversación con CPM de Bs 49,13, y encima canibaliza.
+   Si se reactiva por la feria, es a cambio de apagar otro.
 3. Con score 99 no hay deuda técnica: la mejora acá es **creativa y comercial**, no de
    configuración. Lo que falta medir es qué pasa después de la conversación — cuántas de esas
    1.102 conversaciones terminaron en tratamiento cerrado y por cuánto.
