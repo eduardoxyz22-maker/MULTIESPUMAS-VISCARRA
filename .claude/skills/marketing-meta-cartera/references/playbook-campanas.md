@@ -2,23 +2,45 @@
 
 Todo en Bs. Mínimo diario de las cuentas BOB: **Bs 12,50**.
 
-## Convención de nombres (aplicar en las cuatro cuentas)
-
-Hoy tres de cuatro cuentas tienen nombres por defecto (`Nueva campaña de Interacción`,
-`Campaña Campaña de mensajes personalizada 6/7/2026`). Eso impide filtrar, comparar y reportar.
+## Convención de nombres — ya aplicada en Spadental y Cosmetic (21/09/2026)
 
 ```
-<MARCA> | <ETAPA> | <servicio o línea> | <estructura> | <mes-año>
+<MARCA> | <ESTADO> | <línea> | <zona o nota>
 ```
 
-- Marca: `SPA` · `COS` · `MIR` · `FER`
-- Etapa: `EV` (conversación, lo que vende) · `CV` (conversión con promo puntual) ·
-  `PRE` (presencia — **nunca línea principal**) · `RMK` (remarketing)
-- Estructura: `ABO` (presupuesto por conjunto) o `CBO` (por campaña)
+- **Marca**: `SPA` · `COS` · `MIR` · `FER`
+- **Estado**:
+  - `EV` — corriendo, es lo que vende
+  - `PAUSA` — pausado pero vigente, se puede reactivar (lleva el motivo entre paréntesis)
+  - `ZZ` — muerto o descartado, **con el número que lo descartó en el nombre**
+- **Zona**: `Mutualista` (Spadental) · `Equipetrol` (Cosmetic)
 
-Ejemplos: `SPA | EV | Blanqueamiento | ABO | 09-2026` · `FER | CV | Herramientas | CBO | 10-2026`
+Así quedaron las cuentas:
 
-Renombrar es gratis, no reinicia el aprendizaje y arregla el reporte de golpe.
+| Cuenta | Nombre | Estado |
+|---|---|---|
+| SPA | `SPA \| EV \| Blanqueamiento \| Mutualista` | 🟢 Bs 57 |
+| SPA | `SPA \| EV \| Servicios (Placas+Endo+Limpieza) \| Mutualista` | 🟢 Bs 50 |
+| SPA | `SPA \| PAUSA \| Placas \| revertir test` | ⏸️ |
+| SPA | `SPA \| PAUSA \| Endodoncia \| revertir test` | ⏸️ |
+| SPA | `SPA \| PAUSA \| Limpieza 230 \| revertir test` | ⏸️ |
+| SPA | `ZZ \| SPA \| Retarget - NO USAR (Bs 29,57/conv)` | ⏸️ |
+| SPA | `ZZ \| SPA \| Consulta 30 - probado (Bs 6,14/conv)` | ⏸️ |
+| COS | `COS \| EV \| Carillas \| Equipetrol` | 🟢 Bs 37 |
+| COS | `COS \| EV \| Capilar \| Equipetrol` | 🟢 Bs 30 |
+| COS | `COS \| EV \| Blanqueamiento 3 Luces \| Equipetrol` | 🟢 Bs 30 |
+| COS | `COS \| PAUSA \| Facial Expocruz (CPM Bs 49)` | ⏸️ |
+| COS | `COS \| PAUSA \| Limpieza+Carillas (espera video nuevo)` | ⏸️ |
+| COS | `ZZ \| COS \| Implantes - NO USAR (no sienta pacientes)` | ⏸️ |
+| COS | `ZZ \| COS \| Diseno Sonrisa - probado mal (Bs 9,37/conv)` | ⏸️ |
+
+**La regla que hace que esto valga la pena: un `ZZ` lleva el número que lo mató.** Así nadie
+—ni el agente— vuelve a proponer el retargeting de Spadental ni los implantes de Cosmetic sin
+ver primero por qué se descartaron. Es la defensa más barata contra repetir una prueba ya hecha.
+
+Campañas: `<MARCA> | EV | <tema> | <zona> | <año>`, y las muertas pasan a `ZZ | … | ARCHIVO`
+**y se pausan** — una campaña activa con todos sus conjuntos pausados no entrega nada pero
+ensucia el tablero y hace creer que hay más corriendo de lo que hay.
 
 ## Estructura por rubro
 
