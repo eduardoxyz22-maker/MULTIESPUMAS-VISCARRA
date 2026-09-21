@@ -130,14 +130,23 @@ Premium: diseño de sonrisa, implantes, armonización facial, capilar. Equipetro
 1. **Capilar está saturando: frecuencia 3,33.** La misma persona ya vio el anuncio más de tres
    veces. Creativos nuevos o ampliar público. **No subir presupuesto en esa campaña.**
 2. **Escalar Blanqueamiento `120251119317480272`** — Meta estima +79% más conversiones. Ahí sí va
-   el presupuesto que no va a Capilar. **Pero subilo de a poco y mirando el CPM diario de la
-   cuenta**: esta cuenta ya demostró que se canibaliza (ver abajo).
-3. **Esta cuenta SE CANIBALIZA, aunque el score diga 99.** En septiembre, prender un cuarto
-   conjunto simultáneo (`COS-Facial-Expocruz`) llevó el CPM de toda la cuenta de Bs 16,19 a
-   Bs 38,69 y hundió las impresiones de 8.788 a 2.718 por día. Al pausarlo volvió a Bs 17,82.
-   Lo detectó Eduardo, no el Opportunity Score. **Tres conjuntos simultáneos es el techo probado
-   de esta cuenta; el cuarto rompió el equilibrio.** Antes de prender uno nuevo, decidí cuál se
-   apaga.
+   el presupuesto que no va a Capilar. Subilo con la regla de siempre, +20–30% semanal.
+3. **El pico de CPM de mediados de septiembre NO fue canibalización: fue el mercado.**
+   Se creyó que prender un cuarto conjunto (`COS-Facial-Expocruz`) había disparado el CPM de
+   toda la cuenta. El control entre cuentas lo desmiente — las tres subieron igual, en las
+   mismas fechas, y Spadental no tiene ningún conjunto de Expocruz:
+
+   | CPM promedio | Spadental | Cosmetic | Mirna |
+   |---|---|---|---|
+   | 6–12 sep | Bs 11,47 | Bs 23,52 | Bs 36,77 |
+   | 13–15 sep | Bs 19,18 | Bs 38,69 | Bs 66,26 |
+   | 17–19 sep | Bs 9,91 | Bs 17,82 | Bs 41,41 |
+   | Salto | ×1,67 | ×1,64 | ×1,80 |
+
+   Coincide con la ventana de Expocruz: toda la plaza pujando encarece a todos. Pausar Facial
+   igual fue correcto por su propio rendimiento (CPM Bs 49,13, Bs 7,60 por conversación), pero
+   no envenenaba la cuenta.
+
 4. **Diseño de Sonrisa ya se probó y anduvo mal**: Bs 515,22 · 55 conversaciones · **Bs 9,37**,
    el peor costo de la cuenta. No proponerlo de nuevo sin un ángulo o creativo distinto.
 5. **Facial Expocruz**: Bs 7,60 por conversación con CPM de Bs 49,13, y encima canibaliza.

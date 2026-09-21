@@ -79,14 +79,23 @@ Aprendido a los golpes operando estas cuentas. Leer antes de tocar nada.
     "nunca se prendió" cuando había gastado Bs 515,22 y traído 55 conversaciones a Bs 9,37 — el
     peor costo de la cuenta. El cliente lo sabía y el agente no.
 
-14. **El Opportunity Score NO detecta canibalización entre conjuntos.** Su alerta
+14. **Una sola cuenta no prueba nada: usá las otras como grupo de control.** La cartera tiene
+    cuatro cuentas en la misma plaza. Antes de atribuirle a un cambio la subida o bajada de una
+    métrica, **corré la misma serie diaria en las otras cuentas y en las mismas fechas.** Si se
+    mueven todas, es el mercado de Santa Cruz; si se mueve una sola, es la cuenta. Es gratis y
+    evita el error más caro de todos: explicar con una causa interna algo que fue estacional.
+    Verificado el 21/09/2026: un pico de CPM que se había atribuido a canibalización en Cosmetic
+    resultó ser ×1,6–1,8 en las TRES cuentas a la vez, ventana de Expocruz.
+    Lo mismo vale para comparar antes/después de un cambio: **si los dos períodos no son las
+    mismas fechas, no son comparables.** Un supuesto −25% por consolidar en Mirna era, en
+    realidad, la caída general del CPM de la cuenta entre esos dos períodos.
+
+15. **El Opportunity Score NO detecta canibalización entre conjuntos.** Su alerta
     `fragmentation` compara definiciones de público parecidas, no colisión real en la subasta.
-    Caso medido en Cosmetic (score 99, sin ninguna alerta): al prender un cuarto conjunto
-    simultáneo, `COS-Facial-Expocruz`, el **CPM de toda la cuenta** pasó de Bs 16,19 (6–7/09) a
-    Bs 38,69 (13–15/09, pico de Bs 47,21) y volvió a Bs 17,82 al pausarlo (17–19/09). Las
-    impresiones diarias cayeron de 8.788 a 2.718 con gasto similar.
-    **Nunca digas "Meta no ve que compitan, entonces no compiten".** La prueba real es la serie
-    diaria de CPM a nivel cuenta:
+    Su alerta `fragmentation` compara definiciones de público parecidas, no colisión real en la
+    subasta, así que **nunca digas "Meta no ve que compitan, entonces no compiten"**. Pero la
+    prueba tampoco es el CPM de una cuenta sola — ver el punto 14. Es la serie diaria de CPM de
+    la cuenta **contrastada con las otras cuentas de la cartera**:
     `ads_get_ad_entities(level="ad_account", time_increment="1", fields=["cpm","impressions"])`.
     Correrla cada vez que se prende o se apaga un conjunto, y antes de sumar uno nuevo.
 
