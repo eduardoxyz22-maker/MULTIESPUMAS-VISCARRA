@@ -63,12 +63,15 @@ barata en tratamiento de ticket alto = curioso de precio, no paciente.**
 
 1. **Nunca ordenar los conjuntos de Cosmetic por costo por conversación.** Ahí el orden puede
    ser exactamente al revés del orden de rentabilidad.
-2. **Sospechar del conjunto de ticket alto con CTR muy alto y conversación barata.** Es el perfil
-   de Implantes. Al 21/09 `COS-VENTAS-Carillas-Sep` tiene ese mismo perfil (CTR 3,57%,
-   Bs 5,04): antes de escalarlo, preguntar si sienta pacientes.
-3. **Para ticket alto, calificar por precio DENTRO del anuncio.** Decir el rango o el "desde"
-   filtra al curioso antes de que escriba. Sube el costo por conversación y mejora el paciente.
-   Es lo contrario de optimizar por conversación barata, y es lo correcto acá.
+2. **El patrón NO es "ticket alto = curioso".** Se sospechó de `COS-VENTAS-Carillas-Sep` por
+   tener el mismo perfil que Implantes (estético, ticket alto, CTR 3,57%, conversación a
+   Bs 5,04) y Eduardo confirmó el 21/09 que **Carillas sí genera pacientes**. O sea que el
+   problema era de Implantes en particular, no de la categoría. **No le toques el anuncio a
+   Carillas: funciona como está.**
+3. **Calificar por precio dentro del anuncio es una prueba, no una regla.** Decir el "desde"
+   filtra al curioso antes de que escriba: sube el costo por conversación y mejora el paciente.
+   Tiene sentido probarlo donde se repita el patrón de Implantes — conversación barata sin
+   paciente — y en ningún otro lado. Nunca sobre un conjunto que ya sienta gente.
 4. **Antes de escalar cualquier conjunto de esta cuenta, la pregunta no es cuánto cuesta la
    conversación: es si esa conversación se sienta en el sillón.** Eduardo lo sabe; la API no.
 
