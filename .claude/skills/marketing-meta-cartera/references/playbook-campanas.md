@@ -2,7 +2,7 @@
 
 Todo en Bs. Mínimo diario de las cuentas BOB: **Bs 12,50**.
 
-## Convención de nombres — ya aplicada en Spadental y Cosmetic (21/09/2026)
+## Convención de nombres — ya aplicada en Spadental, Cosmetic y Mirna (21/09/2026)
 
 ```
 <MARCA> | <ESTADO> | <línea> | <zona o nota>
@@ -33,6 +33,9 @@ Así quedaron las cuentas:
 | COS | `COS \| PAUSA \| Limpieza+Carillas (espera video nuevo)` | ⏸️ |
 | COS | `ZZ \| COS \| Implantes - NO USAR (no sienta pacientes)` | ⏸️ |
 | COS | `ZZ \| COS \| Diseno Sonrisa - probado mal (Bs 9,37/conv)` | ⏸️ |
+| MIR | `MIR \| EV \| Estetica (Labios+Expocruz) \| Santa Cruz` | 🟢 Bs 66 |
+| MIR | `ZZ \| MIR \| Expocruz - consolidado (Bs 15,79/conv)` | ⏸️ |
+| MIR | `ZZ \| MIR \| Labios - consolidado (Bs 12,54/conv)` | ⏸️ |
 
 **La regla que hace que esto valga la pena: un `ZZ` lleva el número que lo mató.** Así nadie
 —ni el agente— vuelve a proponer el retargeting de Spadental ni los implantes de Cosmetic sin

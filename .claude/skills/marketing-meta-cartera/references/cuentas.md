@@ -175,7 +175,12 @@ La marca personal de la Dra. Mirna Veizaga, separada de las dos clínicas.
    genérica de Interacción: Meta optimiza hacia interacción, no hacia conversación.
 2. **El nombre es el default de Meta.** Renombrar con la convención de la cartera.
 3. **Mejoras de texto Advantage+** (−3% costo por resultado, 2 pts).
-4. **El CPM de Bs 46,93 es 4,7x el de Spadental.** Público muy angosto. Antes de meter más plata,
+4. **El presupuesto está sobredimensionado para el público.** Al 21/09 el conjunto activo tiene
+   Bs 66/día configurados y consume ~Bs 43 — el 66%. Un tope que el público no puede llenar
+   empuja a Meta a ensanchar la entrega para gastarlo, y es candidato a explicar parte del CPM
+   altísimo. **Hipótesis a probar, no hecho comprobado**: bajarlo a ~Bs 45 y mirar si el CPM
+   cede. No hacerlo antes de que el conjunto consolidado salga de aprendizaje (arrancó el 17/09).
+5. **El CPM de Bs 46,93 es 4,7x el de Spadental.** Público muy angosto. Antes de meter más plata,
    definir qué vende esta cuenta: si es autoridad/marca, el KPI no es costo por conversación y
    hay que decirlo; si es captación, tiene que ofrecer un servicio concreto como las clínicas.
 
