@@ -32,9 +32,12 @@ Aprendido a los golpes operando estas cuentas. Leer antes de tocar nada.
 
 ## Trampas verificadas — cada una costó tiempo o casi costó plata
 
-1. **`ads_update_entity` PAUSA el conjunto al editarlo.** Devuelve `status_forced_to_paused`.
-   Siempre reactivar con `ads_activate_entity` **y verificar con una lectura**. Ya pasó dos veces
-   en Spadental: quedó un conjunto apagado sin que nadie se enterara.
+1. **`ads_update_entity` PAUSA el conjunto al editarlo — a veces.** Devuelve
+   `status_forced_to_paused`. Siempre reactivar con `ads_activate_entity` **y verificar con una
+   lectura**. Ya pasó dos veces en Spadental: quedó un conjunto apagado sin que nadie se enterara.
+   **Es inconsistente y no se puede predecir**: el 21/09/2026 el mismo cambio de presupuesto
+   pausó el conjunto en Spadental (`true`) y no lo pausó en Cosmetic (`false`), con minutos de
+   diferencia. Por eso la verificación no es opcional aunque la respuesta diga que no pausó.
 2. **Los borradores no existen para una consulta `live`.** Usar `object_state: "draft"` o
    preguntar. **"No aparece" ≠ "no existe"** — ya se afirmó "no hay nada creado" mirando la API
    mientras el borrador estaba en pantalla.
