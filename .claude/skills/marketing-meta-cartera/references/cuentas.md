@@ -174,67 +174,128 @@ cuenta es *valor de tratamientos cerrados / inversión*, no volumen de mensajes.
 La marca personal de la Dra. Mirna Veizaga, separada de sus dos clínicas.
 **Opportunity Score 96** — y ver el punto 16 de `conector-meta.md` antes de darle peso.
 
-Historia completa (11 días, 10–20/09): Bs 545,09 · 42 conversaciones · **Bs 12,98 c/u**.
-Una sola campaña: `MIR | EV | Estetica | Santa Cruz | 2026` (`120257388963040151`).
+**La cuenta se abrió el 08/09/2026.** No existe historia anterior: es cuenta nueva, sin
+aprendizaje acumulado de ningún tipo.
 
-### Meta NO la clasifica como salud
+Historia completa (10–25/09, releída el 25/09): **Bs 866,23 · 74 conversaciones · Bs 11,71 c/u**
+· CPM 45,49 · CTR 3,18%. Una sola campaña: `MIR | EV | Estetica | Santa Cruz | 2026`
+(`120257388963040151`), CONVERSATIONS con destino WhatsApp.
 
-| Cuenta | Vertical que le asigna Meta |
+### Es la cuenta más rentable de la cartera, no la más cara
+
+Dato del negocio (Eduardo, 25/09): **labios Bs 1.800, cierra ~2 de cada 10 conversaciones.**
+
+| | Labios-Limpio |
 |---|---|
-| **Mirna** | **Publishing · Online Only Publications** |
-| Spadental | Healthcare · Health Systems and Practitioners |
-| Cosmetic | Healthcare · Health Systems and Practitioners |
+| Bs por conversación | 10,08 |
+| 10 conversaciones | Bs 100,80 |
+| 2 ventas × Bs 1.800 | Bs 3.600 |
+| **Retorno** | **~35 a 1** · CAC Bs 50,40 (2,8% del ticket) |
 
-Meta la lee como **un medio de contenido**, no como una profesional de la salud. Eso define
-contra quién puja en la subasta y explica parte del CPM.
+Hasta el peor día de la cuenta (19/09, Bs 37,38/conv, en pleno corte de pago) da ~9,6 a 1.
 
-### Dos hipótesis mías que los datos MATARON
+**Error que cometí y no hay que repetir:** comparé los Bs 13,71 de Mirna contra los Bs 3,60 de
+Spadental y la llamé "la cuenta problema". Una limpieza de Spadental son Bs 230; un labio son
+Bs 1.800. **El costo por conversación sin el ticket al lado no dice si una cuenta está cara.**
 
-**1. "El presupuesto está sobredimensionado y eso infla el CPM." FALSO.**
-Correlación entre gasto diario y CPM: **0,289** (0,141 sacando el día parcial de arranque).
-El contraejemplo es letal: el 12/09 Labios llenó el **138%** de su presupuesto y tuvo **su CPM
-más barato (Bs 31,91)**; el 14/09 Expocruz llegó apenas al 87,5% y marcó **Bs 97,25**, el más
-caro de la cuenta. Y el 18/09 el consolidado llegó al 91,8% de los Bs 66: **el público sí puede
-llenarlo.** → **NO bajar el presupuesto.**
+### Lo que se vende es la valoración abierta, no el tratamiento
 
-**2. "El anuncio que convierte mejor recibe menos plata." FALSO, igual que en Cosmetic.**
-Labios Bs 10,56/conv (12 conversaciones) contra Expocruz Bs 10,09 (**4 conversaciones**).
-Diferencia del 4,5% medida sobre 4 casos: una conversación más o menos lo mueve a Bs 8,07 o
-Bs 13,45. `auction_ranking_benchmarks` devuelve "Not Yet Available" para los dos — **ni Meta
-tiene volumen para rankearlos.** Y Meta no lo apagó por capricho: el CTR de Expocruz se derrumbó
-3,66% → 1,75% → **0,00%** con CPM 40% más caro. Apostó bien.
+Hay dos creativos, los dos venden una valoración y mandan al mismo WhatsApp:
 
-### Lo que SÍ explicaba el CPM alto
+- **Labios**: nombra el tratamiento ("ácido hialurónico", volumen, definición).
+- **Expocruz**: *no nombra ningún tratamiento ni precio* — "rostro más fresco, armónico y
+  cuidado… en la valoración te orientaré sobre el tratamiento más adecuado". Expocruz es solo la
+  fecha límite.
 
-Del registro de actividad, **14/09 a las 22:47**: alguien pausó el conjunto Labios y le subió el
-presupuesto a Expocruz. Verificado: **el 15 y el 16/09 Labios entregó Bs 0,00 y cero
-impresiones.** La cuenta pasó dos días corriendo **solo el ángulo caro de Expocruz**, en plena
-feria. De ahí salen los Bs 72,19 y Bs 76,81 que dispararon la alarma.
+Según Eduardo, **la mayoría no termina comprando labios sino "el de Expocruz"** — es decir, lo
+que Mirna recomienda en la valoración. Sin confirmar todavía si esos compradores llegan desde ese
+anuncio o desde los dos por igual (él cree que desde los dos; lo revisa el sábado 26/09).
 
-El control entre cuentas lo confirma: el 14/09 subieron las tres juntas (mercado), pero el 15 y
-16 Spadental y Cosmetic bajaron y Mirna no (6,69x Spadental el 16). Eso fue la cuenta.
+⚠️ Esto **contradice** lo que este archivo recomendaba antes ("hay que ponerle precio, servicio
+cerrado, oferta concreta"). Con el dato del negocio, cerrar la oferta sería matar la puerta
+abierta que vende. **No se le pone precio ni tratamiento al anuncio de valoración.**
 
-**El CPM real de esta cuenta no es Bs 46,93. Es Bs 34,30** (20/09, limpia). Está en 3,3–3,4x
-Spadental, no en 5x. Sigue siendo la más cara, pero no es el público.
+### Separados vs consolidados — separados no fracasaron por estar separados
 
-### Lo pendiente
+| Período | Estructura | Gasto | Conv | Bs/conv |
+|---|---|---|---|---|
+| 10–13/09 | Labios solo en su conjunto | 93,77 | 8 | 11,72 |
+| 10–13/09 | Expocruz solo en su conjunto | 98,10 | 9 | 10,90 |
+| **14–17/09** | **Expocruz solo, Labios pausado** | 154,50 | 7 | **22,07** |
+| 17–25/09 | Consolidado (Bs 66 = 30 + 36) | 488,23 | 48 | **10,17** |
 
-1. **No tocar el presupuesto 7 días.** El conjunto nació el 17/09 y lleva 16 conversaciones;
-   necesita 50 en 7 días para salir de aprendizaje. El subgasto es aprendizaje, no falta de
-   gente. **Se declara techo de público solo si al 28/09, con Expocruz apagado y Bs 66/día, el
-   CPM sigue arriba de Bs 45.**
-2. **Falta un número en el anuncio.** Los dos creativos dicen "Agendá tu valoración" sin precio,
-   sin servicio cerrado, sin zona y sin número de WhatsApp. CTR 3,29% (el mejor de la cartera:
-   el contenido gusta) con la conversación más cara de la cartera. Ese desajuste es el
-   diagnóstico.
-3. **Postura sobre qué es esta cuenta**: hoy **no es marca de autoridad, es una tercera clínica
-   mal disfrazada.** Ya optimiza por CONVERSATIONS y manda a WhatsApp — eso es captación. El
-   copy, en cambio, es de marca pura. Hay que elegir captación y darle una oferta concreta.
-   KPI propuesto hasta tener dato del negocio: **costo por valoración agendada**.
-4. **~36 horas en gracia / pago pendiente entre el 18 y el 19/09.** Cuatro eventos en 10 días.
-   El umbral de facturación es muy bajo para el ritmo de gasto.
+Los cuatro primeros días separados rindieron igual que el consolidado de hoy. Lo que los rompió
+fue el **14/09 22:47**: se pausó Labios y se subió Expocruz de Bs 30 a Bs 36 sobre el mismo
+público → CPM de Expocruz 66 → **97** al día siguiente y nunca bajó de 67 hasta que se apagó.
+Además el consolidado se comió los dos cortes de pago grandes y aun así ganó.
 
-## 4. FERROMARC## 4. FERROMARC / Ferro Todo — `1551786946119762`
+**Lección:** no es "separar malo / juntar bueno". Lo destructivo es **pausar uno de dos
+conjuntos hermanos y cargarle la plata al otro.** El consolidado a Bs 10,17 es la mejor
+estructura que tuvo la cuenta: no se rompe sin dato.
+
+### Meta optimiza por conversación barata, no por venta
+
+Desde el 19/09 Meta le da a Expocruz-Limpio Bs 0,46–1,98 por día (19–58 impresiones): Labios le
+sale más barato por conversación (10,08 vs 11,21) y se quedó con todo. Desde la conversación,
+Meta hizo bien. Pero **Meta no sabe cuál cierra.** Si los compradores vienen del anuncio de la
+valoración abierta, Meta optimiza en contra del negocio y lo seguirá haciendo con cualquier
+creativo nuevo de ese tipo — ahí sí se justifica un conjunto aparte (sin pausar nada, sin mover
+plata entre ellos). Si llegan de los dos por igual, se queda todo junto.
+
+### Hipótesis mías que los datos mataron (se mantienen)
+
+**"El presupuesto está sobredimensionado y eso infla el CPM." FALSO.**
+Correlación gasto diario / CPM: 0,289. El 12/09 Labios llenó el 138% de su presupuesto con su
+CPM más barato (31,91); el 14/09 Expocruz llegó al 87,5% y marcó 97,25. El público llena los
+Bs 66. → **NO bajar el presupuesto.**
+
+### Dónde se va la plata (conjunto consolidado, hasta 25/09)
+
+| Ubicación | Gasto | CPM | Conv | Bs/conv |
+|---|---|---|---|---|
+| Facebook Feed | 227,04 (47%) | 47,28 | 17 | 13,36 |
+| Facebook Reels | 102,59 | 49,13 | 16 | 6,41 |
+| WhatsApp Status | 37,33 | 15,69 | 7 | 5,33 |
+| IG Stories / FB Stories | 68,93 | 46,6 / 79,9 | 6 | ~11,5 |
+| IG Feed | 28,02 | 56,60 | 1 | 28,02 |
+| IG Reels | 16,38 | 41,04 | 0 | — |
+
+Dato para mirar, **no** para forzar ubicaciones: al sacar ubicaciones el CPM de las baratas
+suele subir porque la subasta deja de elegir.
+
+Edad/sexo: mujeres Bs 11,16/conv (33), hombres Bs 8,67 (13, muestra chica). Peor celda: mujeres
+45–54, Bs 77,76 por 5 conversaciones (Bs 15,55).
+
+### Los cortes de pago explican la serie diaria
+
+| Cayó | Volvió | Duración |
+|---|---|---|
+| 11/09 15:45 | 11/09 16:00 | 15 min |
+| 16/09 06:42 | 16/09 06:44 | 2 min |
+| 18/09 04:05 | 19/09 15:56 | **~36 h** ("Payment Needed") |
+| 22/09 21:59 | 23/09 18:31 | **~20,5 h** |
+
+El 19/09 (dentro del corte) es el peor día: Bs 37,38 por una conversación. El 22/09, único día
+entero con presupuesto de recuperación (gastó Bs 98 contra Bs 66), es el mejor: **19
+conversaciones a Bs 5,17.**
+
+### Lo pendiente (al 25/09)
+
+1. **Tarjeta de respaldo.** Primero que todo.
+2. **El gancho Expocruz caduca con la feria (fin de septiembre).** Hace falta un creativo nuevo
+   de valoración abierta con la MISMA estructura (pregunta que abre, "rostro más fresco y
+   armónico", valoración donde Mirna orienta, sin tratamiento ni precio) y otro motivo para
+   escribir hoy. Va **adentro del conjunto consolidado**, mismo presupuesto; el de Expocruz se
+   apaga cuando el nuevo esté aprobado. Si en 4–5 días Meta lo ahoga a ~Bs 1/día, recién ahí se
+   habla de separarlo.
+3. **Respuesta de Eduardo del sábado 26/09**: ¿los que compran vienen del anuncio de valoración
+   o de los dos? Y precio del tratamiento que eligen en la valoración.
+4. **Antes de subir presupuesto:** ¿Mirna contesta 15–20 WhatsApp por día? El 22/09 entraron 19
+   en un día. Si se contesta tarde, el 2 de 10 se cae y el 35 a 1 con él.
+
+---
+
+## 4. FERROMARC / Ferro Todo — `1551786946119762`
 
 Ferretería e importadora (`importadoratotal.bo`). Cuenta **ACTIVE, con método de pago, y cero
 campañas en toda su historia**. Meta no le asignó ni vertical (`\N`).
@@ -267,7 +328,7 @@ Del registro de actividad, verificado el 21/09/2026:
 |---|---|---|
 | Spadental | 3 en 25 días | 27/08, **16 horas** — ese día gastó Bs 48,92 contra una mediana de Bs 88 |
 | Cosmetic | 2 | 06/09, ~3 horas |
-| Mirna | 4 en 10 días | 18–19/09, **~36 horas** en gracia |
+| Mirna | 4 en 18 días | 18–19/09, **~36 horas** en gracia; 22–23/09 otras **~20,5 h** |
 
 Cada corte frena la entrega y puede empujar los conjuntos de vuelta a fase de aprendizaje.
 **Es la única mejora de la cartera que no requiere criterio: tarjeta de respaldo y subir el

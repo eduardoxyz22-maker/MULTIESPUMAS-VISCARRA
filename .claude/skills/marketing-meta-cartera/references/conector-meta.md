@@ -147,7 +147,7 @@ configuración que definiste si es probable que mejore el rendimiento"*.
 - **Spadental** (público amplio, servicio masivo): Advantage+ funciona. Dejarlo trabajar.
 - **Cosmetic** (público angosto y caro): Advantage+ es un riesgo — infla la estimación y deja
   entrar gente que escribe gratis y no compra. Controlar con límites duros.
-- **Mirna**: el CPM alto ya avisa que el público es angosto. Advantage+ acá abre, no cierra.
+- **Mirna**: Advantage+ encendido y el público llena los Bs 66 (el CPM alto no era público angosto; ver `cuentas.md` §3). Dejarlo.
 - **FERROMARC**: es el único rubro donde **sí** se puede segmentar por interés y comportamiento
   sin restricción de salud. Aprovechalo.
 

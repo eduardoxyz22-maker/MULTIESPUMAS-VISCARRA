@@ -43,8 +43,10 @@ Nunca proponer ni ejecutar cambios ahí. Qué vale copiar: `references/cuentas.m
    de costo por conversación** y es la recomendación de mayor impacto de toda la cartera.
 3. **Cosmetic y Spadental tienen campañas listas para escalar** (Meta estima +79% y +81% más
    conversiones). No es que falte presupuesto: falta moverlo a la campaña correcta.
-4. **Mirna paga el CPM más caro de la cartera (Bs 46,93)** corriendo una campaña genérica de
-   Interacción con el nombre por defecto. Pasarla a una campaña CTWA dedicada vale −7%.
+4. **Mirna tiene el CPM más caro de la cartera y es la cuenta MÁS rentable.** Labios Bs 1.800,
+   cierra ~2 de 10: a Bs 10/conversación da ~35 a 1. Su problema no es el costo sino los cortes
+   de pago (4 en 18 días) y que el gancho Expocruz de su anuncio que vende caduca con la feria.
+   Ver `references/cuentas.md`, sección 3.
 
 ## Benchmarks reales de la cartera — usalos, no inventes
 
@@ -55,7 +57,7 @@ Costo por conversación y CPM verificados (histórico completo, 20/09/2026):
 | Spadental — Blanqueamiento | **Bs 9,98** | 2,26% | **Bs 2,84** | 2,40 |
 | Cosmetic — Dental Premium | Bs 24,85 | 2,35% | Bs 5,39 | 2,37 |
 | Cosmetic — Capilar | Bs 22,87 | 2,03% | Bs 6,07 | **3,33** ⚠ |
-| Mirna — marca personal | **Bs 46,93** | 3,30% | **Bs 13,41** | 1,84 |
+| Mirna — marca personal (25/09) | **Bs 45,49** | 3,18% | **Bs 11,71** | 2,16 |
 
 Lecturas obligatorias de esta tabla:
 
@@ -64,8 +66,10 @@ Lecturas obligatorias de esta tabla:
   volumen de conversaciones.
 - **La frecuencia 3,33 de Capilar es la alarma más concreta**: el público está saturado. Eso se
   arregla con creativos nuevos o ampliando público, **nunca con más presupuesto**.
-- **El CPM de Mirna avisa que el público es muy angosto.** Una marca personal compite en subasta
-  contra todo el mundo sin la ventaja de un servicio concreto que ofrecer.
+- **El CPM de Mirna NO prueba que el público sea angosto** (lo creí y era falso). Sus picos
+  salen de pausar un conjunto el 14/09, de cuatro cortes de pago y de ser una cuenta abierta el
+  08/09. Y con ticket de Bs 1.800 su costo por conversación es el mejor negocio de la cartera:
+  **nunca juzgues una cuenta por Bs/conversación sin poner el ticket y la tasa de cierre al lado.**
 
 ## Flujo de trabajo
 
