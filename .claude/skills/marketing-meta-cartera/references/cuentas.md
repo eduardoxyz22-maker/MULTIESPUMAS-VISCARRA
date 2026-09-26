@@ -69,7 +69,7 @@ Presupuesto configurado vs. gasto real diario:
 |---|---|---|---|
 | Blanqueamiento | Bs 44,00 | ~Bs 43,3 | gasta todo |
 | Placas | Bs 34,50 | ~Bs 34,2 | gasta todo |
-| Endodoncia | Bs 25,00 | ~Bs 9,7 | **solo el 39%** — atascado en aprendizaje |
+| Endodoncia | Bs 25,00 | ~Bs 24,3 (08–20/09, serie diaria) | gasta todo — el "39%" que figuraba acá era un promedio diluido, falso |
 | Limpieza 230 | Bs 25,00 | Bs 0 | pausado |
 
 Inconsistencias entre conjuntos que conviene unificar al consolidar:
@@ -166,6 +166,33 @@ Premium: diseño de sonrisa, implantes, armonización facial, capilar. Equipetro
 
 **Recordatorio de criterio**: Bs 5–6 por conversación en premium **está bien**. La métrica de esta
 cuenta es *valor de tratamientos cerrados / inversión*, no volumen de mensajes.
+
+---
+
+### Endodoncia — historial completo leído el 26/09/2026
+
+`SPA-Ad-Endodoncia-V2` (`120250956801410636`), conjunto `SPA | EV | Endodoncia | Mutualista`
+(`120250956797460636`, Bs 25/día). Total: **Bs 435,22 · 96 conversaciones · Bs 4,53**.
+
+| Tramo | Gasto | Gasto/día | Conv | Bs/conv | Conv cada 1.000 impr. | CPM |
+|---|---|---|---|---|---|---|
+| 08–20/09, solo, Bs 25/día | 315,98 | 24,3 | 79 | **4,00** | 6,0 | 24,0 |
+| 21–23/09, test consolidado + pausa | 6,14 | — | 2 | — | — | — |
+| **24–26/09, reactivado a mitad de semana** | 116,56 | **~40** | 15 | **7,77** | **3,4** | 26,2 |
+
+Lo que cambió en el último tramo no es el precio (CPM +9%) sino **cuánta gente escribe**: la mitad
+de conversaciones por cada mil impresiones. Coincide con el gasto forzado de recuperación semanal
+(ver `conector-meta.md` punto 17). En el tramo sano, el único día con gasto parecido (15/09,
+Bs 39,30) también fue el peor (Bs 9,83) — pero ese día además fue pico de Expocruz: no alcanza
+para probarlo.
+
+**Criterio fijado el 26/09:** la recuperación termina el sábado 26 a medianoche. Se miran
+domingo 27, lunes 28 y martes 29 con gasto normal (~Bs 25):
+- **≤ Bs 5/conv** → era el gasto forzado. No se toca nada.
+- **> Bs 7/conv con gasto normal** → el anuncio se gastó: creativo nuevo o mover la plata.
+- Entre 5 y 7 → zona gris; contrastar con Blanqueamiento y Placas de la misma cuenta.
+Y antes de mover plata de Endodoncia a Blanqueamiento: **falta el precio de cada tratamiento**.
+Una endodoncia vale varias limpiezas o blanqueamientos; Bs/conversación sin ticket no decide.
 
 ---
 

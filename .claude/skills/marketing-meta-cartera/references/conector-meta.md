@@ -118,6 +118,17 @@ Aprendido a los golpes operando estas cuentas. Leer antes de tocar nada.
     mismo que rendir.** Sirve para detectar configuración rota (fragmentación, formatos, señal
     de conversión). No sirve para decir si una cuenta va bien ni para decidir presupuesto.
 
+17. **Un conjunto que gasta más que su presupuesto diario no es un error de Meta.** Regla
+    oficial (verificada el 26/09/2026 en la ayuda de Meta, "About daily budgets" y "About changing
+    your daily budget"): Meta puede gastar **hasta 75% más** del presupuesto diario en un día
+    (tope 175%), y en la semana **domingo a sábado** no pasa de **7 veces** el presupuesto
+    diario. Si un conjunto estuvo pausado a principio de semana y se reactiva, Meta **recupera lo
+    no gastado** en los días que quedan, pegado al 175% diario. Caso real: Endodoncia de Spadental,
+    Bs 25/día, reactivada el miércoles 23/09 → gastó Bs 40,75 / 43,28 / 32,53 (jue–sáb). La
+    recuperación termina sola cuando cierra la semana el sábado a medianoche. No es la vieja
+    regla del 25%: esa aplica solo a lo que queda de semana cuando se CAMBIA el presupuesto.
+    **Antes de leer el costo de esos días, sabé que se midió con gasto forzado.**
+
 ## Carteles de la interfaz que hay que rechazar
 
 - **"Puedes obtener un costo por cliente potencial un 24% más bajo si actualizas tu objetivo"** →
