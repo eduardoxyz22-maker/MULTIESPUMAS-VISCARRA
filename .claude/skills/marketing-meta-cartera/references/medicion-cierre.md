@@ -137,3 +137,33 @@ Rangos de alerta para estos rubros en Bolivia:
   también, pero por otra razón (público demasiado angosto).
 - **Show rate** con recordatorio el día antes y el mismo día: ≥ 80% es lo esperable.
 - **Conversación → cita**: 30–40% es sano. Menos que eso, el problema está en quien contesta.
+
+## Spadental SÍ tiene el dato de cierre — la planilla de atenciones (descubierto el 26/09/2026)
+
+Fuente: Google Drive de Eduardo, planilla **"Spadental · Pacientes"**, hoja **Atenciones**
+(la carga una app de Apps Script, "Dental - Mirna - spa dental"). Columnas útiles: `Fecha`,
+`Tipo` (Nuevo/Recurrente), **`Canal`** (Facebook, TikTok, Referido, Paciente antiguo…),
+`Servicios`, `Total Bs`, `A cuenta Bs`, `Saldo Bs`, `Estado`.
+
+- Hasta el 27/08 las filas son **importadas de las libretas** (Canal casi siempre vacío). Desde el
+  24/08 se cargan **en vivo** y en septiembre el Canal está lleno en el 100% de las filas.
+- **No comparar cantidad de atenciones entre meses sin mirar esto**: cambió la forma de registrar.
+  Antes de concluir que "bajaron los pacientes", mirar si hay días sin ninguna fila (el 24 y 25/09
+  no tenían ninguna, el 26/09 una sola).
+- **Datos personales de pacientes: nunca copiarlos a este repo.** Solo agregados.
+
+Primer cruce Meta → sillón, septiembre 1–26:
+
+| | |
+|---|---|
+| Pauta Meta | Bs 2.674,74 → 865 conversaciones |
+| Atenciones con Canal = Facebook | **17** (10 pacientes nuevos) → Bs 3.270 facturados |
+| Conversación → paciente nuevo | **~1 de cada 86** |
+| Facturado total del mes (todos los canales) | Bs 34.955 · cobrado 30.770 · por cobrar 4.185 |
+
+Y por servicio pautado: Blanqueamiento 462 conversaciones → ~5 blanqueamientos registrados;
+Placas 299 → **0**; Endodoncia 97 → **0**. **La fuga está entre el WhatsApp y el sillón, no en
+Meta.** Antes de tocar presupuesto en Spadental, revisar chats reales: quién contesta, cuánto
+tarda y qué precio da. Precios de referencia de la planilla: consulta Bs 30, limpieza Bs 200–230,
+blanqueamiento Bs 125–175, endodoncia Bs 400–600. Spadental **sí hace ortodoncia** (hay cuota
+inicial de brackets autoligado en septiembre).
