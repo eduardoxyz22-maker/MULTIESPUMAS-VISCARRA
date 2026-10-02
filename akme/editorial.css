@@ -21,3 +21,9 @@ html{scroll-padding-top:96px}body{font-size:17px;line-height:1.6}.section{paddin
 @media(max-width:760px){.team-grid{grid-template-columns:1fr;gap:40px;max-width:440px}.team-grid h3{font-size:1.5rem}}
 .foot img.studio-cat{width:120px;height:120px;object-fit:contain;order:5}.foot .wrap{align-items:center}.foot a{font-size:.9375rem}
 @media(max-width:760px){.foot img.studio-cat{width:100px;height:100px;margin-left:auto}.foot .wrap{gap:20px 24px}}
+
+/* Explicit routes for visitors browsing the portfolio on mobile. */
+.portfolio-discovery{margin:32px 0 0}.portfolio-return{padding-top:24px}.portfolio-return a{display:inline-flex;min-height:44px;align-items:center}
+
+.gallery-toolbar{position:sticky;top:0;z-index:2;background:white}.gallery-close{width:auto;min-width:88px;padding:0 12px;border-radius:22px;font-size:.9375rem;font-weight:600}.gallery-close span{font-size:1.25rem;margin-left:6px}
+@media(max-width:760px){.gallery-toolbar{padding-top:max(12px,env(safe-area-inset-top));padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}.gallery-thumbs{padding-bottom:max(16px,env(safe-area-inset-bottom))}}
