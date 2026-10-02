@@ -8,8 +8,8 @@
 <meta property="og:title" content="AKME Estudio · Ideas • Diseño • Impacto">
 <meta property="og:description" content="Estudio creativo en Santa Cruz, Bolivia. Estrategia, contenido, producción y Meta Ads.">
 <meta property="og:image" content="assets/portada.jpg">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0D0D0F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light only">
 <link rel="icon" type="image/png" href="assets/isotipo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,11 +25,11 @@
   --mist:#F3F4F0;       /* neutro con leve sesgo al lima */
   --line:#E1E3DC;
   --muted:#5B5D57;
-  --deep:#0D0D0F;       /* sección negativa (contacto) */
-  --deep-2:#1A1B1D;
-  --deep-fg:#F4F5F1;
-  --deep-muted:#A3A59E;
-  --deep-line:#2C2D30;
+  --deep:#F3F4F0;       /* sección de contacto, gris claro */
+  --deep-2:#FFFFFF;
+  --deep-fg:#0D0D0F;
+  --deep-muted:#5B5D57;
+  --deep-line:#DADDD5;
 
   --f-display:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-body:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -44,18 +44,6 @@
   --max:1280px;
   color-scheme:light;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#0D0D0F; --ink:#F4F5F1; --graphite:#C8CAC3; --mist:#151618; --line:#2A2B2E; --muted:#A3A59E;
-    --deep:#151618; --deep-2:#1E1F22; --deep-fg:#F4F5F1; --deep-muted:#A3A59E; --deep-line:#303135;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#0D0D0F; --ink:#F4F5F1; --graphite:#C8CAC3; --mist:#151618; --line:#2A2B2E; --muted:#A3A59E;
-  --deep:#151618; --deep-2:#1E1F22; --deep-fg:#F4F5F1; --deep-muted:#A3A59E; --deep-line:#303135;
-  color-scheme:dark;
-}
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
@@ -64,7 +52,6 @@ img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 [hidden]{display:none!important}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
-.contacto :focus-visible{outline-color:var(--lime)}
 h1,h2,h3{margin:0;text-wrap:balance}
 p{margin:0}
 .wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
@@ -96,9 +83,6 @@ p{margin:0}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:72px}
 .brand{display:flex;align-items:center;text-decoration:none}
 .brand img{height:34px;width:auto}
-.logo-neg{display:none}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logo-pos{display:none}:root:not([data-theme="light"]) .logo-neg{display:block}}
-:root[data-theme="dark"] .logo-pos{display:none} :root[data-theme="dark"] .logo-neg{display:block}
 .nav{display:flex;align-items:center;gap:clamp(16px,2.4vw,36px)}
 .nav a.link{font-size:var(--fs-s);font-weight:500;text-decoration:none;color:var(--graphite);padding-block:.4rem;border-bottom:2px solid transparent}
 .nav a.link:hover{border-color:var(--lime);color:var(--ink)}
@@ -197,14 +181,14 @@ table.plans{border-collapse:collapse;width:100%;min-width:980px;font-size:var(--
 .contact-main{grid-column:1/span 7;display:flex;flex-direction:column;gap:28px;min-width:0}
 .contact-main .eyebrow{color:var(--deep-muted)}
 .contact-main h2{font-size:var(--fs-xl);color:var(--deep-fg)}
-.contact-main h2 .lime{color:var(--lime)}
+.contact-main h2 .hl{padding:0 .08em}
 .contact-main .lead{color:var(--deep-muted)}
 .channels{grid-column:9/span 4;list-style:none;margin:0;padding:0;align-self:start;min-width:0}
 .channels li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:center;padding-block:16px;border-bottom:1px solid var(--deep-line)}
 .channels li:first-child{border-top:1px solid var(--deep-line)}
-.ico{width:44px;height:44px;border:1px solid var(--deep-line);display:grid;place-items:center;border-radius:50%}
+.ico{width:44px;height:44px;border:1px solid var(--deep-line);background:var(--deep-2);display:grid;place-items:center;border-radius:50%}
 .ico svg{width:20px;height:20px;fill:currentColor}
-.ch-label{display:block;font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--lime)}
+.ch-label{display:block;font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--deep-muted)}
 .ch-val{font-size:var(--fs-base);font-weight:500;overflow-wrap:anywhere}
 .ch-val a{text-decoration:none;border-bottom:1px solid var(--deep-line)}
 .ch-val a:hover{border-color:var(--lime)}
@@ -212,7 +196,7 @@ table.plans{border-collapse:collapse;width:100%;min-width:980px;font-size:var(--
 .copy:hover{color:var(--deep-fg)}
 @media (max-width:900px){.contact-main,.channels{grid-column:1/-1}}
 
-.brief{background:var(--deep-2);padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.brief{background:var(--deep-2);border:1px solid var(--deep-line);padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .brief h3{grid-column:1/-1;font-size:var(--fs-m);font-weight:600}
 .brief h3 span{display:block;font-size:var(--fs-s);font-weight:400;color:var(--deep-muted);margin-top:4px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
@@ -221,16 +205,16 @@ table.plans{border-collapse:collapse;width:100%;min-width:980px;font-size:var(--
 .field input,.field select,.field textarea{font:inherit;font-size:var(--fs-base);color:var(--deep-fg);background:transparent;border:0;border-bottom:1px solid var(--deep-line);padding:.55rem 0;border-radius:0;width:100%}
 .field select option{color:#0D0D0F;background:#FFFFFF}
 .field textarea{resize:vertical;min-height:72px}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-bottom-color:var(--lime)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-bottom:2px solid var(--ink)}
 .brief .btn{grid-column:1/-1;justify-self:start;background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
-.brief .btn:hover{background:var(--deep-fg);border-color:var(--deep-fg);color:#0D0D0F}
-.brief .err{grid-column:1/-1;font-size:var(--fs-s);color:var(--lime)}
+.brief .btn:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.brief .err{grid-column:1/-1;font-size:var(--fs-s);font-weight:600;color:var(--ink)}
 @media (max-width:560px){.brief{grid-template-columns:minmax(0,1fr)}}
 
-.foot{background:var(--deep);color:var(--deep-muted);border-top:1px solid var(--deep-line)}
+.foot{background:var(--paper);color:var(--muted);border-top:1px solid var(--line)}
 .foot .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding-block:32px}
 .foot img{height:30px;width:auto}
-.foot .tagline{color:var(--deep-fg)}
+.foot .tagline{color:var(--ink)}
 .foot small{font-size:var(--fs-xs);letter-spacing:.08em}
 
 /* ---------- visor ---------- */
@@ -265,8 +249,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
   <div class="wrap">
     <a class="brand" href="#inicio" aria-label="AKME Estudio, inicio">
       <img class="logo-pos" src="assets/logo.png" alt="AKME Estudio" width="700" height="165">
-      <img class="logo-neg" src="assets/logo-negativo.png" alt="AKME Estudio" width="700" height="165">
-    </a>
+          </a>
     <nav class="nav" aria-label="Secciones">
       <a class="link" href="#trabajos">Trabajos</a>
       <a class="link" href="#servicios">Servicios</a>
@@ -437,11 +420,11 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
           </tbody>
           <tfoot>
             <tr><td></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete SMART." href="https://wa.me/59178537641">Consultar</a></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete ESENCIAL." href="https://wa.me/59178537641">Consultar</a></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete COMPLETO." href="https://wa.me/59178537641">Consultar</a></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete PRO." href="https://wa.me/59178537641">Consultar</a></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete ELITE." href="https://wa.me/59178537641">Consultar</a></td>
+              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete SMART." href="https://wa.me/59157385254">Consultar</a></td>
+              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete ESENCIAL." href="https://wa.me/59157385254">Consultar</a></td>
+              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete COMPLETO." href="https://wa.me/59157385254">Consultar</a></td>
+              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete PRO." href="https://wa.me/59157385254">Consultar</a></td>
+              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete ELITE." href="https://wa.me/59157385254">Consultar</a></td>
             </tr>
           </tfoot>
         </table>
@@ -457,7 +440,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
     <div class="wrap">
       <div class="contact-main">
         <p class="eyebrow">Contacto</p>
-        <h2 id="contacto-title" class="condensed">Creamos marcas que generan <span class="lime">impacto.</span></h2>
+        <h2 id="contacto-title" class="condensed">Creamos marcas que generan <span class="hl">impacto.</span></h2>
         <p class="lead">Contanos qué necesitás y te respondemos por WhatsApp con una propuesta.</p>
 
         <form class="brief" id="brief" novalidate>
@@ -495,9 +478,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
 
       <ul class="channels" aria-label="Canales de contacto">
         <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg></span>
-          <div><span class="ch-label">WhatsApp</span><span class="ch-val"><a href="https://wa.me/59178537641" target="_blank" rel="noopener">78537641</a> · <a href="https://wa.me/59162166628" target="_blank" rel="noopener">62166628</a></span></div></li>
-        <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z"/></svg></span>
-          <div><span class="ch-label">Teléfono</span><span class="ch-val"><a href="tel:+59157385254">57385254</a></span></div></li>
+          <div><span class="ch-label">WhatsApp y teléfono</span><span class="ch-val"><a href="https://wa.me/59157385254" target="_blank" rel="noopener">57385254</a></span></div></li>
         <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2.2V17h16V7.2l-8 5.3-8-5.3ZM5.6 7 12 11.2 18.4 7H5.6Z"/></svg></span>
           <div><span class="ch-label">Correo</span><span class="ch-val"><a href="mailto:akmeestudio1@gmail.com" id="mail">akmeestudio1@gmail.com</a><button class="copy" type="button" id="copy-mail">Copiar</button></span></div></li>
         <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4ZM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4ZM12 2c-2.7 0-3.1 0-4.1.1A6 6 0 0 0 2.1 7.9C2 8.9 2 9.3 2 12s0 3.1.1 4.1a6 6 0 0 0 5.8 5.8c1 .1 1.4.1 4.1.1s3.1 0 4.1-.1a6 6 0 0 0 5.8-5.8c.1-1 .1-1.4.1-4.1s0-3.1-.1-4.1a6 6 0 0 0-5.8-5.8C15.1 2 14.7 2 12 2Zm0 1.8c2.7 0 3 0 4 .1a4.2 4.2 0 0 1 4.1 4.1c.1 1 .1 1.3.1 4s0 3-.1 4a4.2 4.2 0 0 1-4.1 4.1c-1 .1-1.3.1-4 .1s-3 0-4-.1A4.2 4.2 0 0 1 3.9 16c-.1-1-.1-1.3-.1-4s0-3 .1-4A4.2 4.2 0 0 1 8 3.9c1-.1 1.3-.1 4-.1Z"/></svg></span>
@@ -513,7 +494,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
 
 <footer class="foot">
   <div class="wrap">
-    <img src="assets/logo-negativo.png" alt="AKME Estudio" width="700" height="165">
+    <img src="assets/logo.png" alt="AKME Estudio" width="700" height="165">
     <span class="tagline">Ideas<i>•</i>Diseño<i>•</i>Impacto</span>
     <small>© 2026 AKME Estudio · Santa Cruz, Bolivia</small>
   </div>
@@ -538,7 +519,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
 
 <script>
 (function(){
-  var WA = "59178537641";
+  var WA = "59157385254";
   var waLink = function(text){ return "https://wa.me/" + WA + "?text=" + encodeURIComponent(text); };
 
   // Enlaces de WhatsApp con mensaje prellenado
