@@ -4,287 +4,327 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AKME Estudio</title>
-<meta name="description" content="AKME Estudio, estudio creativo en Santa Cruz, Bolivia. Estrategia, producción de contenido, diseño y Meta Ads bajo una sola dirección creativa.">
+<meta name="description" content="AKME Estudio, estudio creativo en Santa Cruz, Bolivia. Diseño, foto, video y Meta Ads con estrategia para que tu marca conecte y crezca.">
 <meta property="og:title" content="AKME Estudio · Ideas • Diseño • Impacto">
-<meta property="og:description" content="Estudio creativo en Santa Cruz, Bolivia. Estrategia, contenido, producción y Meta Ads.">
+<meta property="og:description" content="Contenido con estrategia para que tu marca conecte y crezca. Diseño, foto, video y Meta Ads desde Santa Cruz, Bolivia.">
 <meta property="og:image" content="assets/portada.jpg">
+<meta property="og:type" content="website">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light only">
 <link rel="icon" type="image/png" href="assets/isotipo.png">
+<link rel="apple-touch-icon" href="assets/isotipo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Serif:ital@1&display=swap">
 <style>
-/* Layout: retícula suiza de 12 columnas, alineada a la izquierda, mucho espacio negativo; el verde lima solo como resaltador, regla o señal. */
+/* Layout: retícula de 12 columnas alineada a la izquierda, mucho blanco; el verde lima solo marca, nunca rellena. */
 :root{
-  --paper:#FFFFFF;      /* Blanco: fondo dominante */
-  --ink:#0D0D0F;        /* Negro profundo: tipografía y bloques */
-  --graphite:#2D2D30;   /* Gris grafito: apoyo */
-  --lime:#A2D40B;       /* Verde lima: único acento */
+  --paper:#FFFFFF;
+  --ink:#0D0D0F;
+  --graphite:#2D2D30;
+  --lime:#A2D40B;
   --on-lime:#0D0D0F;
-  --mist:#F3F4F0;       /* neutro con leve sesgo al lima */
+  --mist:#F3F4F0;
   --line:#E1E3DC;
   --muted:#5B5D57;
-  --deep:#F3F4F0;       /* sección de contacto, gris claro */
-  --deep-2:#FFFFFF;
-  --deep-fg:#0D0D0F;
-  --deep-muted:#5B5D57;
-  --deep-line:#DADDD5;
 
   --f-display:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-body:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
   --f-accent:"Instrument Serif",Georgia,"Times New Roman",serif;
 
   --fs-xs:.75rem; --fs-s:.875rem; --fs-base:1.0625rem; --fs-m:1.25rem;
-  --fs-l:clamp(1.6rem,2.6vw,2.2rem);
-  --fs-xl:clamp(2.6rem,6.4vw,5rem);
-  --fs-hero:clamp(3.4rem,10.5vw,8.6rem);
+  --fs-l:clamp(1.5rem,2.2vw,1.9rem);
+  --fs-h2:clamp(2rem,4.2vw,3.2rem);
+  --fs-h1:clamp(2.4rem,4.8vw,4rem);
 
+  --r-s:10px; --r-m:16px; --r-l:22px; --r-pill:999px;
+  --shadow-s:0 6px 18px rgba(13,13,15,.08);
+  --shadow-m:0 18px 40px rgba(13,13,15,.14);
   --gutter:clamp(16px,4vw,48px);
-  --max:1280px;
+  --max:1240px;
+  --header-h:72px;
   color-scheme:light;
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:var(--fs-base);line-height:1.6;font-stretch:100%;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-h) + 12px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:var(--fs-base);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 [hidden]{display:none!important}
-:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
 h1,h2,h3{margin:0;text-wrap:balance}
-p{margin:0}
+p,ul,ol{margin:0}
 .wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:var(--gutter);top:-60px;background:var(--ink);color:var(--paper);padding:.7rem 1rem;border-radius:var(--r-pill);z-index:50;text-decoration:none;font-weight:600}
+.skip:focus{top:12px}
 
-/* ---------- piezas de sistema ---------- */
-.eyebrow{font-size:var(--fs-xs);font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:.9rem}
-.eyebrow::after{content:"";width:56px;height:3px;background:var(--lime)}
-.tagline{font-size:var(--fs-xs);font-weight:500;letter-spacing:.38em;text-transform:uppercase}
+/* ---------- sistema ---------- */
+.eyebrow{font-size:var(--fs-xs);font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:.8rem}
+.eyebrow::after{content:"";width:48px;height:3px;background:var(--lime);border-radius:2px}
+.tagline{font-size:var(--fs-xs);font-weight:500;letter-spacing:.36em;text-transform:uppercase}
 .tagline i{font-style:normal;color:var(--lime);padding-inline:.35em;letter-spacing:0}
-.hl{background:var(--lime);color:var(--on-lime);padding:0 .1em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.condensed{font-family:var(--f-display);font-stretch:64%;font-weight:800;text-transform:uppercase;letter-spacing:-.005em;line-height:.9}
-.h2{font-size:var(--fs-xl)}
-.lead{font-size:var(--fs-m);line-height:1.5;color:var(--graphite);max-width:36ch}
-.btn{display:inline-flex;align-items:center;gap:.6rem;font:600 var(--fs-s)/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:1.05rem 1.5rem;border:1.5px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--paper);cursor:pointer;transition:background .18s,color .18s,border-color .18s,transform .18s,box-shadow .18s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(13,13,15,.12)}
-.btn:hover{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
+.hl{background:var(--lime);color:var(--on-lime);padding:0 .12em;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.condensed{font-family:var(--f-display);font-stretch:64%;font-weight:800;text-transform:uppercase;letter-spacing:-.005em;line-height:.92}
+.h2{font-size:var(--fs-h2)}
+.lead{font-size:var(--fs-m);line-height:1.5;color:var(--graphite);max-width:38ch}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;font:600 var(--fs-s)/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:1rem 1.45rem;border:1.5px solid var(--ink);border-radius:var(--r-pill);background:var(--ink);color:var(--paper);cursor:pointer;transition:background .18s,color .18s,border-color .18s,transform .18s,box-shadow .18s}
+.btn:hover{background:var(--lime);border-color:var(--lime);color:var(--on-lime);transform:translateY(-1px);box-shadow:var(--shadow-s)}
 .btn.ghost{background:transparent;color:var(--ink)}
-.btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.btn svg{width:1.05em;height:1.05em;flex:none}
-.section{padding-block:clamp(72px,10vw,140px)}
-.sec-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px clamp(16px,2.4vw,32px);align-items:end;margin-bottom:clamp(40px,6vw,72px)}
+.btn.ghost:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.lime{background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
+.btn.lime:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.btn.big{padding:1.15rem 1.7rem;font-size:var(--fs-base);letter-spacing:.06em}
+.btn svg{width:1.1em;height:1.1em;flex:none;fill:currentColor}
+.section{padding-block:clamp(64px,9vw,120px)}
+.section.tight{padding-top:0}
+.sec-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px clamp(16px,2.4vw,32px);align-items:end;margin-bottom:clamp(32px,5vw,56px)}
 .sec-head .eyebrow{grid-column:1/-1}
 .sec-head h2{grid-column:1/span 7}
 .sec-head .lead{grid-column:8/span 5;justify-self:start}
 @media (max-width:860px){.sec-head h2,.sec-head .lead{grid-column:1/-1}}
+.note{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-s);color:var(--muted);max-width:60ch}
+.note::before{content:"";width:10px;height:10px;background:var(--lime);border-radius:2px;flex:none;margin-top:.45em}
+
+/* ---------- reveal ---------- */
+/* Aparición suave ligada al scroll, sin JavaScript. Donde el navegador no la soporta, el contenido se ve completo. */
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline: view()){
+    .reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 35%}
+    @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  }
+}
 
 /* ---------- header ---------- */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:72px}
-.brand{display:flex;align-items:center;text-decoration:none}
-.brand img{height:34px;width:auto}
-.nav{display:flex;align-items:center;gap:clamp(16px,2.4vw,36px)}
-.nav a.link{font-size:var(--fs-s);font-weight:500;text-decoration:none;color:var(--graphite);padding-block:.4rem;border-bottom:2px solid transparent}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:var(--header-h)}
+.brand{display:flex;align-items:center;text-decoration:none;border-radius:6px}
+.brand img{height:32px;width:auto}
+.nav{display:flex;align-items:center;gap:clamp(12px,2vw,30px)}
+.nav a.link{font-size:var(--fs-s);font-weight:500;text-decoration:none;color:var(--graphite);padding:.4rem .1rem;border-bottom:2px solid transparent}
 .nav a.link:hover{border-color:var(--lime);color:var(--ink)}
-.nav .btn{padding:.8rem 1.1rem}
-.menu-btn{all:unset;display:none;cursor:pointer;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;place-items:center}
+.nav .btn{padding:.78rem 1.1rem}
+.menu-btn{all:unset;display:none;cursor:pointer;width:44px;height:44px;border:1px solid var(--line);border-radius:50%;place-items:center;background:var(--paper)}
+.menu-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 .menu-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 .menu-btn .x{display:none}
 .menu-btn[aria-expanded="true"] .bars{display:none}
 .menu-btn[aria-expanded="true"] .x{display:block}
 .menu-panel{display:none;border-top:1px solid var(--line);background:var(--paper)}
-.menu-panel ul{list-style:none;margin:0;padding:8px var(--gutter) 16px;display:grid;gap:4px}
-.menu-panel a{display:block;text-decoration:none;font-size:var(--fs-m);font-weight:600;padding:.8rem .2rem;border-bottom:1px solid var(--line)}
+.menu-panel ul{list-style:none;padding:8px var(--gutter) 18px;display:grid;gap:2px}
+.menu-panel a{display:block;text-decoration:none;font-size:var(--fs-m);font-weight:600;padding:.85rem .2rem;border-bottom:1px solid var(--line)}
 .menu-panel li:last-child a{border-bottom:0}
 .menu-panel a span{color:var(--muted);font-weight:400;font-size:var(--fs-s);margin-left:.6rem}
-@media (max-width:760px){.nav a.link{display:none}.brand img{height:28px}.menu-btn{display:grid}.nav .btn{padding:.75rem 1rem}.menu-panel.open{display:block}}
+@media (max-width:760px){.nav a.link{display:none}.brand img{height:28px}.menu-btn{display:grid}.menu-panel.open{display:block}}
 
-/* ---------- hero ---------- */
-.hero{padding-block:clamp(48px,7vw,96px) clamp(56px,8vw,112px)}
-.hero .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(32px,4vw,56px) clamp(16px,2.4vw,32px);align-items:end}
-.hero-copy{grid-column:1/span 7;display:flex;flex-direction:column;gap:clamp(22px,3vw,32px);min-width:0}
-.hero h1{font-size:var(--fs-hero)}
-.hero h1 .hl{padding:0 .06em}
-.hero .serif{font-family:var(--f-accent);font-style:italic;font-weight:400;font-size:clamp(1.9rem,3.8vw,3rem);line-height:1.05;color:var(--ink)}
-.hero .serif u{text-decoration:none;background:linear-gradient(var(--lime),var(--lime)) 0 88%/100% .14em no-repeat}
-.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
-.hero-figure{grid-column:8/span 5;margin:0;position:relative;min-width:0}
-.hero-figure img{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--mist);border-radius:18px}
+/* ---------- portada ---------- */
+.hero{padding-block:clamp(32px,5vw,56px) clamp(40px,6vw,72px)}
+.hero .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(24px,4vw,48px) clamp(16px,2.4vw,32px);align-items:center}
+.hero-copy{grid-column:1/span 7;display:flex;flex-direction:column;gap:clamp(16px,2.2vw,24px);min-width:0}
+.hero h1{font-size:var(--fs-h1)}
+.hero .sub{font-family:var(--f-accent);font-style:italic;font-weight:400;font-size:clamp(1.45rem,2.6vw,2.1rem);line-height:1.15;color:var(--ink);max-width:28ch}
+.hero .desc{font-size:var(--fs-m);color:var(--graphite);max-width:40ch;line-height:1.5}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;padding-top:4px}
+.hero-figure{grid-column:8/span 5;margin:0;min-width:0;justify-self:end;width:100%}
+.hero-figure img{width:100%;max-height:min(560px,62vh);aspect-ratio:4/5;object-fit:cover;background:var(--mist);border-radius:var(--r-l);margin-left:auto}
 .hero-figure figcaption{display:flex;justify-content:space-between;gap:12px;margin-top:12px;font-size:var(--fs-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-@media (max-width:860px){.hero-copy,.hero-figure{grid-column:1/-1}.hero-figure{max-width:520px}}
-@media (max-width:760px){.hero{padding-block:32px 48px}.hero .wrap{gap:28px}.hero-copy{gap:18px}.hero h1{font-size:clamp(2.4rem,12vw,3.6rem)}.hero .serif{font-size:1.5rem}.hero .lead{font-size:var(--fs-base)}}
+@media (max-width:860px){
+  .hero-copy,.hero-figure{grid-column:1/-1}
+  .hero-figure{max-width:440px;justify-self:start}
+  .hero-figure img{max-height:none;aspect-ratio:5/4}
+}
+@media (max-width:760px){
+  .hero{padding-block:28px 40px}
+  .hero h1{font-size:clamp(2.2rem,10.5vw,3rem)}
+  .hero .sub{font-size:1.35rem}
+  .hero .desc{font-size:var(--fs-base)}
+  .hero-cta .btn{flex:1 1 100%}
+}
 
 /* ---------- banda de verbos ---------- */
-.verbs{border-block:1px solid var(--line);overflow:hidden;padding-block:18px}
-.verbs-track{display:flex;width:max-content;animation:slide 48s linear infinite}
-.verbs ul{display:flex;list-style:none;margin:0;padding:0}
-.verbs li{font-family:var(--f-display);font-stretch:64%;font-weight:700;text-transform:uppercase;font-size:clamp(1.4rem,2.6vw,2rem);letter-spacing:.02em;padding-inline:clamp(18px,2.4vw,34px);display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);white-space:nowrap}
-.verbs li::after{content:"";width:.42em;height:.42em;background:var(--lime);flex:none}
+.verbs{border-block:1px solid var(--line);overflow:hidden;padding-block:16px}
+.verbs-track{display:flex;width:max-content;animation:slide 52s linear infinite}
+.verbs ul{display:flex;list-style:none;padding:0}
+.verbs li{font-family:var(--f-display);font-stretch:64%;font-weight:700;text-transform:uppercase;font-size:clamp(1.25rem,2.2vw,1.7rem);letter-spacing:.02em;padding-inline:clamp(16px,2.2vw,30px);display:flex;align-items:center;gap:clamp(16px,2.2vw,30px);white-space:nowrap;color:var(--graphite)}
+.verbs li::after{content:"";width:.4em;height:.4em;background:var(--lime);border-radius:2px;flex:none}
 @keyframes slide{to{transform:translateX(-50%)}}
 
-/* ---------- trabajos ---------- */
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
-.chip{font:500 var(--fs-s)/1 var(--f-body);padding:.7rem 1.1rem;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--graphite);cursor:pointer;transition:border-color .15s,background .15s,color .15s}
-.chip:hover{border-color:var(--ink)}
+/* ---------- portafolio ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.chip{font:500 var(--fs-s)/1 var(--f-body);padding:.7rem 1.1rem;border:1px solid var(--line);border-radius:var(--r-pill);background:var(--paper);color:var(--graphite);cursor:pointer;transition:border-color .15s,background .15s,color .15s}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.chip .n{font-variant-numeric:tabular-nums;opacity:.6;margin-left:.35em}
-.works{columns:3 300px;column-gap:clamp(16px,2.4vw,32px)}
-.work{break-inside:avoid;margin:0 0 clamp(28px,3.4vw,44px)}
-.work button{all:unset;display:block;width:100%;cursor:zoom-in;position:relative}
-.work button:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
-.work img{width:100%;background:var(--mist);border:1px solid var(--line);border-radius:14px;transition:transform .35s ease,box-shadow .35s ease}
-.work button:hover img,.work button:focus-visible img{transform:translateY(-5px);box-shadow:0 18px 40px rgba(13,13,15,.16)}
-.work .count{position:absolute;right:12px;bottom:12px;background:var(--ink);color:var(--paper);font-size:var(--fs-xs);font-weight:600;letter-spacing:.12em;padding:.45rem .7rem;border-radius:999px;font-variant-numeric:tabular-nums}
-.work figcaption{display:grid;gap:4px;padding-top:14px}
-.work .meta{font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;flex-wrap:wrap;gap:.3rem .8rem}
-.work .meta b{color:var(--ink);font-weight:600}
+.chip .n{font-variant-numeric:tabular-nums;opacity:.65;margin-left:.35em}
+.group-label{display:flex;align-items:center;gap:12px;font-size:var(--fs-xs);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.group-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.works{columns:3 300px;column-gap:clamp(16px,2.4vw,28px)}
+.work{break-inside:avoid;margin:0 0 clamp(24px,3vw,36px)}
+.work button{all:unset;display:block;width:100%;cursor:zoom-in;position:relative;border-radius:var(--r-m)}
+.work button:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+.work img{width:100%;background:var(--mist);border:1px solid var(--line);border-radius:var(--r-m);transition:transform .35s ease,box-shadow .35s ease}
+.work button:hover img,.work button:focus-visible img{transform:translateY(-4px);box-shadow:var(--shadow-m)}
+.work .badge{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.92);color:var(--ink);font-size:var(--fs-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.4rem .65rem;border-radius:var(--r-pill);border:1px solid var(--line)}
+.work .count{position:absolute;right:12px;bottom:12px;background:var(--ink);color:var(--paper);font-size:var(--fs-xs);font-weight:600;letter-spacing:.1em;padding:.45rem .7rem;border-radius:var(--r-pill);font-variant-numeric:tabular-nums;display:inline-flex;align-items:center;gap:.4rem}
+.work .count svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.work figcaption{display:grid;gap:4px;padding:14px 4px 0}
+.work .meta{font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .work h3{font-size:var(--fs-m);font-weight:600;line-height:1.25}
 .work p{font-size:var(--fs-s);color:var(--muted);max-width:44ch}
+.works-empty{font-size:var(--fs-s);color:var(--muted);padding:24px 0}
 
 /* ---------- proceso ---------- */
 .process{background:var(--mist)}
-.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:2px solid var(--ink)}
-.steps li{padding:24px clamp(12px,1.6vw,24px) 8px 0;display:flex;flex-direction:column;gap:12px;min-width:0}
-.steps li + li{padding-left:clamp(12px,1.6vw,24px);border-left:1px solid var(--line)}
-.steps .num{font-family:var(--f-display);font-stretch:64%;font-weight:800;font-size:clamp(2.6rem,4vw,3.6rem);line-height:1;font-variant-numeric:tabular-nums}
-.steps li:first-child .num{background:var(--lime);color:var(--on-lime);align-self:flex-start;padding:0 .08em}
-.steps h3{font-size:var(--fs-m);font-weight:600}
+.steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:2px solid var(--ink)}
+.steps li{padding:22px clamp(12px,1.6vw,22px) 6px 0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.steps li + li{padding-left:clamp(12px,1.6vw,22px);border-left:1px solid var(--line)}
+.steps .num{font-family:var(--f-display);font-stretch:64%;font-weight:800;font-size:clamp(2.2rem,3.4vw,3rem);line-height:1;font-variant-numeric:tabular-nums}
+.steps li:first-child .num{background:var(--lime);color:var(--on-lime);align-self:flex-start;padding:0 .12em;border-radius:4px}
+.steps h3{font-size:var(--fs-base);font-weight:600}
 .steps p{font-size:var(--fs-s);color:var(--muted)}
-@media (max-width:980px){.steps{grid-template-columns:minmax(0,1fr)}.steps li,.steps li+li{padding:22px 0;border-left:0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:72px minmax(0,1fr);gap:4px 16px}.steps .num{grid-row:span 2;font-size:2.4rem}}
+@media (max-width:980px){.steps{grid-template-columns:minmax(0,1fr)}.steps li,.steps li+li{padding:18px 0;border-left:0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:64px minmax(0,1fr);gap:2px 14px}.steps .num{grid-row:span 2;font-size:2.1rem}}
 
 /* ---------- servicios ---------- */
-.services{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line);border-radius:18px;overflow:hidden}
-.svc{padding:clamp(20px,2.4vw,30px);border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px;min-width:0;transition:background .2s}
-.svc:hover{background:var(--mist)}
-.svc h3::before{border-radius:2px}
-.svc h3{font-size:var(--fs-base);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.svc h3::before{content:"";display:block;width:24px;height:3px;background:var(--lime);margin-bottom:16px}
-.svc p{font-size:var(--fs-s);color:var(--muted)}
-@media (max-width:1060px){.services{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:760px){.services{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:480px){.services{grid-template-columns:minmax(0,1fr)}}
+.areas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,24px)}
+.area{border:1px solid var(--line);border-radius:var(--r-l);padding:clamp(22px,3vw,34px);display:grid;gap:14px;min-width:0;transition:box-shadow .25s,transform .25s}
+.area:hover{box-shadow:var(--shadow-s);transform:translateY(-2px)}
+.area .k{font-size:var(--fs-xs);font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.area h3{font-family:var(--f-display);font-stretch:70%;font-weight:800;text-transform:uppercase;font-size:clamp(1.5rem,2.4vw,2rem);line-height:1}
+.area .benefit{font-size:var(--fs-base);color:var(--graphite);max-width:44ch}
+.area ul{list-style:none;padding:0;display:grid;gap:8px;font-size:var(--fs-s);color:var(--graphite);border-top:1px solid var(--line);padding-top:14px}
+.area li{display:flex;gap:10px;align-items:flex-start}
+.area li::before{content:"";width:8px;height:8px;background:var(--lime);border-radius:2px;flex:none;margin-top:.5em}
+.area li small{display:block;color:var(--muted)}
+@media (max-width:720px){.areas{grid-template-columns:minmax(0,1fr)}}
 
 /* ---------- paquetes ---------- */
-.table-scroll{overflow-x:auto;border-top:2px solid var(--ink);-webkit-overflow-scrolling:touch}
-table.plans{border-collapse:collapse;width:100%;min-width:980px;font-size:var(--fs-s);font-variant-numeric:tabular-nums}
-.plans th,.plans td{text-align:left;vertical-align:top;padding:14px 16px;border-bottom:1px solid var(--line)}
-.plans tbody th{font-weight:600;color:var(--muted);font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;width:15%;position:sticky;left:0;background:var(--paper);z-index:1}
-.plans thead th{padding-top:24px;padding-bottom:22px;border-bottom:1px solid var(--ink)}
-.plans thead th:first-child{position:sticky;left:0;background:var(--paper);z-index:1}
-.plan-name{font-family:var(--f-display);font-stretch:64%;font-weight:800;font-size:clamp(2rem,2.8vw,2.6rem);line-height:.95;text-transform:uppercase;display:block}
-.plan-focus{display:block;min-height:2.9em;color:var(--muted);font-weight:500;margin-top:6px;font-size:var(--fs-s)}
-.plan-price{display:flex;align-items:baseline;gap:.35rem;margin-top:16px;font-weight:500}
-.plan-price b{font-family:var(--f-display);font-stretch:80%;font-weight:800;font-size:1.9rem;letter-spacing:-.01em}
-.plan-price b.hl{padding:0 .12em}
+.plans-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(12px,1.6vw,18px)}
+.plan{border:1px solid var(--line);border-radius:var(--r-l);padding:22px 18px;display:grid;gap:14px;align-content:start;min-width:0;background:var(--paper);transition:box-shadow .25s,transform .25s}
+.plan:hover{box-shadow:var(--shadow-s);transform:translateY(-2px)}
+.plan-name{font-family:var(--f-display);font-stretch:64%;font-weight:800;font-size:clamp(1.9rem,2.4vw,2.4rem);line-height:.95;text-transform:uppercase;display:block}
+.plan-focus{display:block;color:var(--muted);font-size:var(--fs-s);margin-top:6px;min-height:2.6em}
+.plan-price{display:flex;align-items:baseline;gap:.35rem;font-weight:500;font-variant-numeric:tabular-nums}
+.plan-price b{font-family:var(--f-display);font-stretch:80%;font-weight:800;font-size:1.8rem;letter-spacing:-.01em}
 .plan-price small{color:var(--muted);font-size:var(--fs-s)}
-.plans .q{font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:1.5rem;line-height:1}
+.plan .who{font-size:var(--fs-s);color:var(--graphite);border-top:1px solid var(--line);padding-top:12px}
+.plan .who b{display:block;font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
+.plan ul{list-style:none;padding:0;display:grid;gap:7px;font-size:var(--fs-s);color:var(--graphite)}
+.plan li{display:flex;gap:9px;align-items:flex-start}
+.plan li::before{content:"";width:7px;height:7px;background:var(--lime);border-radius:2px;flex:none;margin-top:.55em}
+.plan li.no{color:var(--muted)}
+.plan li.no::before{background:var(--line)}
+.plan .btn{width:100%;margin-top:auto}
+@media (max-width:1100px){.plans-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.plans-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.plans-grid{grid-template-columns:minmax(0,1fr)}}
+.plans-foot{display:grid;gap:18px;margin-top:28px}
+.compare-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.compare-btn svg{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:2.2;transition:transform .25s}
+.compare-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.compare{margin-top:8px}
+.table-scroll{overflow-x:auto;border-top:2px solid var(--ink);-webkit-overflow-scrolling:touch;max-width:100%}
+.scroll-hint{font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:none}
+@media (max-width:1060px){.scroll-hint{display:block}}
+table.plans{border-collapse:collapse;width:100%;min-width:960px;font-size:var(--fs-s);font-variant-numeric:tabular-nums}
+.plans th,.plans td{text-align:left;vertical-align:top;padding:13px 14px;border-bottom:1px solid var(--line)}
+.plans tbody th{font-weight:600;color:var(--muted);font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;width:15%;position:sticky;left:0;background:var(--paper);z-index:1}
+.plans thead th{padding-top:20px;padding-bottom:18px;border-bottom:1px solid var(--ink)}
+.plans thead th:first-child{position:sticky;left:0;background:var(--paper);z-index:1}
+.plans thead .plan-name{font-size:1.7rem}
+.plans thead .plan-focus{min-height:0}
+.plans .q{font-family:var(--f-display);font-stretch:80%;font-weight:700;font-size:1.35rem;line-height:1}
 .plans .no{color:var(--muted)}
-.plans tfoot td{border-bottom:0;padding-top:20px}
-.plans .btn{padding:.8rem 1rem;font-size:var(--fs-xs)}
-.scroll-hint{display:none;font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-@media (min-width:761px) and (max-width:1060px){.scroll-hint{display:block}}
-.plan-cards{display:none;gap:16px}
-.plan-card{border:1px solid var(--line);border-radius:20px;padding:22px 20px;display:grid;gap:14px;background:var(--paper)}
-.plan-card.featured{border-color:var(--ink);box-shadow:0 14px 34px rgba(13,13,15,.10)}
-.plan-card .plan-price{margin-top:4px}
-.plan-card ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:var(--fs-s)}
-.plan-card li{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
-.plan-card li:last-child{border-bottom:0;padding-bottom:0}
-.plan-card li span:first-child{font-size:var(--fs-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);align-self:center}
-.plan-card li .q{font-size:1.25rem}
-.plan-card .btn{justify-self:start;width:100%;justify-content:center}
-@media (max-width:760px){.table-scroll{display:none}.plan-cards{display:grid}}
-.notes{display:flex;flex-wrap:wrap;gap:12px 32px;margin-top:24px;font-size:var(--fs-s);color:var(--muted)}
-.notes p{display:flex;gap:10px;align-items:baseline;max-width:56ch}
-.notes p::before{content:"";width:10px;height:10px;background:var(--lime);flex:none;transform:translateY(1px)}
 
-/* ---------- contacto (versión negativa) ---------- */
-.contacto{background:var(--deep);color:var(--deep-fg)}
-.contacto .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(40px,5vw,72px) clamp(16px,2.4vw,32px)}
-.contact-main{grid-column:1/span 7;display:flex;flex-direction:column;gap:28px;min-width:0}
-.contact-main .eyebrow{color:var(--deep-muted)}
-.contact-main h2{font-size:var(--fs-xl);color:var(--deep-fg)}
-.contact-main h2 .hl{padding:0 .08em}
-.contact-main .lead{color:var(--deep-muted)}
-.channels{grid-column:9/span 4;list-style:none;margin:0;padding:0;align-self:start;min-width:0}
-.channels li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:center;padding-block:16px;border-bottom:1px solid var(--deep-line)}
-.channels li:first-child{border-top:1px solid var(--deep-line)}
-.ico{width:44px;height:44px;border:1px solid var(--deep-line);background:var(--deep-2);display:grid;place-items:center;border-radius:50%}
+/* ---------- contacto ---------- */
+.contacto{background:var(--mist)}
+.contacto .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(32px,5vw,64px) clamp(16px,2.4vw,32px)}
+.contact-main{grid-column:1/span 7;display:flex;flex-direction:column;gap:24px;min-width:0}
+.contact-main h2{font-size:var(--fs-h2)}
+.wa-cta{display:grid;gap:10px;justify-items:start}
+.wa-cta small{font-size:var(--fs-s);color:var(--muted)}
+.channels{grid-column:9/span 4;list-style:none;padding:0;align-self:start;min-width:0}
+.channels li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:center;padding-block:14px;border-bottom:1px solid var(--line)}
+.channels li:first-child{border-top:1px solid var(--line)}
+.ico{width:44px;height:44px;border:1px solid var(--line);background:var(--paper);display:grid;place-items:center;border-radius:50%}
 .ico svg{width:20px;height:20px;fill:currentColor}
-.ch-label{display:block;font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--deep-muted)}
+.ch-label{display:block;font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .ch-val{font-size:var(--fs-base);font-weight:500;overflow-wrap:anywhere}
-.ch-val a{text-decoration:none;border-bottom:1px solid var(--deep-line)}
-.ch-val a:hover{border-color:var(--lime)}
-.copy{all:unset;cursor:pointer;font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--deep-muted);margin-left:.6rem;padding:.3rem .6rem;border:1px solid var(--deep-line);border-radius:999px}
-.copy:hover{color:var(--deep-fg)}
+.ch-val a{text-decoration:none;border-bottom:1px solid var(--line)}
+.ch-val a:hover{border-color:var(--ink)}
+.copy{all:unset;cursor:pointer;font-size:var(--fs-xs);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-left:.5rem;padding:.3rem .65rem;border:1px solid var(--line);border-radius:var(--r-pill);background:var(--paper)}
+.copy:hover{color:var(--ink);border-color:var(--ink)}
+.copy:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 @media (max-width:900px){.contact-main,.channels{grid-column:1/-1}}
 
-.brief{background:var(--deep-2);border:1px solid var(--deep-line);border-radius:20px;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.brief{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-l);padding:clamp(20px,3vw,30px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .brief h3{grid-column:1/-1;font-size:var(--fs-m);font-weight:600}
-.brief h3 span{display:block;font-size:var(--fs-s);font-weight:400;color:var(--deep-muted);margin-top:4px}
+.brief h3 span{display:block;font-size:var(--fs-s);font-weight:400;color:var(--muted);margin-top:4px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field.full{grid-column:1/-1}
-.field label{font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--deep-muted)}
-.field input,.field select,.field textarea{font:inherit;font-size:var(--fs-base);color:var(--deep-fg);background:transparent;border:0;border-bottom:1px solid var(--deep-line);padding:.55rem 0;border-radius:0;width:100%}
-.field select option{color:#0D0D0F;background:#FFFFFF}
-.field textarea{resize:vertical;min-height:72px}
-.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-bottom:2px solid var(--ink)}
-.brief .btn{grid-column:1/-1;justify-self:start;background:var(--lime);border-color:var(--lime);color:var(--on-lime)}
-.brief .btn:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.brief .err{grid-column:1/-1;font-size:var(--fs-s);font-weight:600;color:var(--ink)}
-@media (max-width:560px){.brief{grid-template-columns:minmax(0,1fr)}}
+.field label{font-size:var(--fs-xs);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.field input,.field select,.field textarea{font:inherit;font-size:var(--fs-base);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:var(--r-s);padding:.75rem .85rem;width:100%}
+.field textarea{resize:vertical;min-height:84px}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(162,212,11,.45)}
+.field input[aria-invalid="true"]{border-color:#B3261E}
+.brief-foot{grid-column:1/-1;display:grid;gap:10px;justify-items:start}
+.brief .err{font-size:var(--fs-s);font-weight:600;color:#B3261E}
+.brief .hint{font-size:var(--fs-s);color:var(--muted)}
+@media (max-width:560px){.brief{grid-template-columns:minmax(0,1fr)}.brief .btn{width:100%}}
 
-.foot{background:var(--paper);color:var(--muted);border-top:1px solid var(--line)}
-.foot .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding-block:32px}
-.foot img{height:30px;width:auto}
-.foot .tagline{color:var(--ink)}
-.foot small{font-size:var(--fs-xs);letter-spacing:.08em}
+.foot{border-top:1px solid var(--line)}
+.foot .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;padding-block:28px}
+.foot img{height:28px;width:auto}
+.foot small{font-size:var(--fs-xs);letter-spacing:.06em;color:var(--muted)}
+
+/* ---------- WhatsApp flotante ---------- */
+.wa-float{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;width:54px;height:54px;border-radius:50%;background:var(--lime);color:var(--on-lime);display:grid;place-items:center;box-shadow:var(--shadow-m);text-decoration:none;transition:opacity .25s,transform .25s}
+.wa-float svg{width:26px;height:26px;fill:currentColor}
+.wa-float:hover{transform:translateY(-2px)}
+.wa-float.hide{opacity:0;transform:translateY(12px);pointer-events:none}
 
 /* ---------- visor ---------- */
-dialog.viewer{border:0;padding:0;max-width:min(1100px,100vw);width:100%;max-height:100dvh;background:var(--paper);color:var(--ink);border-radius:20px;overflow:hidden}
-dialog.viewer[open]{animation:pop .28s cubic-bezier(.2,.8,.2,1)}
-@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+dialog.viewer{border:0;padding:0;max-width:min(1100px,calc(100vw - 24px));width:100%;max-height:calc(100dvh - 24px);background:var(--paper);color:var(--ink);border-radius:var(--r-l);overflow:hidden;box-shadow:var(--shadow-m)}
 dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
-.viewer-in{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);max-height:100dvh}
-.viewer-img{background:var(--mist);display:grid;place-items:center;min-height:0;overflow:hidden}
-.viewer-img img{max-height:90dvh;width:auto;object-fit:contain}
-.viewer-side{padding:clamp(20px,3vw,36px);display:flex;flex-direction:column;gap:16px;overflow:auto}
+.viewer-in{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);max-height:calc(100dvh - 24px)}
+.viewer-img{background:var(--mist);display:grid;place-items:center;min-height:0;overflow:hidden;position:relative;touch-action:pan-y}
+.viewer-img img{max-height:calc(100dvh - 24px);width:auto;max-width:100%;object-fit:contain}
+.viewer-side{padding:clamp(20px,3vw,34px);display:flex;flex-direction:column;gap:14px;overflow:auto}
+.viewer-side .meta{font-size:var(--fs-xs);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .viewer-side h3{font-size:var(--fs-l);font-weight:600;line-height:1.15}
-.viewer-side p{color:var(--muted);font-size:var(--fs-s)}
+.viewer-side p{color:var(--graphite);font-size:var(--fs-s)}
 .viewer-nav{display:flex;gap:8px;align-items:center;margin-top:auto;padding-top:12px}
 .viewer-nav .pos{font-size:var(--fs-s);font-variant-numeric:tabular-nums;color:var(--muted);margin-right:auto}
-.vbtn{all:unset;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%}
+.vbtn{all:unset;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--paper)}
 .vbtn:hover{border-color:var(--ink)}
-.vbtn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.vbtn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 .vbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
-.vclose{position:absolute;top:10px;right:10px;background:var(--paper)}
-@media (max-width:760px){.viewer-in{grid-template-columns:minmax(0,1fr);overflow:auto}.viewer-img img{max-height:62dvh}}
-
-.wa-float{display:none;position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;align-items:center;gap:.6rem;background:#25D366;color:#0D0D0F;text-decoration:none;font:600 var(--fs-s)/1 var(--f-body);letter-spacing:.08em;text-transform:uppercase;padding:.95rem 1.2rem;border-radius:999px;box-shadow:0 12px 30px rgba(13,13,15,.22);transition:opacity .25s,transform .25s}
-.wa-float svg{width:22px;height:22px;fill:currentColor}
-.wa-float.hide{opacity:0;transform:translateY(12px);pointer-events:none}
-@media (max-width:760px){.wa-float{display:inline-flex}}
+.vclose{position:absolute;top:10px;right:10px}
+@media (max-width:760px){.viewer-in{grid-template-columns:minmax(0,1fr);overflow:auto}.viewer-img img{max-height:60dvh}}
+@media (prefers-reduced-motion:no-preference){
+  dialog.viewer[open]{animation:pop .28s cubic-bezier(.2,.8,.2,1)}
+  @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .verbs-track{animation:none}
-  .work img,.btn,.chip{transition:none}
-  .work button:hover img{transform:none}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#inicio">Saltar al contenido</a>
 
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#inicio" aria-label="AKME Estudio, inicio">
-      <img class="logo-pos" src="assets/logo.png" alt="AKME Estudio" width="700" height="165">
-          </a>
+      <img src="assets/logo.png" alt="AKME Estudio" width="700" height="165">
+    </a>
     <nav class="nav" aria-label="Secciones">
       <a class="link" href="#trabajos">Trabajos</a>
       <a class="link" href="#servicios">Servicios</a>
       <a class="link" href="#paquetes">Paquetes</a>
-      <a class="btn" href="#contacto">Escribinos</a>
+      <a class="link" href="#contacto">Contacto</a>
+      <a class="btn" href="#contacto">Hablemos</a>
       <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="menu-panel" aria-label="Abrir menú">
         <svg class="bars" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         <svg class="x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -309,15 +349,18 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
       <div class="hero-copy">
         <p class="eyebrow">Estudio creativo · Santa Cruz, Bolivia</p>
         <h1 id="hero-title" class="condensed">Dejá de publicar <span class="hl">por publicar.</span></h1>
-        <p class="serif">Empezá a crear para <u>conectar</u>.</p>
-        <p class="lead">AKME integra estrategia, dirección creativa, producción y Meta Ads bajo una sola dirección. Para emprendedores, marcas personales y empresas que quieren verse sólidas y crecer.</p>
+        <p class="sub">Contenido con estrategia para que tu marca conecte y crezca.</p>
+        <p class="desc">Unimos diseño, foto, video y Meta Ads desde Santa Cruz, Bolivia.</p>
         <div class="hero-cta">
-          <a class="btn" href="#trabajos">Ver trabajos</a>
-          <a class="btn ghost" href="#contacto">Hablemos de tu marca</a>
+          <a class="btn" href="#contacto">Hablemos de tu marca</a>
+          <a class="btn ghost" href="#trabajos">Ver trabajos</a>
         </div>
       </div>
       <figure class="hero-figure">
-        <img src="assets/portada.jpg" width="1000" height="1249" alt="Portada de AKME Estudio con cámara, celular con métricas y libreta negra">
+        <picture>
+          <source type="image/webp" srcset="assets/portada.webp">
+          <img src="assets/portada.jpg" width="1000" height="1249" fetchpriority="high" alt="Portada de AKME Estudio con cámara, celular con métricas y libreta negra">
+        </picture>
         <figcaption><span class="tagline">Ideas<i>•</i>Diseño<i>•</i>Impacto</span><span>2026</span></figcaption>
       </figure>
     </div>
@@ -332,13 +375,13 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
 
   <section class="section" id="trabajos" aria-labelledby="trabajos-title">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head reveal">
         <p class="eyebrow">Portafolio</p>
         <h2 id="trabajos-title" class="condensed h2">Lo visual también <span class="hl">marca la diferencia.</span></h2>
-        <p class="lead">Campañas para redes, piezas editoriales y el sistema comercial del estudio. Tocá una pieza para verla completa.</p>
+        <p class="lead">Así se ve una marca dirigida con criterio. Tocá una pieza para verla completa.</p>
       </div>
 
-      <div class="filters" role="group" aria-label="Filtrar trabajos">
+      <div class="filters reveal" role="group" aria-label="Filtrar trabajos">
         <button class="chip" type="button" data-filter="todo" aria-pressed="true">Todo<span class="n">7</span></button>
         <button class="chip" type="button" data-filter="redes" aria-pressed="false">Redes sociales<span class="n">3</span></button>
         <button class="chip" type="button" data-filter="editorial" aria-pressed="false">Editorial<span class="n">1</span></button>
@@ -346,53 +389,80 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
         <button class="chip" type="button" data-filter="identidad" aria-pressed="false">Identidad<span class="n">2</span></button>
       </div>
 
+      <p class="group-label reveal">Identidad y comunicación de AKME · piezas propias del estudio</p>
+      <p class="sr" id="works-status" aria-live="polite"></p>
+
       <div class="works" id="works">
-        <figure class="work" data-cat="redes" data-title="¿Tu competencia te vigila?" data-desc="Pieza conceptual con humor visual. Un mensaje directo, un bloque verde para la idea clave y la fotografía como protagonista. El CTA queda implícito: tomar el control de tus redes." data-meta="Redes sociales · Feed 1080×1080" data-images="assets/te-vigila.jpg">
-          <button type="button"><img src="assets/te-vigila.jpg" width="900" height="900" loading="lazy" alt="Arte: ¿Tu competencia te vigila? con un gato y una lupa"></button>
-          <figcaption><span class="meta"><b>Redes</b><span>Feed 1:1</span></span><h3>¿Tu competencia te vigila?</h3><p>Humor visual y mensaje directo para invitar a transformar las redes.</p></figcaption>
+        <figure class="work reveal" data-cat="redes" data-title="¿Tu competencia te vigila?" data-desc="Pieza conceptual con humor visual. Un mensaje directo, un bloque verde para la idea clave y la fotografía como protagonista. El llamado queda implícito: tomar el control de tus redes." data-meta="Marca AKME · Redes sociales · Feed 1080×1080" data-images="assets/te-vigila.jpg">
+          <button type="button" aria-label="Ver en grande: ¿Tu competencia te vigila?">
+            <picture><source type="image/webp" srcset="assets/te-vigila.webp"><img src="assets/te-vigila.jpg" width="900" height="900" loading="lazy" decoding="async" alt="Arte: ¿Tu competencia te vigila? con un gato y una lupa"></picture>
+            <span class="badge">Marca AKME</span>
+          </button>
+          <figcaption><span class="meta">Redes sociales · Feed 1:1</span><h3>¿Tu competencia te vigila?</h3><p>Humor visual y mensaje directo para invitar a transformar las redes.</p></figcaption>
         </figure>
 
-        <figure class="work" data-cat="comercial" data-title="Catálogo de paquetes 2026" data-desc="Serie de siete piezas para presentar los paquetes SMART, ESENCIAL, COMPLETO, PRO y ELITE. Fotografía de producto en blanco y negro, precios con jerarquía clara y el verde reservado para el nombre o el monto." data-meta="Sistema comercial · 7 piezas 4:5" data-images="assets/paquetes-1.jpg,assets/paquetes-2.jpg,assets/paquetes-3.jpg,assets/paquetes-4.jpg,assets/paquetes-5.jpg,assets/paquetes-6.jpg,assets/paquetes-7.jpg">
-          <button type="button"><img src="assets/paquetes-6.jpg" width="900" height="1125" loading="lazy" alt="Pieza del Paquete PRO con laptop, celular y cámara Canon"><span class="count">1 / 7</span></button>
-          <figcaption><span class="meta"><b>Sistema comercial</b><span>7 piezas · 4:5</span></span><h3>Catálogo de paquetes 2026</h3><p>Una serie para vender planes mensuales con la misma lógica visual en cada pieza.</p></figcaption>
+        <figure class="work reveal" data-cat="comercial" data-title="Catálogo de paquetes 2026" data-desc="Serie de siete piezas para presentar los paquetes SMART, ESENCIAL, COMPLETO, PRO y ELITE. Fotografía de producto en blanco y negro, precios con jerarquía clara y el verde reservado para el nombre o el monto." data-meta="Marca AKME · Sistema comercial · 7 piezas 4:5" data-images="assets/paquetes-1.jpg,assets/paquetes-2.jpg,assets/paquetes-3.jpg,assets/paquetes-4.jpg,assets/paquetes-5.jpg,assets/paquetes-6.jpg,assets/paquetes-7.jpg">
+          <button type="button" aria-label="Ver en grande: Catálogo de paquetes 2026, 7 imágenes">
+            <picture><source type="image/webp" srcset="assets/paquetes-6.webp"><img src="assets/paquetes-6.jpg" width="900" height="1125" loading="lazy" decoding="async" alt="Pieza del Paquete PRO con laptop, celular y cámara Canon"></picture>
+            <span class="badge">Marca AKME</span>
+            <span class="count"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h12v12H4zM8 4h12v12"/></svg>7</span>
+          </button>
+          <figcaption><span class="meta">Sistema comercial · 7 piezas · 4:5</span><h3>Catálogo de paquetes 2026</h3><p>Una serie para vender planes mensuales con la misma lógica visual en cada pieza.</p></figcaption>
         </figure>
 
-        <figure class="work" data-cat="redes" data-title="Dejá de publicar por publicar" data-desc="Mensaje estratégico con composición de alto contraste. El apretón de manos B/N contra el verde lima resume la idea: crear para conectar, no para llenar el feed." data-meta="Redes sociales · Feed 1080×1080" data-images="assets/conectar.jpg">
-          <button type="button"><img src="assets/conectar.jpg" width="900" height="900" loading="lazy" alt="Arte: Dejá de publicar por publicar, empezá a crear para conectar"></button>
-          <figcaption><span class="meta"><b>Redes</b><span>Feed 1:1</span></span><h3>Dejá de publicar por publicar</h3><p>Una sola idea por pieza, con el verde para la frase que importa.</p></figcaption>
+        <figure class="work reveal" data-cat="redes" data-title="Dejá de publicar por publicar" data-desc="Mensaje estratégico con composición de alto contraste. El apretón de manos en blanco y negro contra el verde lima resume la idea: crear para conectar, no para llenar el feed." data-meta="Marca AKME · Redes sociales · Feed 1080×1080" data-images="assets/conectar.jpg">
+          <button type="button" aria-label="Ver en grande: Dejá de publicar por publicar">
+            <picture><source type="image/webp" srcset="assets/conectar.webp"><img src="assets/conectar.jpg" width="900" height="900" loading="lazy" decoding="async" alt="Arte: Dejá de publicar por publicar, empezá a crear para conectar"></picture>
+            <span class="badge">Marca AKME</span>
+          </button>
+          <figcaption><span class="meta">Redes sociales · Feed 1:1</span><h3>Dejá de publicar por publicar</h3><p>Una sola idea por pieza, con el verde para la frase que importa.</p></figcaption>
         </figure>
 
-        <figure class="work" data-cat="editorial" data-title="Lo visual también marca la diferencia" data-desc="Collage editorial en blanco y negro con acento verde lima. Fotografía propia de producción, tipografía repetida como textura y una nota manuscrita: una marca bien presentada genera más confianza." data-meta="Editorial · Feed 1080×1080" data-images="assets/vende.jpg">
-          <button type="button"><img src="assets/vende.jpg" width="900" height="900" loading="lazy" alt="Collage editorial B/N de una fotógrafa con cámara Canon y la palabra VENDE"></button>
-          <figcaption><span class="meta"><b>Editorial</b><span>Feed 1:1</span></span><h3>Lo visual también marca la diferencia</h3><p>Collage B/N con producción propia y verde como gesto de energía.</p></figcaption>
+        <figure class="work reveal" data-cat="editorial" data-title="Lo visual también marca la diferencia" data-desc="Collage editorial en blanco y negro con acento verde lima. Fotografía propia de producción, tipografía repetida como textura y una nota manuscrita: una marca bien presentada genera más confianza." data-meta="Marca AKME · Editorial · Feed 1080×1080" data-images="assets/vende.jpg">
+          <button type="button" aria-label="Ver en grande: Lo visual también marca la diferencia">
+            <picture><source type="image/webp" srcset="assets/vende.webp"><img src="assets/vende.jpg" width="900" height="900" loading="lazy" decoding="async" alt="Collage editorial en blanco y negro de una fotógrafa con cámara Canon y la palabra VENDE"></picture>
+            <span class="badge">Marca AKME</span>
+          </button>
+          <figcaption><span class="meta">Editorial · Feed 1:1</span><h3>Lo visual también marca la diferencia</h3><p>Collage con producción propia y verde como gesto de energía.</p></figcaption>
         </figure>
 
-        <figure class="work" data-cat="identidad" data-title="Manual de marca AKME" data-desc="Documento maestro de 31 páginas: fundamentos, voz, arquitectura de servicios, logotipo, paleta, tipografía, sistema visual y checklist de consistencia." data-meta="Identidad · 31 páginas" data-images="assets/manual-1.jpg,assets/manual-12.jpg,assets/manual-14.jpg,assets/manual-16.jpg">
-          <button type="button"><img src="assets/manual-portada.jpg" width="900" height="560" loading="lazy" alt="Página de paleta cromática del manual de marca AKME"><span class="count">1 / 4</span></button>
-          <figcaption><span class="meta"><b>Identidad</b><span>31 páginas</span></span><h3>Manual de marca AKME</h3><p>Identidad visual y verbal para que cada pieza se reconozca sin ver el logo.</p></figcaption>
+        <figure class="work reveal" data-cat="identidad" data-title="Manual de marca AKME" data-desc="Documento maestro de 31 páginas: fundamentos, voz, arquitectura de servicios, logotipo, paleta, tipografía, sistema visual y checklist de consistencia." data-meta="Marca AKME · Identidad · 31 páginas" data-images="assets/manual-1.jpg,assets/manual-12.jpg,assets/manual-14.jpg,assets/manual-16.jpg">
+          <button type="button" aria-label="Ver en grande: Manual de marca AKME, 4 imágenes">
+            <picture><source type="image/webp" srcset="assets/manual-portada.webp"><img src="assets/manual-portada.jpg" width="900" height="560" loading="lazy" decoding="async" alt="Página de paleta cromática del manual de marca AKME"></picture>
+            <span class="badge">Marca AKME</span>
+            <span class="count"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h12v12H4zM8 4h12v12"/></svg>4</span>
+          </button>
+          <figcaption><span class="meta">Identidad · 31 páginas</span><h3>Manual de marca AKME</h3><p>Identidad visual y verbal para que cada pieza se reconozca sin ver el logo.</p></figcaption>
         </figure>
 
-        <figure class="work" data-cat="redes" data-title="¿Cómo podemos ayudarte?" data-desc="Pieza de contacto con un teléfono vintage como recurso visual. Titular corto, bloque verde en la palabra clave y el logo pequeño para no competir con el mensaje." data-meta="Redes sociales · Feed 1080×1350" data-images="assets/ayudarte.jpg">
-          <button type="button"><img src="assets/ayudarte.jpg" width="900" height="1125" loading="lazy" alt="Arte: ¿Cómo podemos ayudarte? con un teléfono vintage negro"></button>
-          <figcaption><span class="meta"><b>Redes</b><span>Feed 4:5</span></span><h3>¿Cómo podemos ayudarte?</h3><p>Conversión con un objeto inesperado y una pregunta directa.</p></figcaption>
+        <figure class="work reveal" data-cat="redes" data-title="¿Cómo podemos ayudarte?" data-desc="Pieza de contacto con un teléfono vintage como recurso visual. Titular corto, bloque verde en la palabra clave y el logo pequeño para no competir con el mensaje." data-meta="Marca AKME · Redes sociales · Feed 1080×1350" data-images="assets/ayudarte.jpg">
+          <button type="button" aria-label="Ver en grande: ¿Cómo podemos ayudarte?">
+            <picture><source type="image/webp" srcset="assets/ayudarte.webp"><img src="assets/ayudarte.jpg" width="900" height="1125" loading="lazy" decoding="async" alt="Arte: ¿Cómo podemos ayudarte? con un teléfono vintage negro"></picture>
+            <span class="badge">Marca AKME</span>
+          </button>
+          <figcaption><span class="meta">Redes sociales · Feed 4:5</span><h3>¿Cómo podemos ayudarte?</h3><p>Conversión con un objeto inesperado y una pregunta directa.</p></figcaption>
         </figure>
 
-        <figure class="work" data-cat="identidad" data-title="Tarjeta de contacto" data-desc="Versión negativa de la marca: blanco y verde lima sobre negro, fotografía de ambiente de estudio y la “A” del isotipo como recurso de esquina." data-meta="Identidad · 4:5" data-images="assets/contacto.jpg">
-          <button type="button"><img src="assets/contacto.jpg" width="900" height="1125" loading="lazy" alt="Tarjeta de contacto de AKME en versión negativa con laptop y taza"></button>
-          <figcaption><span class="meta"><b>Identidad</b><span>Versión negativa</span></span><h3>Tarjeta de contacto</h3><p>La marca en negro, con el verde como única señal.</p></figcaption>
+        <figure class="work reveal" data-cat="identidad" data-title="Tarjeta de contacto" data-desc="Versión negativa de la marca: blanco y verde lima sobre negro, fotografía de ambiente de estudio y la “A” del isotipo como recurso de esquina." data-meta="Marca AKME · Identidad · 4:5" data-images="assets/contacto.jpg">
+          <button type="button" aria-label="Ver en grande: Tarjeta de contacto">
+            <picture><source type="image/webp" srcset="assets/contacto.webp"><img src="assets/contacto.jpg" width="900" height="1125" loading="lazy" decoding="async" alt="Tarjeta de contacto de AKME en versión negativa con laptop y taza"></picture>
+            <span class="badge">Marca AKME</span>
+          </button>
+          <figcaption><span class="meta">Identidad · Versión negativa</span><h3>Tarjeta de contacto</h3><p>La marca en negro, con el verde como única señal.</p></figcaption>
         </figure>
       </div>
+      <p class="works-empty" id="works-empty" hidden>No hay piezas en esta categoría.</p>
     </div>
   </section>
 
   <section class="section process" id="proceso" aria-labelledby="proceso-title">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head reveal">
         <p class="eyebrow">Cómo trabajamos</p>
         <h2 id="proceso-title" class="condensed h2">Menos improvisación. Más dirección.</h2>
         <p class="lead">Cada mes sigue el mismo recorrido, de la idea al reporte.</p>
       </div>
-      <ol class="steps">
+      <ol class="steps reveal">
         <li><span class="num">01</span><h3>Diagnóstico</h3><p>Revisamos tu perfil, tu competencia y tus números para fijar objetivos concretos.</p></li>
         <li><span class="num">02</span><h3>Dirección</h3><p>Brief estratégico, calendario mensual, hooks y guiones. Cada pieza tiene un propósito.</p></li>
         <li><span class="num">03</span><h3>Producción</h3><p>Jornadas de grabación con Canon R50, softbox e iPhone según el formato, con dirección en set.</p></li>
@@ -404,78 +474,178 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
 
   <section class="section" id="servicios" aria-labelledby="servicios-title">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head reveal">
         <p class="eyebrow">Servicios</p>
-        <h2 id="servicios-title" class="condensed h2">Estrategia, producción y creatividad <span class="hl">bajo una sola dirección.</span></h2>
-        <p class="lead">Sin armar un equipo interno: diseño, foto, video, redes y pauta en un mismo estudio.</p>
+        <h2 id="servicios-title" class="condensed h2">Todo lo que tu marca necesita, <span class="hl">bajo una sola dirección.</span></h2>
+        <p class="lead">Sin armar un equipo interno: cuatro áreas que trabajan con la misma lógica de marca.</p>
       </div>
-      <div class="services">
-        <article class="svc"><h3>Estrategia y dirección</h3><p>Diagnóstico digital, brief, objetivos, calendario y dirección creativa.</p></article>
-        <article class="svc"><h3>Contenido y copy</h3><p>Ideas, hooks, guiones, CTA y conceptos de campaña.</p></article>
-        <article class="svc"><h3>Producción audiovisual</h3><p>Reels y video vertical con cámara profesional o móvil, luz y dirección en set.</p></article>
-        <article class="svc"><h3>Fotografía</h3><p>Sesiones de marca, producto y retrato con edición profesional.</p></article>
-        <article class="svc"><h3>Diseño gráfico</h3><p>Artes comerciales, orgánicos y editoriales para feed, historias y campañas.</p></article>
-        <article class="svc"><h3>Edición</h3><p>Cortes, ritmo, textos y adaptación de formatos con acabado final.</p></article>
-        <article class="svc"><h3>Gestión de redes</h3><p>Community management de comentarios y mensajes directos según el alcance.</p></article>
-        <article class="svc"><h3>Meta Ads</h3><p>Configuración, carga, gestión y optimización de campañas.</p></article>
-        <article class="svc"><h3>Analítica</h3><p>Métricas, reportes, KPIs, benchmark y recomendaciones de mejora.</p></article>
-        <article class="svc"><h3>Optimización digital</h3><p>Perfil, embudo y proceso de atención ajustados para convertir mejor.</p></article>
-        <article class="svc"><h3>Dirección de crecimiento</h3><p>Seguimiento estratégico, reuniones, dashboard y análisis comercial.</p></article>
-        <article class="svc"><h3>Branding e identidad</h3><p>Sistema visual, identidad y dirección creativa de marca.</p></article>
+      <div class="areas">
+        <article class="area reveal">
+          <p class="k">Área 01</p>
+          <h3>Estrategia</h3>
+          <p class="benefit">Para saber qué publicar, para quién y por qué, antes de producir una sola pieza.</p>
+          <ul>
+            <li>Diagnóstico digital y brief estratégico</li>
+            <li>Objetivos, planificación y calendario mensual</li>
+            <li>Dirección creativa y recomendaciones</li>
+            <li>Dirección de crecimiento <small>Seguimiento, reuniones y dashboard en planes avanzados.</small></li>
+          </ul>
+        </article>
+        <article class="area reveal">
+          <p class="k">Área 02</p>
+          <h3>Contenido y producción</h3>
+          <p class="benefit">Para que tu marca se vea profesional todos los meses, sin depender de tu tiempo.</p>
+          <ul>
+            <li>Copywriting: ideas, hooks, guiones y llamados a la acción</li>
+            <li>Fotografía de marca, producto y retrato</li>
+            <li>Reels y video vertical con cámara profesional o móvil</li>
+            <li>Edición, ritmo, textos y adaptación de formatos</li>
+            <li>Diseño gráfico para feed, historias y campañas</li>
+          </ul>
+        </article>
+        <article class="area reveal">
+          <p class="k">Área 03</p>
+          <h3>Publicidad y crecimiento</h3>
+          <p class="benefit">Para llegar a más gente, atender mejor y saber qué está funcionando.</p>
+          <ul>
+            <li>Meta Ads: configuración, gestión y optimización de campañas <small>La inversión publicitaria se paga aparte.</small></li>
+            <li>Community management de comentarios y mensajes <small>Según el alcance del plan.</small></li>
+            <li>Analítica: métricas, KPIs, benchmark y reportes</li>
+            <li>Optimización de perfil, embudo y proceso de atención</li>
+          </ul>
+        </article>
+        <article class="area reveal">
+          <p class="k">Área 04</p>
+          <h3>Branding e identidad</h3>
+          <p class="benefit">Para que te reconozcan antes de leer el logo y cada pieza sume a la misma marca.</p>
+          <ul>
+            <li>Identidad visual y sistema gráfico</li>
+            <li>Dirección creativa de marca</li>
+            <li>Manual de marca y aplicaciones</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
 
-  <section class="section" id="paquetes" aria-labelledby="paquetes-title" style="padding-top:0">
+  <section class="section tight" id="paquetes" aria-labelledby="paquetes-title">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head reveal">
         <p class="eyebrow">Paquetes mensuales</p>
         <h2 id="paquetes-title" class="condensed h2">Elegí el nivel. Nosotros dirigimos el resto.</h2>
-        <p class="lead">Cinco planes que crecen de presencia digital a dirección integral de marketing.</p>
+        <p class="lead">Cinco planes que crecen de presencia digital a dirección integral de marketing. Precios en bolivianos.</p>
       </div>
-      <p class="scroll-hint">Deslizá la tabla para ver los cinco planes →</p>
-      <div class="plan-cards" id="plan-cards"></div>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Comparativa de paquetes">
-        <table class="plans">
-          <caption class="sr">Comparativa de paquetes mensuales de AKME Estudio, precios en bolivianos</caption>
-          <thead>
-            <tr>
-              <th scope="col"><span class="sr">Detalle</span></th>
-              <th scope="col"><span class="plan-name">Smart</span><span class="plan-focus">Presencia digital</span><span class="plan-price"><span>Bs</span><b>1.800</b><small>/ mes</small></span></th>
-              <th scope="col"><span class="plan-name">Esencial</span><span class="plan-focus">Contenido + publicidad</span><span class="plan-price"><span>Bs</span><b>2.500</b><small>/ mes</small></span></th>
-              <th scope="col"><span class="plan-name">Completo</span><span class="plan-focus">Gestión + optimización</span><span class="plan-price"><span>Bs</span><b>3.900</b><small>/ mes</small></span></th>
-              <th scope="col"><span class="plan-name">Pro</span><span class="plan-focus">Dirección + crecimiento</span><span class="plan-price"><span>Bs</span><b>4.900</b><small>/ mes</small></span></th>
-              <th scope="col"><span class="plan-name">Elite</span><span class="plan-focus">Dirección integral de marketing</span><span class="plan-price"><span>Bs</span><b>7.000</b><small>/ mes</small></span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Artes</th><td class="q">4</td><td class="q">6</td><td class="q">9</td><td class="q">11</td><td class="q">15</td></tr>
-            <tr><th scope="row">Reels</th><td class="q">2</td><td class="q">4</td><td class="q">6</td><td class="q">8</td><td class="q">11</td></tr>
-            <tr><th scope="row">Historias</th><td class="q">4</td><td class="q">6</td><td class="q">8</td><td class="q">11</td><td class="q">15</td></tr>
-            <tr><th scope="row">Jornadas de producción</th><td>1 jornada · 2 h</td><td>1 jornada · 2 h</td><td>1 jornada · 2 h</td><td>2 jornadas · 2 h c/u</td><td>2 jornadas · 2 h c/u</td></tr>
-            <tr><th scope="row">Equipo</th><td>Móvil premium</td><td>Móvil premium + luz</td><td>Híbrida: iPhone + Canon R50</td><td>Profesional / híbrida</td><td>Profesional avanzada</td></tr>
-            <tr><th scope="row">Meta Ads</th><td class="no">No incluye</td><td>1 campaña</td><td>Hasta 2 campañas</td><td>Hasta 4 campañas</td><td>Hasta 6 campañas</td></tr>
-            <tr><th scope="row">Community management</th><td class="no">No incluye</td><td>Básico</td><td>Incluido</td><td>Incluido</td><td>Prioritario</td></tr>
-            <tr><th scope="row">Estrategia</th><td>Ficha de marca y planificación básica</td><td>Brief estratégico y calendario mensual</td><td>Brief, diagnóstico digital, calendario y objetivos</td><td>Brief de marca + marketing y plan estratégico mensual</td><td>Diagnóstico integral y plan estratégico a 90 días</td></tr>
-            <tr><th scope="row">Medición</th><td>Reporte de rendimiento</td><td>Análisis de contenido y publicidad</td><td>Informe mensual y benchmark competitivo</td><td>Dashboard de marketing y análisis avanzado de leads</td><td>Dashboard marketing + ventas, KPIs e informe ejecutivo</td></tr>
-            <tr><th scope="row">Optimización</th><td class="no">—</td><td>Perfil básico</td><td>Contenido + campañas, mensual</td><td>Embudo digital y proceso de atención</td><td>Procesos y conversión comercial</td></tr>
-            <tr><th scope="row">Dirección creativa</th><td class="no">—</td><td class="no">—</td><td>Básica + guía visual de redes</td><td>Incluida</td><td>Integral</td></tr>
-            <tr><th scope="row">Seguimiento</th><td>Recomendaciones del mes</td><td>Recomendaciones de mejora</td><td>1 reunión mensual</td><td>2 reuniones al mes · quincenal</td><td>1 reunión semanal</td></tr>
-          </tbody>
-          <tfoot>
-            <tr><td></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete SMART." href="https://wa.me/59157385254">Consultar</a></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete ESENCIAL." href="https://wa.me/59157385254">Consultar</a></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete COMPLETO." href="https://wa.me/59157385254">Consultar</a></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete PRO." href="https://wa.me/59157385254">Consultar</a></td>
-              <td><a class="btn ghost" data-wa="Hola AKME, quiero información del paquete ELITE." href="https://wa.me/59157385254">Consultar</a></td>
-            </tr>
-          </tfoot>
-        </table>
+
+      <div class="plans-grid reveal">
+        <article class="plan">
+          <div><span class="plan-name">Smart</span><span class="plan-focus">Presencia digital</span></div>
+          <p class="plan-price"><span>Bs</span><b>1.800</b><small>/ mes</small></p>
+          <p class="who"><b>Para quién</b>Marcas que recién empiezan y quieren una presencia digital ordenada.</p>
+          <ul>
+            <li>4 artes, 2 reels y 4 historias al mes</li>
+            <li>1 jornada de producción de 2 horas, producción móvil premium</li>
+            <li>Copywriting básico, ficha de marca y planificación</li>
+            <li>Reporte de rendimiento y recomendaciones</li>
+            <li class="no">No incluye Meta Ads ni community management</li>
+          </ul>
+          <a class="btn ghost" data-wa="Hola AKME, quiero información del paquete SMART." href="https://wa.me/59157385254">Consultar</a>
+        </article>
+        <article class="plan">
+          <div><span class="plan-name">Esencial</span><span class="plan-focus">Contenido + publicidad</span></div>
+          <p class="plan-price"><span>Bs</span><b>2.500</b><small>/ mes</small></p>
+          <p class="who"><b>Para quién</b>Marcas que ya publican y quieren sumar pauta con un plan.</p>
+          <ul>
+            <li>6 artes, 4 reels y 6 historias al mes</li>
+            <li>1 jornada de producción de hasta 2 horas, móvil premium + luz</li>
+            <li>Brief estratégico de contenido y calendario mensual</li>
+            <li>Meta Ads: gestión de hasta 1 campaña</li>
+            <li>Community management básico y optimización de perfil</li>
+          </ul>
+          <a class="btn ghost" data-wa="Hola AKME, quiero información del paquete ESENCIAL." href="https://wa.me/59157385254">Consultar</a>
+        </article>
+        <article class="plan">
+          <div><span class="plan-name">Completo</span><span class="plan-focus">Gestión + optimización</span></div>
+          <p class="plan-price"><span>Bs</span><b>3.900</b><small>/ mes</small></p>
+          <p class="who"><b>Para quién</b>Negocios que necesitan gestión mensual, datos y optimización.</p>
+          <ul>
+            <li>9 artes, 6 reels y 8 historias al mes</li>
+            <li>1 jornada de producción de 2 horas, híbrida iPhone + Canon R50</li>
+            <li>Brief, diagnóstico digital, calendario y objetivos</li>
+            <li>Meta Ads: hasta 2 campañas, community management</li>
+            <li>Benchmark competitivo, informe y 1 reunión mensual</li>
+          </ul>
+          <a class="btn ghost" data-wa="Hola AKME, quiero información del paquete COMPLETO." href="https://wa.me/59157385254">Consultar</a>
+        </article>
+        <article class="plan">
+          <div><span class="plan-name">Pro</span><span class="plan-focus">Dirección + crecimiento</span></div>
+          <p class="plan-price"><span>Bs</span><b>4.900</b><small>/ mes</small></p>
+          <p class="who"><b>Para quién</b>Marcas en crecimiento que buscan dirección creativa y seguimiento con datos.</p>
+          <ul>
+            <li>11 artes, 8 reels y 11 historias al mes</li>
+            <li>2 jornadas de producción de 2 horas, profesional o híbrida</li>
+            <li>Brief de marca + marketing y plan estratégico mensual</li>
+            <li>Meta Ads: hasta 4 campañas, dashboard de marketing</li>
+            <li>Optimización del embudo, 2 reuniones al mes</li>
+          </ul>
+          <a class="btn ghost" data-wa="Hola AKME, quiero información del paquete PRO." href="https://wa.me/59157385254">Consultar</a>
+        </article>
+        <article class="plan">
+          <div><span class="plan-name">Elite</span><span class="plan-focus">Dirección integral de marketing</span></div>
+          <p class="plan-price"><span>Bs</span><b>7.000</b><small>/ mes</small></p>
+          <p class="who"><b>Para quién</b>Empresas que quieren dirección integral de marketing y ventas.</p>
+          <ul>
+            <li>15 artes, 11 reels y 15 historias al mes</li>
+            <li>2 jornadas de producción de 2 horas, producción avanzada</li>
+            <li>Diagnóstico integral y plan estratégico a 90 días</li>
+            <li>Meta Ads: hasta 6 campañas, community prioritario</li>
+            <li>Dashboard marketing + ventas, informe ejecutivo, 1 reunión semanal</li>
+          </ul>
+          <a class="btn ghost" data-wa="Hola AKME, quiero información del paquete ELITE." href="https://wa.me/59157385254">Consultar</a>
+        </article>
       </div>
-      <div class="notes">
-        <p>La inversión publicitaria en Meta Ads no está incluida y la paga directamente el cliente.</p>
-        <p>El análisis comercial y de conversión depende de los datos que comparta el cliente.</p>
+
+      <div class="plans-foot reveal">
+        <p class="note">La inversión publicitaria en Meta Ads no está incluida en ningún paquete y la paga directamente el cliente.</p>
+        <p class="note">El análisis comercial y de conversión depende de los datos que comparta el cliente.</p>
+        <div class="compare-row">
+          <button class="btn ghost compare-btn" type="button" id="compare-btn" aria-expanded="false" aria-controls="compare">
+            Comparar todos los detalles
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="compare" id="compare" hidden>
+        <p class="scroll-hint">Deslizá la tabla hacia los costados para ver los cinco planes</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Comparativa completa de paquetes">
+          <table class="plans">
+            <caption class="sr">Comparativa de paquetes mensuales de AKME Estudio, precios en bolivianos</caption>
+            <thead>
+              <tr>
+                <th scope="col"><span class="sr">Detalle</span></th>
+                <th scope="col"><span class="plan-name">Smart</span><span class="plan-focus">Presencia digital</span><span class="plan-price"><span>Bs</span><b>1.800</b><small>/ mes</small></span></th>
+                <th scope="col"><span class="plan-name">Esencial</span><span class="plan-focus">Contenido + publicidad</span><span class="plan-price"><span>Bs</span><b>2.500</b><small>/ mes</small></span></th>
+                <th scope="col"><span class="plan-name">Completo</span><span class="plan-focus">Gestión + optimización</span><span class="plan-price"><span>Bs</span><b>3.900</b><small>/ mes</small></span></th>
+                <th scope="col"><span class="plan-name">Pro</span><span class="plan-focus">Dirección + crecimiento</span><span class="plan-price"><span>Bs</span><b>4.900</b><small>/ mes</small></span></th>
+                <th scope="col"><span class="plan-name">Elite</span><span class="plan-focus">Dirección integral de marketing</span><span class="plan-price"><span>Bs</span><b>7.000</b><small>/ mes</small></span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Artes</th><td class="q">4</td><td class="q">6</td><td class="q">9</td><td class="q">11</td><td class="q">15</td></tr>
+              <tr><th scope="row">Reels</th><td class="q">2</td><td class="q">4</td><td class="q">6</td><td class="q">8</td><td class="q">11</td></tr>
+              <tr><th scope="row">Historias</th><td class="q">4</td><td class="q">6</td><td class="q">8</td><td class="q">11</td><td class="q">15</td></tr>
+              <tr><th scope="row">Jornadas de producción</th><td>1 jornada · 2 h</td><td>1 jornada · hasta 2 h</td><td>1 jornada · 2 h</td><td>2 jornadas · 2 h c/u</td><td>2 jornadas · 2 h c/u</td></tr>
+              <tr><th scope="row">Equipo</th><td>Móvil premium</td><td>Móvil premium + luz</td><td>Híbrida: iPhone + Canon R50</td><td>Profesional / híbrida</td><td>Profesional avanzada</td></tr>
+              <tr><th scope="row">Meta Ads</th><td class="no">No incluye</td><td>Hasta 1 campaña</td><td>Hasta 2 campañas</td><td>Hasta 4 campañas</td><td>Hasta 6 campañas</td></tr>
+              <tr><th scope="row">Community management</th><td class="no">No incluye</td><td>Básico</td><td>Incluido</td><td>Incluido</td><td>Prioritario</td></tr>
+              <tr><th scope="row">Estrategia</th><td>Ficha inicial de marca y planificación básica</td><td>Brief estratégico de contenido y calendario mensual</td><td>Brief, diagnóstico digital, calendario y objetivos</td><td>Brief de marca + marketing y plan estratégico mensual</td><td>Diagnóstico integral y plan estratégico a 90 días</td></tr>
+              <tr><th scope="row">Medición</th><td>Reporte de rendimiento</td><td>Análisis de contenido y publicidad</td><td>Análisis de datos, benchmark competitivo e informe mensual</td><td>Dashboard de marketing y análisis avanzado de contenido, campañas y leads</td><td>Dashboard marketing + ventas, KPIs, análisis comercial e informe ejecutivo</td></tr>
+              <tr><th scope="row">Optimización</th><td class="no">—</td><td>Básica de perfil</td><td>Mensual de contenido y campañas</td><td>Embudo digital y proceso de atención</td><td>Procesos y conversión comercial</td></tr>
+              <tr><th scope="row">Dirección creativa</th><td class="no">—</td><td class="no">—</td><td>Básica + guía visual de redes</td><td>Incluida</td><td>Integral</td></tr>
+              <tr><th scope="row">Seguimiento</th><td>Recomendaciones para el mes siguiente</td><td>Recomendaciones de mejora</td><td>1 reunión mensual</td><td>2 reuniones al mes y seguimiento quincenal</td><td>1 reunión semanal y seguimiento estratégico semanal</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
@@ -483,13 +653,21 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
   <section class="section contacto" id="contacto" aria-labelledby="contacto-title">
     <div class="wrap">
       <div class="contact-main">
-        <p class="eyebrow">Contacto</p>
-        <h2 id="contacto-title" class="condensed">Creamos marcas que generan <span class="hl">impacto.</span></h2>
-        <p class="lead">Contanos qué necesitás y te respondemos por WhatsApp con una propuesta.</p>
+        <p class="eyebrow reveal">Contacto</p>
+        <h2 id="contacto-title" class="condensed reveal">Tu próximo proyecto empieza con <span class="hl">una conversación.</span></h2>
+        <p class="lead reveal">Contanos qué necesitás y seguimos por WhatsApp.</p>
 
-        <form class="brief" id="brief" novalidate>
-          <h3>Armá tu mensaje<span>Se abre WhatsApp con el texto listo para enviar.</span></h3>
-          <div class="field"><label for="f-nombre">Tu nombre</label><input id="f-nombre" name="nombre" autocomplete="name" required></div>
+        <div class="wa-cta reveal">
+          <a class="btn lime big" data-wa="Hola AKME, quiero conversar sobre mi marca." href="https://wa.me/59157385254">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
+            Conversar por WhatsApp
+          </a>
+          <small>Se abre WhatsApp al 57385254 con un saludo listo. Vos lo revisás y lo enviás.</small>
+        </div>
+
+        <form class="brief reveal" id="brief" novalidate>
+          <h3>¿Preferís contarnos más antes?<span>Completá estos datos y armamos el mensaje por vos.</span></h3>
+          <div class="field"><label for="f-nombre">Tu nombre</label><input id="f-nombre" name="nombre" autocomplete="name" required aria-describedby="f-err"></div>
           <div class="field"><label for="f-marca">Marca o negocio</label><input id="f-marca" name="marca" autocomplete="organization"></div>
           <div class="field"><label for="f-necesidad">Qué necesitás</label>
             <select id="f-necesidad" name="necesidad">
@@ -511,16 +689,19 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
               <option>ELITE · Bs 7.000</option>
             </select>
           </div>
-          <div class="field full"><label for="f-detalle">Contanos un poco más (opcional)</label><textarea id="f-detalle" name="detalle" rows="2"></textarea></div>
-          <p class="err" id="f-err" hidden>Escribí tu nombre para armar el mensaje.</p>
-          <button class="btn" type="submit">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
-            Enviar por WhatsApp
-          </button>
+          <div class="field full"><label for="f-detalle">Contanos un poco más (opcional)</label><textarea id="f-detalle" name="detalle" rows="3"></textarea></div>
+          <div class="brief-foot">
+            <p class="err" id="f-err" hidden>Escribí tu nombre para armar el mensaje.</p>
+            <button class="btn" type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
+              Continuar en WhatsApp
+            </button>
+            <p class="hint">Se abrirá WhatsApp con tu mensaje ya escrito. No se envía nada hasta que vos toques enviar.</p>
+          </div>
         </form>
       </div>
 
-      <ul class="channels" aria-label="Canales de contacto">
+      <ul class="channels reveal" aria-label="Canales de contacto">
         <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg></span>
           <div><span class="ch-label">WhatsApp y teléfono</span><span class="ch-val"><a href="https://wa.me/59157385254" target="_blank" rel="noopener">57385254</a></span></div></li>
         <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2.2V17h16V7.2l-8 5.3-8-5.3ZM5.6 7 12 11.2 18.4 7H5.6Z"/></svg></span>
@@ -530,7 +711,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
         <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 2h-3.3v13.2a2.9 2.9 0 1 1-2-2.8V9a6.3 6.3 0 1 0 5.3 6.2V8.6a7.9 7.9 0 0 0 4.4 1.4V6.7a4.4 4.4 0 0 1-4.4-4.4V2Z"/></svg></span>
           <div><span class="ch-label">TikTok</span><span class="ch-val"><a href="https://www.tiktok.com/@akme.estudio" target="_blank" rel="noopener">akme.estudio</a></span></div></li>
         <li><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.5 2.9h-2.3v7A10 10 0 0 0 22 12Z"/></svg></span>
-          <div><span class="ch-label">Facebook</span><span class="ch-val">AKME Estudio</span></div></li>
+          <div><span class="ch-label">Facebook</span><span class="ch-val"><a href="https://www.facebook.com/profile.php?id=61591833067122" target="_blank" rel="noopener">AKME Estudio</a></span></div></li>
       </ul>
     </div>
   </section>
@@ -538,26 +719,25 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
 
 <footer class="foot">
   <div class="wrap">
-    <img src="assets/logo.png" alt="AKME Estudio" width="700" height="165">
+    <img src="assets/logo.png" alt="AKME Estudio" width="700" height="165" loading="lazy">
     <span class="tagline">Ideas<i>•</i>Diseño<i>•</i>Impacto</span>
     <small>© 2026 AKME Estudio · Santa Cruz, Bolivia</small>
   </div>
 </footer>
 
-<a class="wa-float" id="wa-float" data-wa="Hola AKME, quiero hablar de mi marca." href="https://wa.me/59157385254" aria-label="Escribir por WhatsApp">
+<a class="wa-float" id="wa-float" data-wa="Hola AKME, quiero conversar sobre mi marca." href="https://wa.me/59157385254" aria-label="Conversar por WhatsApp">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
-  WhatsApp
 </a>
 
 <dialog class="viewer" id="viewer" aria-labelledby="v-title">
   <div class="viewer-in">
-    <div class="viewer-img"><img id="v-img" src="" alt=""></div>
+    <div class="viewer-img" id="v-stage"><img id="v-img" src="" alt=""></div>
     <div class="viewer-side">
-      <p class="tagline" id="v-meta"></p>
+      <p class="meta" id="v-meta"></p>
       <h3 id="v-title"></h3>
       <p id="v-desc"></p>
       <div class="viewer-nav">
-        <span class="pos" id="v-pos"></span>
+        <span class="pos" id="v-pos" aria-live="polite"></span>
         <button class="vbtn" type="button" id="v-prev" aria-label="Imagen anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
         <button class="vbtn" type="button" id="v-next" aria-label="Imagen siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
@@ -582,50 +762,19 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
   function setMenu(open){ menuPanel.classList.toggle("open", open); menuBtn.setAttribute("aria-expanded", String(open)); menuBtn.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú"); }
   menuBtn.addEventListener("click", function(){ setMenu(!menuPanel.classList.contains("open")); });
   menuPanel.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ setMenu(false); }); });
-  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && menuPanel.classList.contains("open")) setMenu(false); });
-
-  // Paquetes como tarjetas (móvil), generadas desde la tabla
-  (function(){
-    var table = document.querySelector("table.plans"), out = document.getElementById("plan-cards");
-    if (!table || !out) return;
-    var heads = Array.prototype.slice.call(table.querySelectorAll("thead th")).slice(1);
-    var rows = Array.prototype.slice.call(table.querySelectorAll("tbody tr"));
-    var ctas = Array.prototype.slice.call(table.querySelectorAll("tfoot td")).slice(1);
-    heads.forEach(function(th, i){
-      var card = document.createElement("article");
-      card.className = "plan-card" + (i === 2 ? " featured" : "");
-      var head = document.createElement("div");
-      head.innerHTML = th.innerHTML;
-      card.appendChild(head);
-      var ul = document.createElement("ul");
-      rows.forEach(function(tr){
-        var cell = tr.children[i + 1];
-        var li = document.createElement("li");
-        var k = document.createElement("span"); k.textContent = tr.querySelector("th").textContent;
-        var v = document.createElement("span"); v.className = cell.className; v.textContent = cell.textContent;
-        li.appendChild(k); li.appendChild(v); ul.appendChild(li);
-      });
-      card.appendChild(ul);
-      var cta = ctas[i] && ctas[i].querySelector("a");
-      if (cta){ var c = cta.cloneNode(true); c.className = "btn"; card.appendChild(c); }
-      out.appendChild(card);
-    });
-  })();
-
-  // Botón flotante de WhatsApp: se esconde al llegar a contacto
-  var waFloat = document.getElementById("wa-float"), contacto = document.getElementById("contacto");
-  if (waFloat && contacto && "IntersectionObserver" in window){
-    new IntersectionObserver(function(entries){ waFloat.classList.toggle("hide", entries[0].isIntersecting); }, {threshold: .15}).observe(contacto);
-  }
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && menuPanel.classList.contains("open")){ setMenu(false); menuBtn.focus(); } });
 
   // Filtros del portafolio
   var chips = document.querySelectorAll(".chip");
   var works = Array.prototype.slice.call(document.querySelectorAll(".work"));
+  var status = document.getElementById("works-status"), empty = document.getElementById("works-empty");
   chips.forEach(function(chip){
     chip.addEventListener("click", function(){
-      var f = chip.getAttribute("data-filter");
+      var f = chip.getAttribute("data-filter"), shown = 0;
       chips.forEach(function(c){ c.setAttribute("aria-pressed", String(c === chip)); });
-      works.forEach(function(w){ w.hidden = !(f === "todo" || w.getAttribute("data-cat") === f); });
+      works.forEach(function(w){ var on = (f === "todo" || w.getAttribute("data-cat") === f); w.hidden = !on; if (on) shown++; });
+      empty.hidden = shown > 0;
+      status.textContent = shown + (shown === 1 ? " pieza visible" : " piezas visibles") + ": " + chip.firstChild.textContent.trim();
     });
   });
 
@@ -633,33 +782,55 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
   var dlg = document.getElementById("viewer");
   var vImg = document.getElementById("v-img"), vTitle = document.getElementById("v-title"),
       vDesc = document.getElementById("v-desc"), vMeta = document.getElementById("v-meta"),
-      vPos = document.getElementById("v-pos"), vPrev = document.getElementById("v-prev"), vNext = document.getElementById("v-next");
-  var imgs = [], idx = 0, title = "";
+      vPos = document.getElementById("v-pos"), vPrev = document.getElementById("v-prev"), vNext = document.getElementById("v-next"),
+      vStage = document.getElementById("v-stage");
+  var imgs = [], idx = 0, title = "", opener = null;
+  function preload(i){ if (imgs[i]){ var im = new Image(); im.src = imgs[i]; } }
   function show(){
     vImg.src = imgs[idx];
     vImg.alt = title + (imgs.length > 1 ? ", imagen " + (idx + 1) + " de " + imgs.length : "");
     vPos.textContent = imgs.length > 1 ? (idx + 1) + " / " + imgs.length : "";
     vPrev.hidden = vNext.hidden = imgs.length < 2;
+    preload((idx + 1) % imgs.length); preload((idx - 1 + imgs.length) % imgs.length);
   }
   function step(d){ if (imgs.length < 2) return; idx = (idx + d + imgs.length) % imgs.length; show(); }
   works.forEach(function(w){
-    w.querySelector("button").addEventListener("click", function(){
+    w.querySelector("button").addEventListener("click", function(ev){
       imgs = w.getAttribute("data-images").split(",");
-      idx = 0; title = w.getAttribute("data-title");
+      idx = 0; title = w.getAttribute("data-title"); opener = ev.currentTarget;
       vTitle.textContent = title;
       vDesc.textContent = w.getAttribute("data-desc");
       vMeta.textContent = w.getAttribute("data-meta");
       show();
-      if (typeof dlg.showModal === "function") dlg.showModal(); else window.open(imgs[0], "_blank");
+      if (typeof dlg.showModal === "function"){ dlg.showModal(); document.getElementById("v-close").focus(); }
+      else window.open(imgs[0], "_blank");
     });
   });
   vPrev.addEventListener("click", function(){ step(-1); });
   vNext.addEventListener("click", function(){ step(1); });
   document.getElementById("v-close").addEventListener("click", function(){ dlg.close(); });
   dlg.addEventListener("click", function(e){ if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener("close", function(){ if (opener) opener.focus(); });
   dlg.addEventListener("keydown", function(e){
     if (e.key === "ArrowRight") step(1);
     if (e.key === "ArrowLeft") step(-1);
+  });
+  var tx = null;
+  vStage.addEventListener("touchstart", function(e){ tx = e.changedTouches[0].clientX; }, {passive: true});
+  vStage.addEventListener("touchend", function(e){
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
+  }, {passive: true});
+
+  // Comparativa completa
+  var cmpBtn = document.getElementById("compare-btn"), cmp = document.getElementById("compare");
+  cmpBtn.addEventListener("click", function(){
+    var open = cmp.hidden;
+    cmp.hidden = !open;
+    cmpBtn.setAttribute("aria-expanded", String(open));
+    cmpBtn.firstChild.textContent = open ? "Ocultar la comparativa " : "Comparar todos los detalles ";
+    if (open) cmp.querySelector(".table-scroll").focus({preventScroll: true});
   });
 
   // Copiar correo
@@ -676,19 +847,26 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
     else fallback();
   });
 
-  // Formulario: arma el mensaje y abre WhatsApp
+  // Formulario: arma el mensaje y abre WhatsApp. No envía nada por sí solo.
   var form = document.getElementById("brief"), err = document.getElementById("f-err");
   form.addEventListener("submit", function(e){
     e.preventDefault();
     var nombre = form.nombre.value.trim();
-    if (!nombre){ err.hidden = false; form.nombre.focus(); return; }
-    err.hidden = true;
-    var lines = ["Hola AKME, soy " + nombre + (form.marca.value.trim() ? " de " + form.marca.value.trim() : "") + "."];
+    if (!nombre){ err.hidden = false; form.nombre.setAttribute("aria-invalid", "true"); form.nombre.focus(); return; }
+    err.hidden = true; form.nombre.removeAttribute("aria-invalid");
+    var marca = form.marca.value.trim(), detalle = form.detalle.value.trim();
+    var lines = ["Hola AKME, soy " + nombre + (marca ? " de " + marca : "") + "."];
     lines.push("Necesito: " + form.necesidad.value + ".");
     if (form.paquete.value) lines.push("Me interesa el paquete " + form.paquete.value + ".");
-    if (form.detalle.value.trim()) lines.push(form.detalle.value.trim());
-    window.location.href = waLink(lines.join("\n"));
+    if (detalle) lines.push(detalle);
+    window.open(waLink(lines.join("\n")), "_blank", "noopener") || (window.location.href = waLink(lines.join("\n")));
   });
+
+  // Botón flotante: se esconde al llegar a contacto
+  var waFloat = document.getElementById("wa-float"), contacto = document.getElementById("contacto");
+  if (waFloat && contacto && "IntersectionObserver" in window){
+    new IntersectionObserver(function(entries){ waFloat.classList.toggle("hide", entries[0].isIntersecting); }, {threshold: .1}).observe(contacto);
+  }
 })();
 </script>
 </body>
