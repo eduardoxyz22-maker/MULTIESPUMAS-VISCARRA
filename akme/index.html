@@ -310,6 +310,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
   *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
 }
 </style>
+<link rel="stylesheet" href="cotizador.css">
 </head>
 <body>
 <a class="skip" href="#inicio">Saltar al contenido</a>
@@ -323,6 +324,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
       <a class="link" href="#trabajos">Trabajos</a>
       <a class="link" href="#servicios">Servicios</a>
       <a class="link" href="#paquetes">Paquetes</a>
+      <a class="link" href="#cotizador">Cotizador</a>
       <a class="link" href="#contacto">Contacto</a>
       <a class="btn" href="#contacto">Hablemos</a>
       <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="menu-panel" aria-label="Abrir menú">
@@ -336,6 +338,7 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
       <li><a href="#trabajos">Trabajos<span>Portafolio</span></a></li>
       <li><a href="#proceso">Cómo trabajamos</a></li>
       <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#cotizador">Cotizador<span>Armá tu selección</span></a></li>
       <li><a href="#paquetes">Paquetes<span>Bs 1.800 a 7.000 / mes</span></a></li>
       <li><a href="#contacto">Contacto<span>WhatsApp 57385254</span></a></li>
     </ul>
@@ -525,6 +528,59 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
           </ul>
         </article>
       </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="cotizador" aria-labelledby="quote-title">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Cotizador AKME</p>
+        <h2 class="condensed h2" id="quote-title">El paquete que tu marca necesita.</h2>
+        <p class="lead">Elegí tus necesidades y encontrá el plan de menor precio que cubre tu selección.</p>
+      </div>
+      <noscript><p>Activá JavaScript para calcular tu recomendación, o revisá los <a href="#paquetes">cinco paquetes mensuales</a> y <a href="#contacto">contactanos</a>.</p></noscript>
+      <div class="quote-grid">
+        <div class="quote-form">
+          <fieldset><legend>¿Qué querés lograr con tu marca?</legend><div class="quote-goals" id="quote-goals"></div></fieldset>
+          <div class="quote-quantities" id="quote-quantities"></div>
+          <label class="quote-label" for="quote-budget">Tu presupuesto mensual (opcional)</label>
+          <div class="quote-budget"><span>Bs</span><input id="quote-budget" type="number" inputmode="decimal" min="0" step="any" placeholder="Sin límite definido"><span>/ mes</span></div>
+          <fieldset><legend>¿Necesitás algo más?</legend><div class="quote-extras" id="quote-extras"></div><p class="quote-help">La sesión adicional, el branding y la producción puntual requieren una propuesta personalizada.</p></fieldset>
+          <button type="button" class="quote-reset" id="quote-reset">Restablecer selección</button>
+        </div>
+        <div>
+          <aside class="quote-result" aria-labelledby="quote-name">
+            <div aria-live="polite" aria-atomic="true">
+              <p class="eyebrow" id="quote-status">Tu recomendación</p>
+              <h3 id="quote-name">SMART</h3><p id="quote-focus">Presencia digital</p>
+              <p class="quote-price" id="quote-price">Bs 1.800 / mes</p>
+              <p class="quote-reason" id="quote-reason">Elegí tus entregables para ajustar la recomendación.</p>
+              <ul class="quote-details" id="quote-details"></ul>
+            </div>
+            <p class="quote-help">La inversión publicitaria se paga aparte. El análisis comercial depende de los datos que comparta el cliente.</p>
+            <div class="quote-actions">
+              <a class="btn lime" id="quote-wa" href="https://wa.me/59157385254" target="_blank" rel="noopener">Consultar este paquete por WhatsApp</a>
+              <button type="button" class="btn quote-copy" id="quote-copy">Copiar resumen del paquete</button>
+              <button type="button" class="btn quote-copy" id="quote-open-custom">Prefiero una propuesta personalizada</button>
+            </div>
+            <p class="quote-help">Estimación orientativa. Alcance, precio y disponibilidad se confirman con AKME. Revisás el mensaje en WhatsApp antes de enviarlo.</p>
+          </aside>
+          <div class="quote-inspect"><label for="quote-inspect">Revisar otro paquete con mi selección</label><select id="quote-inspect"><option value="">Ver recomendación automática</option></select></div>
+        </div>
+      </div>
+      <section class="quote-custom" id="quote-custom" aria-labelledby="quote-custom-title" hidden>
+        <h3 id="quote-custom-title">Una propuesta a tu medida</h3>
+        <p>Revisemos tu alcance. El precio se define según lo que necesitás.</p>
+        <p class="quote-help" id="quote-custom-selection"></p>
+        <label class="quote-label" for="quote-note">Contanos el detalle (opcional)</label>
+        <textarea id="quote-note" maxlength="1200" rows="3" placeholder="Por ejemplo: una campaña de lanzamiento, varias marcas o una producción especial."></textarea>
+        <a class="btn lime" id="quote-custom-wa" href="https://wa.me/59157385254" target="_blank" rel="noopener">Consultar propuesta por WhatsApp</a>
+        <button class="btn ghost" id="quote-custom-copy" type="button">Copiar solicitud personalizada</button>
+        <p class="quote-help">La solicitud se prepara aquí. No se envía automáticamente.</p>
+      </section>
+      <p class="quote-help" id="quote-copy-status" role="status"></p>
+      <div class="quote-fallback" id="quote-fallback" hidden><label for="quote-fallback-text">Resumen para copiar manualmente</label><textarea id="quote-fallback-text" readonly rows="8"></textarea></div>
     </div>
   </section>
 
@@ -869,5 +925,6 @@ dialog.viewer::backdrop{background:rgba(13,13,15,.86)}
   }
 })();
 </script>
+<script type="module" src="cotizador.mjs"></script>
 </body>
 </html>
