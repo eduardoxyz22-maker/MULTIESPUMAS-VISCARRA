@@ -69,6 +69,13 @@ de moneda, ajustar `PANEL_CURRENCY` (y las etiquetas estáticas del template).
 GitHub → Actions → **Generar Panel Viscarra** → **Run workflow** (month/year vacíos = mes
 en curso). El botón "Actualizar" del dashboard solo recarga la página.
 
+## 🎃 Tema de Halloween (03/10/2026, pedido del dueño)
+
+Clase `tema-halloween` en `<html>` SOLO en octubre con la fecha de Bolivia (script de una línea al final del `<head>` de
+`panel_template.html`); se apaga sola el 1/11 y vuelve cada octubre. Solo CSS: la caja de la marca de noche (MULTI en
+blanco, 🎃, telaraña) y el ítem elegido del menú en morado. Es el mismo bloque que el panel de Heaven (repo MULTIESPUMAS,
+bitácora §4hm), con los ajustes para la marca en TEXTO. `tests/test_halloween.js`.
+
 ## Reglas de oro / gotchas
 
 - En **Windows** correr con `PYTHONUTF8=1` (la consola cp1252 no imprime los emojis del
