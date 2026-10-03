@@ -20,6 +20,7 @@ function armarDashboard(){
   const tpl = fs.readFileSync(TEMPLATE, 'utf8');
   const f = path.join(os.tmpdir(), 'test_halloween_dash.html');
   fs.writeFileSync(f, tpl.replace('__PANEL_DATA__', 'window.PANEL_DATA = ' + m[1] + ';'));
+  try{ fs.copyFileSync(path.resolve('halloween-risa.mp3'), path.join(os.tmpdir(), 'halloween-risa.mp3')); }catch(e){}   // la risa va al lado de la página
   return f;
 }
 
@@ -64,8 +65,8 @@ function armarDashboard(){
   console.log('\n── La risa de bruja ──');
   const ctxRisa = await browser.newContext({ viewport:{ width:1300, height:700 }, timezoneId:'UTC' });
   await ctxRisa.addInitScript(() => {
-    window.__ctxs = 0; var O = window.AudioContext;
-    if (O) { window.AudioContext = function(){ window.__ctxs++; return new O(); }; window.AudioContext.prototype = O.prototype; }
+    window.__ctxs = 0; var P = HTMLMediaElement.prototype.play;
+    HTMLMediaElement.prototype.play = function(){ window.__ctxs++; window.__src = this.src; return P.apply(this, arguments); };
   });
   const risa = async (cuando, tocar) => {
     const page = await ctxRisa.newPage();
@@ -76,19 +77,21 @@ function armarDashboard(){
     await page.waitForTimeout(1200);
     const antes = await page.evaluate(() => window.__ctxs);
     for (let i=0; i<tocar; i++) { await page.mouse.click(640, 400); await page.waitForTimeout(150); }
-    const r = await page.evaluate(() => { var k=null; try{ k=localStorage.getItem('hw_risa_dia'); }catch(e){} return { ctxs:window.__ctxs, dia:k, fn:typeof window.hwRisa }; });
+    const r = await page.evaluate(() => { var k=null; try{ k=localStorage.getItem('hw_risa_dia'); }catch(e){} return { ctxs:window.__ctxs, dia:k, fn:typeof window.hwRisaArchivo==='string'?'function':'undefined', src:String(window.__src||'').split('/').pop() }; });
     let s = null;
-    if (r.fn==='function') s = await page.evaluate(async () => {
-      const sr=22050, c=new OfflineAudioContext(1, Math.ceil(sr*3.4), sr); window.hwRisa(c, 0.05);
-      const d=(await c.startRendering()).getChannelData(0); let pk=0, nan=0; for (let i=0;i<d.length;i++){ if(!isFinite(d[i])) nan++; pk=Math.max(pk,Math.abs(d[i])); }
-      return { pk, nan };
-    });
+    const mp3 = path.resolve('halloween-risa.mp3');
+    if (r.fn==='function' && fs.existsSync(mp3)) s = await page.evaluate(async (b64) => {
+      const bin=atob(b64), u=new Uint8Array(bin.length); for (let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+      const buf=await new OfflineAudioContext(2, 44100, 44100).decodeAudioData(u.buffer); const d=buf.getChannelData(0);
+      let pk=0, nan=0; for (let i=0;i<d.length;i++){ if(!isFinite(d[i])) nan++; pk=Math.max(pk,Math.abs(d[i])); }
+      return { pk, nan, dur:buf.duration };
+    }, fs.readFileSync(mp3).toString('base64'));
     await page.close();
     return Object.assign({ antes, s }, r);
   };
   r = await risa('2026-10-03T10:00:00-04:00', 2);
-  chk('3/10: no suena al abrir; el primer toque la hace sonar UNA vez y anota el día', r.antes===0 && r.ctxs===1 && r.dia==='2026-10-03', r);
-  chk('…y el sonido se oye sin saturar', r.s && r.s.nan===0 && r.s.pk>0.2 && r.s.pk<0.95, r.s);
+  chk('3/10: no suena al abrir; el primer toque la hace sonar UNA vez, con el archivo del dueño, y anota el día', r.antes===0 && r.ctxs===1 && r.dia==='2026-10-03' && /^halloween-risa\.mp3\?v=\d+$/.test(r.src), r);
+  chk('…el archivo está al lado de la página, dura ~3,5 s y se oye', r.s && r.s.nan===0 && r.s.pk>0.3 && r.s.dur>3 && r.s.dur<4, r.s);
   r = await risa('2026-10-03T15:00:00-04:00', 1);
   chk('…el mismo día ya no suena', r.ctxs===0, r);
   r = await risa('2026-11-01T09:00:00-04:00', 1);

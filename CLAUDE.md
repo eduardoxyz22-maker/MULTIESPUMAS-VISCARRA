@@ -75,10 +75,11 @@ Clase `tema-halloween` en `<html>` SOLO en octubre con la fecha de Bolivia (scri
 `panel_template.html`); se apaga sola el 1/11 y vuelve cada octubre. Solo CSS: la caja de la marca de noche (MULTI en
 blanco, 🎃, telaraña) y el ítem elegido del menú en morado. Es el mismo bloque que el panel de Heaven (repo MULTIESPUMAS,
 bitácora §4hm), con los ajustes para la marca en TEXTO. `tests/test_halloween.js`.
-**Risa de bruja** (03/10, mismo pedido): `window.hwRisa` (sintetizada con Web Audio, sin archivo de sonido) suena con el
-PRIMER toque o tecla del día (los navegadores no dejan sonar al abrir) y UNA vez por día por aparato (`hw_risa_dia` en el
-almacenamiento del navegador, compartido con el panel de pedidos y el dashboard de Heaven: la misma dirección). Solo con el
-tema prendido. Es el mismo bloque que en el repo MULTIESPUMAS.
+**Risa de bruja** (03/10, mismo pedido): `halloween-risa.mp3` (el archivo que mandó el dueño, la primera de sus tres risas,
+3,5 s, en la raíz del repo) suena con el PRIMER toque, clic o tecla del día (los navegadores no dejan sonar al abrir) y UNA vez
+por día por aparato (`hw_risa_dia` en el almacenamiento del navegador, compartido con el panel de pedidos y el dashboard de
+Heaven: la misma dirección). Solo con el tema prendido. Es el mismo bloque que en el repo MULTIESPUMAS (bitácora §4hm).
+⚠️ Si se cambia el archivo, subir el `?v=` de `hwRisaArchivo` en `panel_template.html`.
 
 ## Reglas de oro / gotchas
 
