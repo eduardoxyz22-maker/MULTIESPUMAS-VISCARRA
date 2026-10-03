@@ -95,10 +95,10 @@ function armarDashboard(){
     return Object.assign({ antes, s }, r);
   };
   r = await risa('2026-10-03T10:00:00-04:00', 2);
-  chk('3/10: no suena al abrir; el primer toque la hace sonar UNA vez, con el archivo del dueño, y anota el día', r.antes===0 && r.ctxs===1 && r.dia==='2026-10-03' && /^halloween-risa\.mp3\?v=\d+$/.test(r.src), r);
-  chk('…el archivo está al lado de la página, dura ~3,5 s y se oye', r.s && r.s.nan===0 && r.s.pk>0.3 && r.s.dur>3 && r.s.dur<4, r.s);
+  chk('3/10: no suena al abrir; el primer toque la hace sonar UNA vez, con el archivo del dueño', r.antes===0 && r.ctxs===1 && /^halloween-risa\.mp3\?v=2$/.test(r.src), r);
+  chk('…el archivo está al lado de la página, es el del dueño entero (~9,6 s) y se oye', r.s && r.s.nan===0 && r.s.pk>0.3 && r.s.dur>9 && r.s.dur<10.5, r.s);
   r = await risa('2026-10-03T15:00:00-04:00', 1);
-  chk('…el mismo día ya no suena', r.ctxs===0, r);
+  chk('…recargar el mismo día: vuelve a sonar (cada apertura, sin tope por día; dueño 03/10)', r.ctxs===1 && r.dia===null, r);
   r = await risa('2026-11-01T09:00:00-04:00', 1);
   chk('1/11: no suena', r.ctxs===0 && r.fn==='undefined', r);
   await ctxRisa.close();
