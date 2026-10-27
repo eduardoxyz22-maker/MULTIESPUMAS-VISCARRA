@@ -82,6 +82,13 @@ prendido. Es el mismo bloque que en el repo MULTIESPUMAS (bitácora §4hm). 🚫
 recorte que se publicó primero sonaba en la compu y en el iPad NO (Safari rechaza un cuadro que depende de los anteriores).
 ⚠️ Si se cambia el archivo, subir el `?v=` de `hwRisaArchivo` en `panel_template.html` (hoy `?v=2`).
 
+## 🎄 Tema de Navidad (27/10/2026, el mismo pedido que el panel de Heaven: «arranca»)
+
+Clase `tema-navidad` en `<html>` SOLO en diciembre con la fecha de Bolivia (el mismo script de Halloween, al final del `<head>` de
+`panel_template.html`); se apaga sola el 1/1 y vuelve cada diciembre. Solo CSS: la caja de la marca de pino con una guirnalda de luces
+que titilan, el 🎄 y el ítem elegido del menú en verde. Es el mismo bloque que el dashboard de Heaven (repo MULTIESPUMAS, bitácora §4nc),
+con los ajustes de la marca en TEXTO (MULTI en blanco, el 🎄 a la derecha), como Halloween. Sin sonido. `tests/test_navidad.js`.
+
 ## Reglas de oro / gotchas
 
 - En **Windows** correr con `PYTHONUTF8=1` (la consola cp1252 no imprime los emojis del
