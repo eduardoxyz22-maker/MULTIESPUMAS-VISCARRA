@@ -98,7 +98,7 @@ html[data-theme="dark"] .top{background:rgba(10,14,19,.5);backdrop-filter:blur(1
 html[data-theme="dark"] .crumb{color:var(--brand);font-family:var(--mono)}
 .top h1{font-size:1.18rem;font-weight:800;letter-spacing:-.3px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tr{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end;flex:1 1 auto}
-@media(max-width:1024px){.top .chip{display:none}}
+@media(max-width:1680px){.top .chip{display:none}}
 @media(max-width:680px){.top h1{white-space:normal}.tr{justify-content:flex-start}}
 .chip{font-size:.7rem;color:var(--muted);font-family:var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 11px}
 .btn{font-weight:700;font-size:.76rem;border-radius:9px;padding:8px 13px;border:1px solid var(--line);background:var(--card);color:var(--text);display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-family:inherit;transition:.15s}
@@ -1717,7 +1717,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
 __PANEL_DATA__
 /* === Helpers de formato === */
 // Helpers — moneda local: Boliviano (Bs)
-window.fmtMoney = (n) => "Bs " + Math.round(n).toLocaleString("en-US");
+window.fmtMoney = (n) => "Bs " + Math.round(n).toLocaleString("de-DE");
 window.fmtK = (n) => n >= 1000 ? "Bs " + (n / 1000).toFixed(n >= 100000 ? 0 : 1) + "k" : "Bs " + Math.round(n);
 // Conversión = compradores ÷ leads (× 100). Calculada en vivo desde cierres y
 // leads reales — nunca un valor escrito a mano, para evitar inconsistencias.
@@ -2096,7 +2096,7 @@ function CountUp({
       document.removeEventListener("visibilitychange", onVis);
     };
   }, [value]);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, fmt ? fmt(n) : Math.round(n).toLocaleString("en-US"));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, fmt ? fmt(n) : Math.round(n).toLocaleString("de-DE"));
 }
 
 // Mini trend sparkline (SVG, stretches to container width).
@@ -2175,7 +2175,7 @@ function Donut({
       opacity: hov === -1 || hov === i ? 1 : .4,
       onMouseEnter: () => setHov(i),
       onMouseLeave: () => setHov(-1)
-    }, /*#__PURE__*/React.createElement("title", null, `${d.label}: ${d.value.toLocaleString("en-US")} (${pct}%)`));
+    }, /*#__PURE__*/React.createElement("title", null, `${d.label}: ${d.value.toLocaleString("de-DE")} (${pct}%)`));
     off += len;
     return el;
   }), /*#__PURE__*/React.createElement("text", {
@@ -2186,7 +2186,7 @@ function Donut({
     dominantBaseline: "central",
     fontSize: size * 0.2,
     fill: "var(--text)"
-  }, hov >= 0 ? data[hov].value.toLocaleString("en-US") : total.toLocaleString("en-US")), /*#__PURE__*/React.createElement("text", {
+  }, hov >= 0 ? data[hov].value.toLocaleString("de-DE") : total.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("text", {
     x: "50%",
     y: "60%",
     textAnchor: "middle",
@@ -2220,7 +2220,7 @@ function Donut({
       fontWeight: 600,
       marginRight: 6
     }
-  }, d.value.toLocaleString("en-US")), Math.round(d.value / total * 100), "%")))));
+  }, d.value.toLocaleString("de-DE")), Math.round(d.value / total * 100), "%")))));
 }
 
 // Heatmap. rows=[{name,v,vals:[..]}], cols=[labels]. value 0..100 → color.
@@ -2382,11 +2382,11 @@ function ProfileDrawer({
     className: "dr-mom"
   }, /*#__PURE__*/React.createElement("span", {
     className: "big"
-  }, v.leads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("span", {
+  }, v.leads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("span", {
     className: `delta ${diff >= 0 ? "up" : "down"}`
   }, diff >= 0 ? "▲" : "▼", " ", Math.abs(diff)), /*#__PURE__*/React.createElement("span", {
     className: "ww"
-  }, "vs ", v.prevLeads.toLocaleString("en-US"), " en ", D.prevMonth)), /*#__PURE__*/React.createElement("div", {
+  }, "vs ", v.prevLeads.toLocaleString("de-DE"), " en ", D.prevMonth)), /*#__PURE__*/React.createElement("div", {
     className: "dr-sec"
   }, "Origen de los leads"), /*#__PURE__*/React.createElement("div", {
     className: "dr-kpis"
@@ -2905,7 +2905,7 @@ function SucursalDrawer({
       style: {
         fontSize: "1.05rem"
       }
-    }, v.leads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+    }, v.leads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
       className: "l"
     }, "Leads")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       className: "v",
@@ -3282,7 +3282,7 @@ function MetaStepper({
     className: "meta-input",
     type: "text",
     inputMode: "numeric",
-    value: (metas[name] || 0).toLocaleString("en-US"),
+    value: (metas[name] || 0).toLocaleString("de-DE"),
     onChange: e => _set(name, e.target.value),
     onClick: e => e.target.select()
   }), /*#__PURE__*/React.createElement("button", {
@@ -3682,12 +3682,12 @@ function Funnel() {
     className: "fn"
   }, f.name), /*#__PURE__*/React.createElement("div", {
     className: "fbar num",
-    "data-tip": `${f.name}: ${f.count.toLocaleString("en-US")} leads · ${f.pct}% del total`,
+    "data-tip": `${f.name}: ${f.count.toLocaleString("de-DE")} leads · ${f.pct}% del total`,
     style: {
       width: `${Math.max(8, Math.sqrt(f.count) / Math.sqrt(maxF) * 100)}%`,
       background: f.color
     }
-  }, f.count.toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+  }, f.count.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
     className: "fp num"
   }, f.pct, "%"))));
 }
@@ -3712,9 +3712,9 @@ function TeamTable({
     if (prev == null) return null;
     const same = cur === prev, up = cur >= prev;
     return /*#__PURE__*/React.createElement("div", {
-      title: `${pmAbbr} a la fecha: ${fmt ? fmt(prev) : prev.toLocaleString("en-US")}`,
+      title: `${pmAbbr} a la fecha: ${fmt ? fmt(prev) : prev.toLocaleString("de-DE")}`,
       style: { marginTop: 2, fontSize: ".58rem", fontWeight: 700, color: same ? "var(--faint)" : up ? "var(--green)" : "var(--red)" }
-    }, same ? "=" : up ? "▲" : "▼", " ", pmAbbr, " ", fmt ? fmt(prev) : prev.toLocaleString("en-US"));
+    }, same ? "=" : up ? "▲" : "▼", " ", pmAbbr, " ", fmt ? fmt(prev) : prev.toLocaleString("de-DE"));
   };
   return /*#__PURE__*/React.createElement("table", {
     className: "tbl"
@@ -3780,7 +3780,7 @@ function TeamTable({
     style: { marginTop: 3, fontSize: ".6rem", color: "var(--faint)" }
   }, v.u24, "% en <24h"))))), /*#__PURE__*/React.createElement("tfoot", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, "Total equipo"), /*#__PURE__*/React.createElement("td", {
     className: "r num"
-  }, tot.leads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("td", {
+  }, tot.leads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("td", {
     className: "r num"
   }, tot.cierres, deltaSub(tot.cierres, totPrev.cierres, null)), /*#__PURE__*/React.createElement("td", {
     className: "r"
@@ -3825,7 +3825,7 @@ function diagFallback() {
     m = D.metrics;
   const conv = G.leads ? (G.cierres / G.leads * 100).toFixed(1) : "0";
   const topV = [...D.team].sort((a, b) => b.cierres - a.cierres)[0];
-  const nf = n => (n || 0).toLocaleString("en-US");
+  const nf = n => (n || 0).toLocaleString("de-DE");
   return {
     titular: "No falta gente que entre. Falta seguir y cerrar la que ya entró.",
     diagnostico: `Con ${nf(G.leads)} leads, la conversión global es ${conv}% y hay ${nf(m.noResp)} leads en “No responden” (${m.noRespPct}%). El cuello de botella no es captación — es disciplina de seguimiento y conversión en el embudo medio.`,
@@ -3932,7 +3932,7 @@ Top: ${top.name}. Más débil en conversión: ${worst.name}. Sé directo, espec�
     className: "ai-dot"
   }), /*#__PURE__*/React.createElement("span", {
     className: "ai-dot"
-  }), " Analizando ", G.leads.toLocaleString("en-US"), " leads del mes\u2026")), /*#__PURE__*/React.createElement("div", {
+  }), " Analizando ", G.leads.toLocaleString("de-DE"), " leads del mes\u2026")), /*#__PURE__*/React.createElement("div", {
     className: "diag2-stats"
   }, /*#__PURE__*/React.createElement("div", {
     className: "diag2-stat",
@@ -4155,7 +4155,7 @@ function ExpertAgent({
     style: {
       margin: "4px 0 0"
     }
-  }, "An\xE1lisis en vivo no disponible. En producci\xF3n ", /*#__PURE__*/React.createElement("code", null, "generar.py"), " lo hornea por mes."), st.s === "idle" && /*#__PURE__*/React.createElement("p", {
+  }, "Este an\xE1lisis todav\xEDa no est\xE1 armado para este mes. Lo importante del mes est\xE1 en Resumen y Alertas."), st.s === "idle" && /*#__PURE__*/React.createElement("p", {
     className: "agent-hint"
   }, role, ". Pulsa Analizar para generar hallazgos y recomendaciones de este mes."), st.s === "done" && /*#__PURE__*/React.createElement("div", {
     className: "agent-body"
@@ -4356,7 +4356,7 @@ function ViewResumen() {
       };
     })
   });
-  const fmtInt = n => (n || 0).toLocaleString("en-US");
+  const fmtInt = n => (n || 0).toLocaleString("de-DE");
   const fmtTime = n => !n ? "—" : n >= 60 ? (n / 60).toFixed(1) + " h" : Math.round(n) + " min";
   const originDetail = {
     title: "Origen de carga",
@@ -4457,7 +4457,7 @@ function ViewResumen() {
     className: "rhero-line"
   }, /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
     className: "num"
-  }, G.leads.toLocaleString("en-US")), " leads"), /*#__PURE__*/React.createElement("span", {
+  }, G.leads.toLocaleString("de-DE")), " leads"), /*#__PURE__*/React.createElement("span", {
     className: "rhero-sep"
   }), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
     className: "num"
@@ -4465,11 +4465,7 @@ function ViewResumen() {
     className: "rhero-sep"
   }), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
     className: "num"
-  }, (G.cierres / G.leads * 100).toFixed(1), "%"), " conversi\xF3n"), /*#__PURE__*/React.createElement("span", {
-    className: "rhero-sep"
-  }), /*#__PURE__*/React.createElement("span", null, /*#__PURE__*/React.createElement("b", {
-    className: "num"
-  }, fmtMoney(G.pipeline)), " pipeline")), /*#__PURE__*/React.createElement("p", {
+  }, (G.cierres / G.leads * 100).toFixed(1), "%"), " conversi\xF3n")), /*#__PURE__*/React.createElement("p", {
     className: "rhero-sub"
   }, "Actualizado ", D.updated, " \xB7 datos en vivo desde Kommo. El an\xE1lisis del mes vive en la pesta\xF1a de inteligencia."), /*#__PURE__*/React.createElement("button", {
     className: "btn pri diag2-cta",
@@ -4487,16 +4483,16 @@ function ViewResumen() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "diag2-ic"
   }, /*#__PURE__*/React.createElement(Icon, {
-    name: "conversion",
+    name: "trophy",
     size: 16
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "diag2-v"
   }, /*#__PURE__*/React.createElement(CountUp, {
-    value: G.cierres / G.leads * 100,
-    fmt: n => n.toFixed(1) + "%"
+    value: G.cerrado || 0,
+    fmt: fmtMoney
   })), /*#__PURE__*/React.createElement("div", {
     className: "diag2-l"
-  }, "Conversi\xF3n global"))), /*#__PURE__*/React.createElement("div", {
+  }, "Cerrado en el mes"))), /*#__PURE__*/React.createElement("div", {
     className: "diag2-stat",
     style: {
       "--sc": "var(--red)"
@@ -4529,7 +4525,7 @@ function ViewResumen() {
     fmt: fmtMoney
   })), /*#__PURE__*/React.createElement("div", {
     className: "diag2-l"
-  }, "Pipeline total"))))), /*#__PURE__*/React.createElement("div", {
+  }, "Pipeline total"))))), recPotencial >= 1000 && /*#__PURE__*/React.createElement("div", {
     className: "react-band",
     onClick: () => window.__go("seguimiento"),
     title: "Ir al backlog de seguimiento"
@@ -4555,7 +4551,7 @@ function ViewResumen() {
     className: "react-d"
   }, /*#__PURE__*/React.createElement("b", {
     className: "num"
-  }, D.metrics.noResp.toLocaleString("en-US"), " leads"), " (", D.metrics.noRespPct, "%) sin respuesta. A la conversi\xF3n actual (", /*#__PURE__*/React.createElement("b", null, convGlobal.toFixed(1), "%"), ") y ticket ", fmtMoney(G.ticket), ", una segunda cadencia de contacto vale ese monto \u2014 m\xE1s barato que comprar leads nuevos.")), /*#__PURE__*/React.createElement("div", {
+  }, D.metrics.noResp.toLocaleString("de-DE"), " leads"), " (", D.metrics.noRespPct, "%) sin respuesta. A la conversi\xF3n actual (", /*#__PURE__*/React.createElement("b", null, convGlobal.toFixed(1), "%"), ") y ticket ", fmtMoney(G.ticket), ", una segunda cadencia de contacto vale ese monto \u2014 m\xE1s barato que comprar leads nuevos.")), /*#__PURE__*/React.createElement("div", {
     className: "react-cta"
   }, /*#__PURE__*/React.createElement("span", {
     className: "num"
@@ -4771,7 +4767,7 @@ function ViewResumen() {
     style: {
       color: "var(--text)"
     }
-  }, D.origin.manual.toLocaleString("en-US")), " manual (vendedora)"), /*#__PURE__*/React.createElement("div", {
+  }, D.origin.manual.toLocaleString("de-DE")), " manual (vendedora)"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -4788,7 +4784,7 @@ function ViewResumen() {
     style: {
       color: "var(--text)"
     }
-  }, D.origin.auto.toLocaleString("en-US")), " autom\xE1tico (bot)")))), /*#__PURE__*/React.createElement("div", {
+  }, D.origin.auto.toLocaleString("de-DE")), " autom\xE1tico (bot)")))), /*#__PURE__*/React.createElement("div", {
     className: "grid2"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card"
@@ -4812,7 +4808,7 @@ function ViewResumen() {
     className: "t"
   }, window.shortOf(topV.name), " concentra el ", Math.round(topV.cierres / G.cierres * 100), "% de los cierres"), /*#__PURE__*/React.createElement("div", {
     className: "d"
-  }, "Con ", /*#__PURE__*/React.createElement("b", null, topV.cierres, " de ", G.cierres, " cierres"), ", replicar su m\xE9todo de seguimiento al equipo es la palanca #1. El canal manual rinde ", /*#__PURE__*/React.createElement("b", null, chRatio, "\xD7 m\xE1s"), " que el autom\xE1tico."))), /*#__PURE__*/React.createElement("div", {
+  }, "Con ", /*#__PURE__*/React.createElement("b", null, topV.cierres, " de ", G.cierres, " cierres"), ", replicar su m\xE9todo de seguimiento al equipo es la palanca #1."))), /*#__PURE__*/React.createElement("div", {
     className: "insight amber"
   }, /*#__PURE__*/React.createElement("span", {
     className: "ic"
@@ -4905,7 +4901,7 @@ function ViewResumen() {
   })())), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(SectionHead, {
     eb: `Tendencia vs ${D.prevMonth}`,
     h3: "Leads del mes \u2014 mes a mes",
-    p: `La captación ${momPct >= 0 ? "subió" : "cayó"} ${Math.abs(momPct)}% vs ${D.prevMonth} (${G.leads.toLocaleString("en-US")} vs ${G.prevLeads.toLocaleString("en-US")}). El reto no es la entrada de leads, es convertir los que ya hay.`
+    p: `La captación ${momPct >= 0 ? "subió" : "cayó"} ${Math.abs(momPct)}% vs ${D.prevMonth} (${G.leads.toLocaleString("de-DE")} vs ${G.prevLeads.toLocaleString("de-DE")}). El reto no es la entrada de leads, es convertir los que ya hay.`
   }), /*#__PURE__*/React.createElement("div", {
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
@@ -4954,7 +4950,7 @@ function ViewResumen() {
         color: "var(--muted)",
         textAlign: "right"
       }
-    }, (v.prevLeads || 0).toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+    }, (v.prevLeads || 0).toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
       className: "meter",
       style: {
         height: 7
@@ -4983,7 +4979,7 @@ function ViewResumen() {
         fontWeight: 700,
         textAlign: "right"
       }
-    }, v.leads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+    }, v.leads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
       className: "meter",
       style: {
         height: 7
@@ -5001,7 +4997,7 @@ function ViewResumen() {
     }, diff >= 0 ? "▲" : "▼", " ", diff >= 0 ? "+" : "", Math.round(diff / v.prevLeads * 100), "%")))));
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(SectionHead, {
     eb: "Hallazgo clave",
-    h3: `El canal manual rinde ${chRatio}× más`
+    h3: `Dónde está el margen: ${autoCh.name}`
   }), /*#__PURE__*/React.createElement("div", {
     className: "insight",
     style: {
@@ -5015,9 +5011,9 @@ function ViewResumen() {
     sw: 2.2
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "t"
-  }, "La carga manual convierte ", manualCh.conv, "% vs ", autoCh.conv, "% del bot"), /*#__PURE__*/React.createElement("div", {
+  }, autoCh.name, " trae ", Math.round(autoCh.leads).toLocaleString("de-DE"), " leads y convierte ", autoCh.conv, "% (", autoCh.cierres, " cierres)"), /*#__PURE__*/React.createElement("div", {
     className: "d"
-  }, "Ticket promedio manual ", /*#__PURE__*/React.createElement("b", null, fmtMoney(manualCh.ticket)), " contra ", fmtMoney(autoCh.ticket), " del autom\xE1tico. El ", /*#__PURE__*/React.createElement("b", null, D.origin.autoPct, "%"), " de los leads llegan por bot pero solo aportan ", /*#__PURE__*/React.createElement("b", null, autoCh.cierres, " cierres"), "; ", /*#__PURE__*/React.createElement("b", null, manualCh.cierres, " de ", G.cierres, " cierres"), " vinieron de carga manual. Priorizar la carga manual tiene el mayor retorno por lead.")))), /*#__PURE__*/React.createElement(WspCard, null));
+  }, manualCh.name, " convierte ", manualCh.conv, "% (", manualCh.cierres, " de ", G.cierres, " cierres), pero es gente que ya lleg\xF3 decidida a comprar: no se compara con un lead de anuncio. El margen est\xE1 en el seguimiento de ", autoCh.name, ": cada punto m\xE1s de conversi\xF3n son ~", /*#__PURE__*/React.createElement("b", null, Math.round(autoCh.leads / 100), " ventas"), " m\xE1s por mes.")))), /*#__PURE__*/React.createElement(WspCard, null));
 }
 window.ViewResumen = ViewResumen;
 
@@ -5684,7 +5680,7 @@ window.Panel = Panel;
       }
     }, c.ic, " ", c.name)), /*#__PURE__*/React.createElement("td", {
       className: "r num"
-    }, c.carry ? "—" : c.leads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("td", {
+    }, c.carry ? "—" : c.leads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("td", {
       className: "r num"
     }, c.carry ? "—" : c.pct + "%"), /*#__PURE__*/React.createElement("td", {
       className: "r num",
@@ -5727,7 +5723,7 @@ window.Panel = Panel;
     const ctx = `MULTIESPUMAS - SUEÑA (Bolivia), mes ${D.month} ${D.year}. Moneda Bs.
 Global: ${G.leads} leads (mes previo ${G.prevLeads}, ${Math.round((G.leads - G.prevLeads) / G.prevLeads * 100)}% MoM), ${G.cierres} cierres, conversión ${(G.cierres / G.leads * 100).toFixed(1)}% (= ${G.cierres}/${G.leads}), pipeline Bs ${G.pipeline}, ticket Bs ${G.ticket}.
 "No responden" ${M.noResp} (${M.noRespPct}%). Sin seguimiento +72h: ${M.backlog} (${M.backlogPct}%). Nunca tocados: ${M.nuncaTocados}. Abiertos sin valor: ${M.abiertosSinValor} (${M.abiertosSinValorPct}%).
-IMPORTANTE: cada lead SÍ está identificado por sucursal — se atribuye a la sucursal de su vendedora. Las 3 sucursales son Mia Plaza, Buenos Aires y Central.
+IMPORTANTE: cada lead SÍ está identificado por sucursal — se atribuye a la sucursal de su vendedora. Las 3 sucursales son Av. Mutualista, Av. Carmelo Ortiz y Calle Charcas.
 Canales: ${(D.channels || []).map(c => c.name + " " + c.leads + " leads / " + c.conv + "% conv / " + c.cierres + " cierres").join("; ")}.
 Roll-up por sucursal (con comparativo vs mes anterior):
 ${branchLines}
@@ -6540,7 +6536,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         background: s.c,
         color: "#fff"
       }
-    }, s.v.toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+    }, s.v.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
       className: "fp num"
     }, Math.round(s.v / maxF * 100), "%"))))), /*#__PURE__*/React.createElement("div", {
       className: "card",
@@ -6565,7 +6561,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       className: "t"
     }, D.metrics.noRespPct, "% de los leads \"no responden\""), /*#__PURE__*/React.createElement("div", {
       className: "d"
-    }, /*#__PURE__*/React.createElement("b", null, D.metrics.noResp.toLocaleString("en-US"), " leads"), " marcados sin respuesta. Reactivarlos con una segunda cadencia de contacto es la oportunidad m\xE1s grande del embudo."))), /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("b", null, D.metrics.noResp.toLocaleString("de-DE"), " leads"), " marcados sin respuesta. Reactivarlos con una segunda cadencia de contacto es la oportunidad m\xE1s grande del embudo."))), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         gap: 12
@@ -6602,7 +6598,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       className: "ksub"
     }, D.metrics.duplicadosTel, " tel\xE9fonos en 2+ fichas"))))), /*#__PURE__*/React.createElement(SectionHead, {
       eb: "Pipeline completo",
-      h3: `Leads por etapa — las ${D.global.leads.toLocaleString("en-US")} fichas del mes`,
+      h3: `Leads por etapa — las ${D.global.leads.toLocaleString("de-DE")} fichas del mes`,
       p: "Desglose de todas las etapas del pipeline en Kommo, no solo el embudo resumido."
     }), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -6644,7 +6640,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
           color: s.color,
           marginTop: 4
         }
-      }, s.count.toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+      }, s.count.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
         style: {
           fontSize: ".66rem",
           color: "var(--faint)",
@@ -6738,7 +6734,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       style: {
         color: "var(--text)"
       }
-    }, D.origin.manual.toLocaleString("en-US")), " manual (vendedora)"), /*#__PURE__*/React.createElement("div", {
+    }, D.origin.manual.toLocaleString("de-DE")), " manual (vendedora)"), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         alignItems: "center",
@@ -6755,7 +6751,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       style: {
         color: "var(--text)"
       }
-    }, D.origin.auto.toLocaleString("en-US")), " autom\xE1tico (bot)"))), /*#__PURE__*/React.createElement(SectionHead, {
+    }, D.origin.auto.toLocaleString("de-DE")), " autom\xE1tico (bot)"))), /*#__PURE__*/React.createElement(SectionHead, {
       eb: "Por canal",
       h3: "Origen de leads \u2014 rendimiento",
       p: "Clic en cualquier columna para ordenar."
@@ -7085,9 +7081,9 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     });
     const list = Object.values(branches).sort((a, b) => b.value - a.value);
     const COL = {
-      "Mia Plaza": "#E1BE5A",
-      "Buenos Aires": "#2E6FE0",
-      "Central": "#D98300"
+      "Av. Mutualista": "#E1BE5A",
+      "Av. Carmelo Ortiz": "#2E6FE0",
+      "Calle Charcas": "#D98300"
     };
     const {
       sorted,
@@ -7175,7 +7171,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         className: "kl"
       }, "Leads ", /*#__PURE__*/React.createElement("span", {
         className: "ww"
-      }, "vs ", b.prevLeads.toLocaleString("en-US")))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      }, "vs ", b.prevLeads.toLocaleString("de-DE")))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
         className: "num",
         style: {
           fontSize: "1.5rem",
@@ -7284,7 +7280,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         className: "r num"
       }, b.n), /*#__PURE__*/React.createElement("td", {
         className: "r num"
-      }, b.leads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("td", {
+      }, b.leads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("td", {
         className: "r"
       }, /*#__PURE__*/React.createElement("span", {
         className: `delta ${m >= 0 ? "up" : "down"}`
@@ -7318,7 +7314,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       className: "r num"
     }, Tn), /*#__PURE__*/React.createElement("td", {
       className: "r num"
-    }, Tleads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("td", {
+    }, Tleads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("td", {
       className: "r"
     }, /*#__PURE__*/React.createElement("span", {
       className: `delta ${Tmom >= 0 ? "up" : "down"}`
@@ -7708,7 +7704,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         lineHeight: 1.9,
         color: "var(--text)"
       }
-    }, /*#__PURE__*/React.createElement("li", null, "Activar los ", /*#__PURE__*/React.createElement("b", null, D.metrics.criticos7d), " leads con +7 d\xEDas sin contacto."), /*#__PURE__*/React.createElement("li", null, "Revisar el pipeline ", /*#__PURE__*/React.createElement("b", null, "\"No responden\""), " (", D.metrics.noResp.toLocaleString("en-US"), " leads)."), /*#__PURE__*/React.createElement("li", null, "Etiquetar sucursal en los ", /*#__PURE__*/React.createElement("b", null, (D.metrics.sinSucursalFichas != null ? D.metrics.sinSucursalFichas : 0)), " leads sin clasificar.")))));
+    }, /*#__PURE__*/React.createElement("li", null, "Activar los ", /*#__PURE__*/React.createElement("b", null, D.metrics.criticos7d), " leads con +7 d\xEDas sin contacto."), /*#__PURE__*/React.createElement("li", null, "Revisar el pipeline ", /*#__PURE__*/React.createElement("b", null, "\"No responden\""), " (", D.metrics.noResp.toLocaleString("de-DE"), " leads)."), /*#__PURE__*/React.createElement("li", null, "Etiquetar sucursal en los ", /*#__PURE__*/React.createElement("b", null, (D.metrics.sinSucursalFichas != null ? D.metrics.sinSucursalFichas : 0)), " leads sin clasificar.")))));
   };
 
   /* ===== DATOS ===== */
@@ -7727,14 +7723,14 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       fmt: n => Math.round(n) + "%",
       ac: "#DC4046",
       ico: "datos",
-      sub: `${D.metrics.sinSucursalFichas.toLocaleString("en-US")} fichas · comparativo por tienda parcial`
+      sub: `${D.metrics.sinSucursalFichas.toLocaleString("de-DE")} fichas · comparativo por tienda parcial`
     }), /*#__PURE__*/React.createElement(Kpi, {
       l: "Abiertos sin valor",
       num: D.metrics.abiertosSinValorPct,
       fmt: n => Math.round(n) + "%",
       ac: "#DC4046",
       ico: "datos",
-      sub: `${D.metrics.abiertosSinValor.toLocaleString("en-US")} deals · no se puede priorizar por monto`
+      sub: `${D.metrics.abiertosSinValor.toLocaleString("de-DE")} deals · no se puede priorizar por monto`
     }), /*#__PURE__*/React.createElement(Kpi, {
       l: "Tel\xE9fonos duplicados",
       num: D.metrics.duplicadosTel,
@@ -7757,14 +7753,14 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Sucursal"), /*#__PURE__*/React.createElement("th", { className: "r" }, "En horario"), /*#__PURE__*/React.createElement("th", { className: "r" }, "Tiempo resp."), /*#__PURE__*/React.createElement("th", { className: "r" }, "Fuera de horario"), /*#__PURE__*/React.createElement("th", { className: "r" }, "% fuera"))), /*#__PURE__*/React.createElement("tbody", null, (D.metrics.leadsHorarioPorSuc || []).map(r => {
       const tot = (r.dentro || 0) + (r.fuera || 0);
       const pct = tot > 0 ? Math.round((r.fuera || 0) / tot * 100) : 0;
-      return /*#__PURE__*/React.createElement("tr", { key: r.suc }, /*#__PURE__*/React.createElement("td", null, r.suc), /*#__PURE__*/React.createElement("td", { className: "r num" }, (r.dentro || 0).toLocaleString("en-US")), /*#__PURE__*/React.createElement("td", { className: "r num", style: { color: r.respMin == null ? "inherit" : r.respMin <= 120 ? "var(--green)" : r.respMin <= 480 ? "var(--amber)" : "var(--red)", fontWeight: 600 } }, r.respTxt || "\u2014"), /*#__PURE__*/React.createElement("td", { className: "r num" }, (r.fuera || 0).toLocaleString("en-US")), /*#__PURE__*/React.createElement("td", { className: "r num", style: { color: pct >= 30 ? "var(--amber)" : "inherit", fontWeight: 700 } }, pct + "%"));
+      return /*#__PURE__*/React.createElement("tr", { key: r.suc }, /*#__PURE__*/React.createElement("td", null, r.suc), /*#__PURE__*/React.createElement("td", { className: "r num" }, (r.dentro || 0).toLocaleString("de-DE")), /*#__PURE__*/React.createElement("td", { className: "r num", style: { color: r.respMin == null ? "inherit" : r.respMin <= 120 ? "var(--green)" : r.respMin <= 480 ? "var(--amber)" : "var(--red)", fontWeight: 600 } }, r.respTxt || "\u2014"), /*#__PURE__*/React.createElement("td", { className: "r num" }, (r.fuera || 0).toLocaleString("de-DE")), /*#__PURE__*/React.createElement("td", { className: "r num", style: { color: pct >= 30 ? "var(--amber)" : "inherit", fontWeight: 700 } }, pct + "%"));
     })), /*#__PURE__*/React.createElement("tfoot", null, (() => {
       const gd = D.metrics.leadsEnHorario || 0, gf = D.metrics.leadsFueraHorario || 0, gt = gd + gf;
       const gp = gt > 0 ? Math.round(gf / gt * 100) : 0;
-      return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, "Global"), /*#__PURE__*/React.createElement("td", { className: "r num" }, gd.toLocaleString("en-US")), /*#__PURE__*/React.createElement("td", { className: "r num" }, D.metrics.promPrimera || "\u2014"), /*#__PURE__*/React.createElement("td", { className: "r num" }, gf.toLocaleString("en-US")), /*#__PURE__*/React.createElement("td", { className: "r num" }, gp + "%"));
+      return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, "Global"), /*#__PURE__*/React.createElement("td", { className: "r num" }, gd.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("td", { className: "r num" }, D.metrics.promPrimera || "\u2014"), /*#__PURE__*/React.createElement("td", { className: "r num" }, gf.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("td", { className: "r num" }, gp + "%"));
     })())), /*#__PURE__*/React.createElement("div", {
       style: { marginTop: 10, fontSize: ".74rem", color: "var(--muted)", lineHeight: 1.6 }
-    }, /*#__PURE__*/React.createElement("b", { style: { color: "var(--text)" } }, "Ventana por sucursal: "), "Mia Plaza lun\u2013s\xE1b 9:00\u201321:00 \xB7 Central y Bs Aires lun\u2013vie 9:00\u201319:00 y s\xE1b 9:00\u201316:00 \xB7 domingo cerrado. La pausa de mediod\xEDa no cuenta como fuera."), /*#__PURE__*/React.createElement(SectionHead, {
+    }, /*#__PURE__*/React.createElement("b", { style: { color: "var(--text)" } }, "Ventana por sucursal: "), "Av. Mutualista y Calle Charcas lun\u2013vie 9:00\u201313:00 y 15:00\u201319:00, s\xE1b 9:00\u201316:00 \xB7 Av. Carmelo Ortiz lun\u2013vie 10:00\u201313:00 y 14:00\u201319:30, s\xE1b 9:00\u201314:30 \xB7 domingo cerrado. La pausa de mediod\xEDa no cuenta como fuera."), /*#__PURE__*/React.createElement(SectionHead, {
       eb: "Operaci\xF3n",
       h3: "Ingreso por ventana fija \xB7 9:00 a 20:00",
       p: "Ventana pareja para todos, solo por hora del d\xEDa \u2014 para ver a qu\xE9 hora entran los leads (no distingue d\xEDa ni sucursal)."
@@ -7796,7 +7792,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       className: "t"
     }, "Prioridad de limpieza: etiquetar sucursal"), /*#__PURE__*/React.createElement("div", {
       className: "d"
-    }, "Con sucursal vac\xEDa en el ", /*#__PURE__*/React.createElement("b", null, D.metrics.sinSucursalPct, "%"), " de las fichas (", D.metrics.sinSucursalFichas.toLocaleString("en-US"), "), el comparativo por tienda es parcial. Una campa\xF1a de etiquetado desbloquea el an\xE1lisis por sucursal."))), /*#__PURE__*/React.createElement("div", {
+    }, "Con sucursal vac\xEDa en el ", /*#__PURE__*/React.createElement("b", null, D.metrics.sinSucursalPct, "%"), " de las fichas (", D.metrics.sinSucursalFichas.toLocaleString("de-DE"), "), el comparativo por tienda es parcial. Una campa\xF1a de etiquetado desbloquea el an\xE1lisis por sucursal."))), /*#__PURE__*/React.createElement("div", {
       className: "card"
     }, /*#__PURE__*/React.createElement(SectionHead, {
       eb: "Duplicados",
@@ -8105,7 +8101,9 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
   const sum = f => T.reduce((s, v) => s + f(v), 0);
 
   // ===== Embudo por vendedora (etapas + seguimiento) — datos ya presentes en PANEL_DATA =====
-  const STAGE_ORDER = ["Nueva consulta", "Interesado", "Cotización enviada", "Agendado / Visita", "Compradores", "No Responden", "Pedido cancelado – perdido"];
+  // Las etapas de ESTE embudo (Sueña tiene otras que Heaven); si no vienen, las de siempre.
+  const _SG = D.stagesGlobal && D.stagesGlobal.length ? D.stagesGlobal : null;
+  const STAGE_ORDER = _SG ? _SG.map(x => x.name) : ["Nueva consulta", "Interesado", "Cotización enviada", "Agendado / Visita", "Compradores", "No Responden", "Pedido cancelado – perdido"];
   const STAGE_SHORT = {
     "Nueva consulta": "Nueva consulta",
     "Interesado": "Interesado",
@@ -8177,14 +8175,14 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     }, "NUEVO"), /*#__PURE__*/React.createElement("span", null, v.suc))))), /*#__PURE__*/React.createElement("th", {
       className: "vhead totcol"
     }, "Equipo"))), /*#__PURE__*/React.createElement("tbody", null, STAGE_ORDER.map(s => {
-      const isWin = s === "Compradores";
+      const isWin = s === "Compradores" || /^compr[oó]$/i.test(s);
       return /*#__PURE__*/React.createElement("tr", {
         key: s
       }, /*#__PURE__*/React.createElement("td", {
         className: "rowhead"
       }, /*#__PURE__*/React.createElement("span", {
-        style: dotSt(STAGE_COL[s])
-      }), STAGE_SHORT[s]), T.map(v => {
+        style: dotSt(STAGE_COL[s] || (_SG && (_SG.find(x => x.name === s) || {}).color) || "var(--faint)")
+      }), STAGE_SHORT[s] || s), T.map(v => {
         const nVal = stageMap(v)[s] || 0;
         return /*#__PURE__*/React.createElement("td", {
           key: v.name,
@@ -8215,14 +8213,14 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       style: {
         fontWeight: 800
       }
-    }, v.leads.toLocaleString("en-US")))), /*#__PURE__*/React.createElement("td", {
+    }, v.leads.toLocaleString("de-DE")))), /*#__PURE__*/React.createElement("td", {
       className: "mcell totcol"
     }, /*#__PURE__*/React.createElement("div", {
       className: "num",
       style: {
         fontWeight: 800
       }
-    }, totLeads.toLocaleString("en-US")))), /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
+    }, totLeads.toLocaleString("de-DE")))), /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
       className: "rowhead"
     }, /*#__PURE__*/React.createElement("span", {
       style: dotSt("#7A5AF0")
@@ -8319,7 +8317,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         fontWeight: bold ? 800 : 700,
         color: color || "inherit"
       }
-    }, fmt ? fmt(value) : value.toLocaleString("en-US")), /*#__PURE__*/React.createElement(MoM, {
+    }, fmt ? fmt(value) : value.toLocaleString("de-DE")), /*#__PURE__*/React.createElement(MoM, {
       cur: cur,
       prev: prev,
       pp: pp
@@ -8348,9 +8346,9 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       className: "pstat-l"
     }, label), /*#__PURE__*/React.createElement("div", {
       className: "pstat-v num"
-    }, fmt ? fmt(value) : Math.round(value).toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+    }, fmt ? fmt(value) : Math.round(value).toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
       className: "pstat-foot"
-    }, /*#__PURE__*/React.createElement(MoM, {
+    }, prev !== false && /*#__PURE__*/React.createElement(MoM, {
       cur: cur,
       prev: prev,
       pp: pp
@@ -8470,9 +8468,9 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     });
     const branchList = Object.values(branches).sort((a, b) => b.cerr - a.cerr);
     const COL = {
-      "Mia Plaza": "#E1BE5A",
-      "Buenos Aires": "#2E6FE0",
-      "Central": "#D98300"
+      "Av. Mutualista": "#E1BE5A",
+      "Av. Carmelo Ortiz": "#2E6FE0",
+      "Calle Charcas": "#D98300"
     };
 
     // Lista de diapositivas (mismo orden que la vista normal): global → carga manual vs bot → detalle (tabla) → por sucursal → los dos podios (clientes + monto)
@@ -8551,7 +8549,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     const renderGlobal = () => {
       const tiles = [{
         l: "Leads",
-        v: gLeads.toLocaleString("en-US"),
+        v: gLeads.toLocaleString("de-DE"),
         cur: gLeads,
         prev: pLeads,
         c: "#808A96"
@@ -8652,7 +8650,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         c: "var(--green)"
       }, {
         l: "Leads",
-        v: v.leads.toLocaleString("en-US"),
+        v: v.leads.toLocaleString("de-DE"),
         cur: v.leads,
         prev: v.prev.leads,
         c: "var(--text)"
@@ -8779,12 +8777,12 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       const mRows = [{
         l: "Leads",
         cell: v => ({
-          main: v.leads.toLocaleString("en-US"),
+          main: v.leads.toLocaleString("de-DE"),
           cur: v.leads,
           prev: v.prev.leads
         }),
         tot: () => ({
-          main: gLeads.toLocaleString("en-US"),
+          main: gLeads.toLocaleString("de-DE"),
           cur: gLeads,
           prev: pLeads
         })
@@ -9077,7 +9075,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         className: "spot-branch-grid"
       }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
         className: "num bv"
-      }, b.leads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+      }, b.leads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
         className: "bl"
       }, "Leads"), /*#__PURE__*/React.createElement(MoM, {
         cur: b.leads,
@@ -9209,10 +9207,10 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       prevCli = sum(v => v.prev.cierres);
     const curVis = sum(v => v.agendado || 0),
       prevVis = sum(v => v.prev.visitas);
-    const curCerr = sum(v => v.cierres * v.ticket),
-      prevCerr = sum(v => v.prev.cierres * v.prev.ticket);
-    const curPipe = sum(v => v.value),
-      prevPipe = sum(v => v.prev.value);
+    const curCerr = sum(v => v.value || 0),
+      prevCerr = sum(v => v.prev.value || 0);
+    const curPipe = sum(v => v.pipeline || 0),
+      prevPipe = false; // el mes anterior no guarda su pipeline: sin comparación
     const convCur = curLeads ? curCli / curLeads * 100 : 0,
       convPrev = prevLeads ? prevCli / prevLeads * 100 : 0;
     const tkCur = curCli ? curCerr / curCli : 0,
@@ -9257,9 +9255,9 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     });
     const branchList = Object.values(branches).sort((a, b) => b.cerr - a.cerr);
     const COL = {
-      "Mia Plaza": "#E1BE5A",
-      "Buenos Aires": "#2E6FE0",
-      "Central": "#D98300"
+      "Av. Mutualista": "#E1BE5A",
+      "Av. Carmelo Ortiz": "#2E6FE0",
+      "Calle Charcas": "#D98300"
     };
     const totMeta = sum(v => metas[v.name] || 0),
       totCerr = curCerr;
@@ -9274,7 +9272,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
     const metricRows = [{
       l: "Leads",
       cell: v => ({
-        main: v.leads.toLocaleString("en-US"),
+        main: v.leads.toLocaleString("de-DE"),
         cur: v.leads,
         prev: v.prev.leads
       })
@@ -9442,13 +9440,13 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       cur: curLeads,
       prev: prevLeads,
       accent: "#808A96"
-    }), /*#__PURE__*/React.createElement(PStat, {
+    }), (curVis || prevVis) ? /*#__PURE__*/React.createElement(PStat, {
       label: "Visitas",
       value: curVis,
       cur: curVis,
       prev: prevVis,
       accent: "#D98300"
-    }), /*#__PURE__*/React.createElement(PStat, {
+    }) : null, /*#__PURE__*/React.createElement(PStat, {
       label: "Clientes (compradores)",
       value: curCli,
       cur: curCli,
@@ -9482,6 +9480,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
       fmt: money,
       cur: curPipe,
       prev: prevPipe,
+      hint: "cerrado + reservado",
       accent: "#E1BE5A"
     }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(SectionHead, {
       eb: "Ranking",
@@ -9698,7 +9697,7 @@ REGLAS ANTI-REPETICIÓN: NO menciones los totales globales (leads, conversión g
         className: "pres-branch-grid"
       }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
         className: "num bv"
-      }, b.leads.toLocaleString("en-US")), /*#__PURE__*/React.createElement("div", {
+      }, b.leads.toLocaleString("de-DE")), /*#__PURE__*/React.createElement("div", {
         className: "bl"
       }, "Leads"), /*#__PURE__*/React.createElement(MoM, {
         cur: b.leads,

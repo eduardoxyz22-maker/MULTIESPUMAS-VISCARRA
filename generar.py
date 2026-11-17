@@ -1283,7 +1283,7 @@ def bake_ai(pd):
         "NO lo señales como defecto ni recomiendes 'cargar valor al cotizar'.\n"
         f"\"No responden\" {M['noResp']} ({M['noRespPct']}%). Sin seguimiento +72h: {M['backlog']} ({M['backlogPct']}%). Nunca tocados: {M['nuncaTocados']}.\n"
         "IMPORTANTE: cada lead SÍ está identificado por sucursal — se atribuye a la sucursal de su vendedora. "
-        "Las 3 sucursales son Mia Plaza, Buenos Aires y Central.\n"
+        "Las 3 sucursales son Av. Mutualista, Av. Carmelo Ortiz y Calle Charcas.\n"
         f"Canales: {ch_semi}.\n"
         f"Roll-up por sucursal (con comparativo vs mes anterior):\n{branch_lines}\n"
         f"Equipo (con leads del mes vs mes anterior):\n{team_lines}")

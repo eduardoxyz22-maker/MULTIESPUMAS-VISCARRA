@@ -98,3 +98,21 @@ con los ajustes de la marca en TEXTO (MULTI en blanco, el 🎄 a la derecha), co
   `python3 tests/test_duplicados.py` (detector de duplicados) y `node tests/test_paneldup.js`
   (la tabla como se ve en el panel). Todo test nuevo va en `tests/` y se commitea con el cambio.
 - El token es como la contraseña del CRM: nunca commitear `.kommo_token`.
+
+## 🔎 Revisión del 17/11/2026 (con unslop, solo lo que el dueño aprobó: «Ok hazlo»)
+
+- Datos → «Ventana por sucursal» y el contexto del análisis IA (página y `generar.py`) dicen las sucursales y horarios de **Sueña**
+  (Av. Mutualista y Calle Charcas = `SCHED_MF`, Av. Carmelo Ortiz = `SCHED_JP`); venían copiados de Heaven (Mia Plaza / Central / Bs Aires).
+  Los colores por sucursal también van con los nombres de Sueña. ⚠️ Un texto que nombre sucursales sale de las de este repo, nunca de Heaven.
+- «La oportunidad #1» (banda roja de «No responden») solo aparece con **Bs 1.000** o más de potencial.
+- El hallazgo «el canal manual rinde N× más» se fue: el canal «manual» es Walk-in (gente que ya vino a comprar). Ahora dice dónde está el margen
+  (el canal de anuncios) y cuántas ventas da un punto más de conversión.
+- Presentación: «Cerrado en el mes» = `v.value` (exacto) y «Pipeline total» = `v.pipeline` (antes era lo cerrado otra vez); el mes anterior no
+  guarda pipeline, así que esa ficha va sin comparación (`prev:false` en `PStat`).
+- Resumen: la ficha de la derecha muestra «Cerrado en el mes» en vez de repetir la conversión, y el renglón de arriba ya no repite el pipeline.
+- Análisis IA sin el texto técnico («generar.py lo hornea»). La IA horneada no corre en el workflow.
+- **Miles con punto** (`toLocaleString("de-DE")`, «Bs 58.805»), como el panel de pedidos y el resumen de WhatsApp. Los decimales siguen con punto.
+- «Leads por etapa» usa las etapas de este embudo (`D.stagesGlobal`); antes eran las de Heaven y salía todo en 0. «Visitas» se esconde si está en 0 los dos meses.
+- El chip con la dirección de Kommo arriba se esconde hasta 1680 px (cortaba el título «Resumen ejecutivo — Noviembre 2…»).
+- Pendiente con el dueño: si «Cotización enviada (Seguimiento)» cuenta como «sin seguimiento» (hoy 1250 en rojo).
+- `tests/test_revision_unslop.js` (13; 11 rojas contra lo de antes).
